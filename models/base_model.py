@@ -2,6 +2,10 @@
 from datetime import datetime
 import uuid
 import models
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime
+
+Base = declarative_base()
 
 
 class BaseModel:
@@ -13,10 +17,15 @@ class BaseModel:
         created_at (datetime): The datetime the object was created.
         updated_at (datetime): The datetime the object was last updated.
     """
+    id = Column(String(120), nullable=False, default=str(uuid.uuid4()), primary_key=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+
     def __init__(self):
         """
         Initializes a new BaseModel instance.
         """
+
         self.id = str(uuid.uuid4())
         self.created_at = datetime.utcnow()
         self.updated_at = datetime.utcnow()
@@ -31,7 +40,13 @@ class BaseModel:
         """
         Returns a dictionary representation of the object's attributes.
         """
-        return self.__dict__.copy()
+        dictionary = {}
+        dictionary.update(self.__dict__.copy())
+
+        if '_sa_instance_state' in dictionary.keys():
+            del dictionary['_sa_instance_state']
+
+        return dictionary
 
     def __repr__(self):
         """

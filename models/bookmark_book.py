@@ -2,11 +2,13 @@
 """
 A module that defines a BookMarkBook class
 """
-from models.base_model import BaseModel
 from datetime import datetime
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, Integer, DateTime, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class BookMarkBook(BaseModel):
+class BookMarkBook(BaseModel, Base):
     """
     A class representing a bookmarked book.
 
@@ -15,6 +17,12 @@ class BookMarkBook(BaseModel):
         bookmarked_date (datetime): The date and time the book was bookmarked.
         bookmarked_by (str): The ID of the user who bookmarked the book.
     """
+    __tablename__ = 'bookmarked_books'
+    book_id = Column(String(120), ForeignKey('books.id'), nullable=False)
+    bookmarked_date = Column(DateTime, default=datetime.utcnow())
+    bookmarked_by = Column(String(120), ForeignKey('users.id'), nullable=False)
+    book = relationship('Book', cascade='all, delete')
+    user = relationship('User', cascade='all, delete', backref='bookmarked_books')
 
     def __init__(self, *args, **kwargs):
         """

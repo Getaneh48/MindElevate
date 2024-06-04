@@ -2,10 +2,11 @@
 """
 A module that defines a BookReview class
 """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, Integer, DateTime, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
-
-class BookReview(BaseModel):
+class BookReview(BaseModel, Base):
     """
     A class representing a book review
 
@@ -14,6 +15,13 @@ class BookReview(BaseModel):
         reviewer_id (str): The id of the user who wrote the review
         description (str): The text of the book review
     """
+    __tablename__ = 'book_reviews'
+    book_id = Column(String(120), ForeignKey('books.id'), nullable=False)
+    reviewer_id = Column(String(120), ForeignKey('users.id'), nullable=False)
+    description = Column(String(254), nullable=False)
+    book = relationship('Book')
+    reviewer = relationship('User', cascade='all, delete', backref='books_reviewed')
+
     def __init__(self, *args, **kwargs):
         """
         Initializes a new BookReview instance.

@@ -2,14 +2,30 @@
 """
 a module that define a books reading model
 """
-from models.base_model import BaseModel
 from datetime import datetime
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, Integer, DateTime, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class BookReading(BaseModel):
+class BookReading(BaseModel, Base):
     """
     a books reading class model
     """
+    __tablename__ = 'book_readings'
+    user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
+    book_id = Column(String(120), ForeignKey('books.id'), nullable=False)
+    start_date = Column(DateTime, nullable=False, default=datetime.utcnow())
+    pages_per_day = Column(Integer, default=0)
+    hours_per_day = Column(Integer, default=0)
+    expected_completion_day = Column(Integer, default=0)
+    is_favorite = Column(Boolean)
+    friend_visible = Column(Boolean)
+    status = Column(String(20))
+    badge_id = Column(String(120), ForeignKey('badges.id'))
+    user = relationship('User', cascade='all, delete', backref='bookreadings')
+    book = relationship('Book', cascade='all, delete')
+    badge = relationship('Badge', cascade='all, delete')
 
     def __init__(self, *args, **kwargs):
         """

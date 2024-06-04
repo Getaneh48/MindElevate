@@ -2,13 +2,19 @@
 """
 a module that define a user class model
 """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class Friend(BaseModel):
+class Friend(BaseModel, Base):
     """
     a user model class
     """
+    __tablename__ = 'friends'
+    user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
+    friend_id = Column(String(120), ForeignKey('users.id'), nullable=False)
+
     def __init__(self, *args, **kwargs):
         """
         initilizes the parent class and itself

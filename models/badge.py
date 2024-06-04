@@ -2,10 +2,11 @@
 """
 A module that defines a Badge class
 """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column 
 
 
-class Badge(BaseModel):
+class Badge(BaseModel, Base):
     """
     A class representing a badge.
 
@@ -14,6 +15,11 @@ class Badge(BaseModel):
         icon (str): The URL of the badge icon.
         description (str): A description of the badge.
     """
+    __tablename__ = 'badges'
+    btype = Column(String(100), nullable=False)
+    icon = Column(String(254), nullable=False)
+    description = Column(String(254), nullable=False)
+
     def __init__(self, *args, **kwargs):
         """
         Initializes a new Badge instance.
@@ -24,7 +30,7 @@ class Badge(BaseModel):
         """
         super().__init__()
 
-        self.type = ''
+        self.btype = ''
         self.icon = ''
         self.description = ''
 

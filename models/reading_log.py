@@ -2,13 +2,21 @@
 """
 a module that define a books reading log model
 """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, Integer, DateTime, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
-
-class ReadingLog(BaseModel):
+class ReadingLog(BaseModel, Base):
     """
     a books reading log class model
     """
+    __tablename__ = 'reading_logs'
+    br_id = Column(String(120), ForeignKey('book_readings.id'), nullable=False)
+    pages_read = Column(Integer, nullable=False)
+    hours_read = Column(Integer, nullable=False)
+    badge_id = Column(String(120), ForeignKey('badges.id'))
+    book_reading = relationship('BookReading', cascade='all, delete', backref='reading_logs')
+    badge = relationship('Badge')
 
     def __init__(self, *args, **kwargs):
         """
@@ -18,6 +26,7 @@ class ReadingLog(BaseModel):
         self.br_id = ''
         self.pages_read = 0
         self.hours_read = 0
+        self.badge_id = ''
 
         if kwargs:
             for key, val in kwargs.items():
