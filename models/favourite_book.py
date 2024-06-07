@@ -8,25 +8,23 @@ from sqlalchemy import String, Column, Integer, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-class BookmarkBook(BaseModel, Base):
+class FavouriteBook(BaseModel, Base):
     """
-    A class representing a bookmarked book.
+    A class representing a favourite book of a user.
 
     Attributes:
         book_id (str): The ID of the bookmarked book.
-        bookmarked_date (datetime): The date and time the book was bookmarked.
-        bookmarked_by (str): The ID of the user who bookmarked the book.
+        user_id (str): The ID of the user who mark the book as a favourite.
     """
-    __tablename__ = 'bookmarked_books'
+    __tablename__ = 'favourite_books'
     book_id = Column(String(120), ForeignKey('books.id'), nullable=False)
-    bookmarked_by = Column(String(120), ForeignKey('users.id'), nullable=False)
-    bookmarked_date = Column(DateTime, default=datetime.utcnow())
+    user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
     book = relationship('Book', cascade='all, delete')
-    user = relationship('User', cascade='all, delete', backref='bookmarked_books')
+    user = relationship('User', cascade='all, delete', backref='favourite_books')
 
     def __init__(self, *args, **kwargs):
         """
-        Initializes a new BookMarkBook instance.
+        Initializes a new FavouriteBook instance.
 
         Args:
             *args: Additional arguments passed to the BaseModel constructor.
@@ -35,8 +33,7 @@ class BookmarkBook(BaseModel, Base):
         super().__init__()
 
         self.book_id = ''
-        self.bookmarked_date = datetime.utcnow()
-        self.bookmarked_by = ''
+        self.user_id = ''
 
         if kwargs:
             for key, val in kwargs.items():

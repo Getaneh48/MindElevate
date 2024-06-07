@@ -12,8 +12,10 @@ class Friend(BaseModel, Base):
     a user model class
     """
     __tablename__ = 'friends'
+    # friend_id = Column(String(120), ForeignKey('users.id'), nullable=False)
     user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
-    friend_id = Column(String(120), ForeignKey('users.id'), nullable=False)
+    friend_id = Column(String(120), nullable=False)
+    user = relationship('User', cascade='all, delete', backref='friends')
 
     def __init__(self, *args, **kwargs):
         """

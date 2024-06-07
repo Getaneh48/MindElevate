@@ -12,11 +12,12 @@ class FriendRequest(BaseModel, Base):
     
     """
     __tablename__ = 'friend_requests'
-    request_from = Column(String(120), ForeignKey('users.id'), nullable=False)
+    request_from = Column(String(120), nullable=False)
     request_to = Column(String(120), ForeignKey('users.id'), nullable=False)
     request_date = Column(DateTime, default=datetime.utcnow())
-    status = Column(String(20))
+    status = Column(String(20), default='pending')
     message = Column(String(2554))
+    requested_user = relationship('User', cascade='all, delete', backref='friend_requests')
 
     def __init__(self, *args, **kwargs):
         """

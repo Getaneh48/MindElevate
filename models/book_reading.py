@@ -23,7 +23,7 @@ class BookReading(BaseModel, Base):
     friend_visible = Column(Boolean)
     status = Column(String(20))
     badge_id = Column(String(120), ForeignKey('badges.id'))
-    user = relationship('User', cascade='all, delete', backref='bookreadings')
+    user = relationship('User', cascade='all, delete', backref='booksreading')
     book = relationship('Book', cascade='all, delete')
     badge = relationship('Badge', cascade='all, delete')
 

@@ -8,23 +8,10 @@ genre preferences.
 from models.base_model import BaseModel, Base
 from sqlalchemy import String, Column, Integer, Table, ForeignKey
 from sqlalchemy.orm import relationship
+import models
+from os import environ
 
 
-user_friend = Table('user_friend', Base.metadata,
-                      Column('user_id', String(60),
-                             ForeignKey('users.id'),
-                             primary_key=True, nullable=False),
-                      Column('friend_id', String(60),
-                             ForeignKey('friends.id'),
-                             primary_key=True, nullable=False))
-
-user_friend_request = Table('user_friend_request', Base.metadata,
-                      Column('requestto_id', String(60),
-                             ForeignKey('users.id'),
-                             primary_key=True, nullable=False),
-                      Column('requestfrom_id', String(60),
-                             ForeignKey('friend_requests.id'),
-                             primary_key=True, nullable=False))
 class User(BaseModel, Base):
     """
     User class representing a user entity.
@@ -52,8 +39,6 @@ class User(BaseModel, Base):
     sex = Column(String(10))
     picture = Column(String(140))
     book_genere_prefs = Column(String(255))
-    friends = relationship("Friend", secondary="user_friend", viewonly=False)
-    friend_requests = relationship("FriendRequest", secondary="user_friend_request", viewonly=False)
 
     def __init__(self, *args, **kwargs):
         """
@@ -76,8 +61,24 @@ class User(BaseModel, Base):
         self.age = ''
         self.sex = ''
         self.picture = ''
-        self.book_genere_prefs = []
+        self.book_genere_prefs = ''
 
         if kwargs:
             for key, val in kwargs.items():
                 setattr(self, key, val)
+
+    if environ['MELV_TYPE_STORAGE'] == 'db':
+        def get_friends(self):
+            friends = []
+            for friend in self.friends:
+                user = models.storage.get('User', friend.friend_id)
+                friends.append(user)
+            return friends
+
+        def get_friend_requests(self):
+            requests = []
+            for friend_req in self.friend_requests:
+                user = models.storage.get('User', friend_req.request_from)
+                setattr(friend_req, 'request_from_detail', user)
+                requests.append(friend_req)
+            return requests
