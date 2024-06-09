@@ -3,6 +3,7 @@
 
 from models import storage, User, Book, BookReading, Friend, FriendRequest, ReadingLog, BookmarkBook,\
 FavouriteBook, Badge
+import json
 
 # create user object and save it
 # user_dict = {'username':'biniyam', 'password':'454', 'first_name':'biniyam', 'last_name':'arega', 'age':34, 'sex':'M'}
@@ -13,11 +14,11 @@ FavouriteBook, Badge
 
 # create book object and save it
 
-# book_d = {'title': 'Atomic Habit', 'author': 'James Clear', 'genere': 'Self Help', 'pub_year': 2016, 'pages': 300}
+#book_d = {'title': 'Python for dummies', 'author': 'Allan Smith', 'genere': 'Education', 'pub_year': 2016, 'pages': 650}
 
-# book = Book(**book_d)
-# storage.add(book)
-# storage.save()
+#book = Book(**book_d)
+#storage.add(book)
+#storage.save()
 
 # user_id = 4a2fa583-5080-49c8-9061-ef217bc42778
 # friend_id = 24b40bd3-2262-4fa3-a3cb-5abea29921c7
@@ -106,8 +107,29 @@ print(user.friend_requests)
 # rlog.add()
 # rlog.save()
 
-user = storage.get('User', '4a2fa583-5080-49c8-9061-ef217bc42778')
-for bread in user.booksreading:
-    print(bread.book)
-    print(bread.reading_logs)
-    print(bread.reading_logs[0].badge)
+# user = storage.get('User', '4a2fa583-5080-49c8-9061-ef217bc42778')
+#for bread in user.booksreading:
+    #print(bread.book)
+    #print(bread.reading_logs)
+    #print(bread.reading_logs[0].badge)
+
+# adds book reading
+# reading = BookReading(user_id='4a2fa583-5080-49c8-9061-ef217bc42778', book_id='cc064473-aafb-4af2-ba6b-6b293cfc5e4c', pages_per_day=10, hours_per_day=2, expected_completion_day=18)
+
+#reading.add()
+#reading.save()
+
+# get currently reading books of a user that are on progress
+#user = storage.get('User', '4a2fa583-5080-49c8-9061-ef217bc42778')
+#result = storage.readingOnProgress(user)
+#for r in result:
+    #print(json.dumps(r.to_dict()))
+
+# badges categories 'daily' 'book completion' 'challenge win'
+#badge = Badge(**{'btype':'Novel Conqueror', 'description': 'Earned by conquering one book after another.'})
+
+#badge.add()
+#badge.save()
+
+badge = storage.badge_by_type('page turner')
+print(badge)

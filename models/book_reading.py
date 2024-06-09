@@ -6,6 +6,7 @@ from datetime import datetime
 from models.base_model import BaseModel, Base
 from sqlalchemy import String, Column, Integer, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
+import models
 
 
 class BookReading(BaseModel, Base):
@@ -21,7 +22,7 @@ class BookReading(BaseModel, Base):
     expected_completion_day = Column(Integer, default=0)
     is_favorite = Column(Boolean)
     friend_visible = Column(Boolean)
-    status = Column(String(20))
+    status = Column(String(20), default="on progress")
     badge_id = Column(String(120), ForeignKey('badges.id'))
     user = relationship('User', cascade='all, delete', backref='booksreading')
     book = relationship('Book', cascade='all, delete')
@@ -45,3 +46,7 @@ class BookReading(BaseModel, Base):
         if kwargs:
             for key, val in kwargs.items():
                 setattr(self, key, val)
+
+    def readingOnProgress(self):
+        onprogress = models.storage.readingOnProgress(self)
+        print(onprogress)

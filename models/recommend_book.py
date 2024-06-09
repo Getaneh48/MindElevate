@@ -3,9 +3,13 @@
 A module that define a book share class model
 """
 from models.base_model import BaseModel
+from datetime import datetime
+from models.base_model import BaseModel, Base
+from sqlalchemy import String, Column, TEXT, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class RecommendBook(BaseModel):
+class RecommendBook(BaseModel, Base):
     """
     A class representing a book that will be shared
     """
@@ -13,7 +17,9 @@ class RecommendBook(BaseModel):
     user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
     recommender_id = Column(String(120), nullable=False)
     book_id = Column(String(120), ForeignKey('books.id'), nullable=False)
-    description = Column(Text)
+    description = Column(TEXT)
+    user  = relationship('User', cascade='all', backref='books_recommended')
+
     def __init__(self, *args, **kwargs):
         """
         initializes a share book object

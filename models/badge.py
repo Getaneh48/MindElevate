@@ -3,7 +3,7 @@
 A module that defines a Badge class
 """
 from models.base_model import BaseModel, Base
-from sqlalchemy import String, Column 
+from sqlalchemy import String, Column, TEXT
 
 
 class Badge(BaseModel, Base):
@@ -16,9 +16,9 @@ class Badge(BaseModel, Base):
         description (str): A description of the badge.
     """
     __tablename__ = 'badges'
-    btype = Column(String(100), nullable=False)
-    icon = Column(String(254), nullable=False)
-    description = Column(String(254), nullable=False)
+    btype = Column(String(100), nullable=False, unique=True)
+    icon = Column(String(254), nullable=True)
+    description = Column(TEXT, nullable=False)
 
     def __init__(self, *args, **kwargs):
         """

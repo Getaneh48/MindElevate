@@ -46,6 +46,10 @@ class BaseModel:
         if '_sa_instance_state' in dictionary.keys():
             del dictionary['_sa_instance_state']
 
+        for key in dictionary.keys():
+            if isinstance(dictionary[key], datetime):
+                dictionary[key] = dictionary[key].strftime("%Y-%m-%dT%H:%M:%S.%f")
+
         return dictionary
 
     def __repr__(self):

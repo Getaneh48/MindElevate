@@ -12,7 +12,9 @@ from models.reading_log import ReadingLog
 from models.friend import Friend
 from models.friend_request import FriendRequest
 from models.badge import Badge
-from sqlalchemy import create_engine
+from models.favourite_book import FavouriteBook
+from models.recommend_book import RecommendBook
+from sqlalchemy import create_engine, desc, asc, text
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.session import sessionmaker, Session
 from os import getenv
@@ -89,6 +91,7 @@ class DBStorage:
         """
         if obj:
             self.__session.delete(obj)
+            self.__session.commit()
 
     def reload(self):
         """
@@ -97,9 +100,6 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine))
-        # smaker = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        # Session = scoped_session(smaker)
-        # self.__session = Session()
 
     def close(self):
         """
@@ -118,3 +118,32 @@ class DBStorage:
             model = self.all_class_models[cls]
             print(cls + '.' + prop)
             return self.__session.query(model).filter(Friend.user_id == val).all()
+
+    def readingOnProgress(self, obj):
+        model = self.all_class_models['BookReading']
+        result = self.__session.query(model).filter(model.user_id == obj.id, model.status.like('%on progress%')).order_by(desc(model.created_at))
+        return result
+
+    def badge_by_type(self, btype):
+        model = self.all_class_models['Badge']
+        badge = self.__session.query(model).filter(model.btype.like('%'+btype+'%')).first()
+        return badge
+
+    def search_books_read(self, user_id, query):
+        filter_text = ''
+        params_val = {}
+
+        # we do this to prevent sql injection attack and also filter based on
+        # multiple criteria
+        if isinstance(query, dict):
+            if 'title' in query.keys():
+                filter_text += 'title LIKE :title'
+                params_val['title'] = f"%{query['title']}%"
+            if 'genere' in query.keys():
+                filter_text += ' AND genere LIKE :genere'
+                params_val['genere'] = f"%{query['genere']}%"
+        
+        result = self.__session.query(BookReading.user_id, Book.title, Book.genere).\
+                               join(Book).filter(text(filter_text).params(**params_val)).all()
+# filter(BookReading.user_id == user_id).all()
+        return result
