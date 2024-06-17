@@ -1,0 +1,28 @@
+@import '../../../assets/styles/variables.scss';
+
+$main-menus-image-width: 40px;
+ul {
+    margin:0;
+    padding:0;
+
+    li {
+        list-style: none;
+    }
+}
+
+.main-menu{
+    display:flex;
+    justify-content: top;
+    align-items: center;
+    flex-direction: column;
+    padding-top:20px;
+    height: $left-side-middle-height;
+    ul {
+        li {
+            margin-bottom: $menu-gaps-bottom;
+            img {
+                width:$main-menus-image-width;
+            }
+        }
+    }
+}

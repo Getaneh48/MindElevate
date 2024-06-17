@@ -1,0 +1,33 @@
+@import '../../../assets/styles/variables.scss';
+
+.recommended_books_container {
+    margin-left: $gaps;
+    margin-right: $gaps;
+    margin-top:20px;
+    padding-left:10px;
+
+    .rbooks_header{
+        display: flex;
+        gap:10px;
+        align-items: center;
+        font-size:$title-font-size;
+        color:$title-color;
+        font-weight: bold;
+        margin-bottom: $gaps;
+
+        img {
+            width: 100px;
+        }
+    }
+
+    .rbooks_body {
+        height:150px;
+        background-color: $background-color-1;
+        border-radius: 10px;
+        padding:10px;
+        display: flex;
+        align-items: center;
+        // overflow: hidden;
+        gap:10px;
+    }
+}

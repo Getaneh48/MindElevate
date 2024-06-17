@@ -1,0 +1,25 @@
+@import '../../../assets/styles/variables.scss';
+
+.add-book-section{
+    position:absolute;
+    height:70px;
+    width:70px;
+    bottom:70px;
+    right:10px;
+    border-radius: 50%;
+    background-color: $background-color-1;
+    box-shadow: 1px 1px 10px #242424;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+        color:$text-color-3;
+    }
+
+    .add {
+        font-size:3.5em;
+        position:relative;
+        top:-5px;
+    }
+}

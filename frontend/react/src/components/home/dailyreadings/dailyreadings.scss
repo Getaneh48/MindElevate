@@ -1,0 +1,31 @@
+@import '../../../assets/styles/variables.scss';
+
+.daily-readings {
+    margin-left: $gaps;
+    margin-right: $gaps;
+    margin-top:70px;
+    
+    .daily-readings-header {
+        display: flex;
+        align-items: center;
+        gap:10px;
+        padding-left:16px;
+        img {
+            width:100px;
+        }
+        .title {
+            color: $title-color;
+            font-size:$title-font-size;
+            font-weight: bold;
+        }
+        margin-bottom:$gaps;
+    }
+
+    .daily-readings-body {
+        max-height: 400px;
+        overflow: auto;
+    }
+    .daily-reading {
+        margin-bottom: $gaps;
+    }
+}

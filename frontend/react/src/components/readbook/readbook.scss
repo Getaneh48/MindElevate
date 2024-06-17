@@ -1,0 +1,19 @@
+@import '../../assets/styles/variables.scss';
+
+.read-book-container{
+    height: calc($content-height - 5.5vh);
+    overflow: auto;
+    padding:$gaps;
+
+    .actions {
+        display: flex;
+        margin-top:10px;
+        margin-bottom:16px;
+        justify-content: flex-end;
+        gap:$gaps;
+
+        button{
+            background-color: $background-color-2;
+        }
+    }
+}
