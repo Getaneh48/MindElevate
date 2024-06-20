@@ -5,6 +5,7 @@
     margin-right: $gaps;
     margin-top:20px;
     padding-left:10px;
+    position:relative;
 
     .rbooks_header{
         display: flex;
@@ -17,6 +18,24 @@
 
         img {
             width: 100px;
+        }
+    }
+
+    .loading-progress {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        background-color: white;
+        left:calc(45%);
+        display: none;
+        
+        &.active{
+            display: block;
+        }
+
+        img {
+            width:100px;
         }
     }
 
