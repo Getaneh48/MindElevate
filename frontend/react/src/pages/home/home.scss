@@ -1,0 +1,12 @@
+@import '../../assets/styles/variables.scss';
+
+.home-container {
+    min-height: $main-body-height;
+    display: flex;
+    flex-direction: column;
+    
+    .home-components{
+        overflow: auto;
+        height:82vh;
+    }
+}
