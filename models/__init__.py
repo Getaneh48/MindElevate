@@ -8,6 +8,8 @@ from models.favourite_book import FavouriteBook
 from models.friend import Friend
 from models.friend_request import FriendRequest
 from models.badge import Badge
+from models.book_genre import BookGenre
+
 
 if environ['MELV_TYPE_STORAGE'] == 'db':
     # storage type is database storage

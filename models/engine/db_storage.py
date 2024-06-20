@@ -5,6 +5,7 @@ Defines a database engine
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.book import Book
+from models import BookGenre
 from models.book_reading import BookReading
 from models.book_review import BookReview
 from models.bookmark_book import BookmarkBook
@@ -40,6 +41,8 @@ class DBStorage:
                             'ReadingLog': ReadingLog, 'User': User,
                             'BookReview': BookReview, 'BookmarkBook': BookmarkBook,
                             'Badge': Badge, 'Friend': Friend,
+                            'BookGenre': BookGenre,
+                            'FavouriteBook': FavouriteBook,
                             'FriendRequest': FriendRequest}
 
         if env == "test":
@@ -56,18 +59,19 @@ class DBStorage:
 
         objects = {}
         all_class_models = {'Book': Book, 'BookReading': BookReading,
+                            'BookGenre': BookGenre,
                             'ReadingLog': ReadingLog, 'User': User,
-                            'BookReview': BookReview, 'BookMarkBook': BookMarkBook,
+                            'BookReview': BookReview, 'BookmarkBook': BookmarkBook,
                             'Badge': Badge, 'Friend': Friend,
                             'FriendRequest': FriendRequest}
 
         if cls:
-            for row in self.__session.query(cls).all():
+            for row in self.__session.query(self.all_class_models[cls]).all():
                 # create an object in the format <class-name>.<object-id>
                 objects.update({'{}.{}'.
                                 format(type(cls).__name__, row.id,): row})
         else:
-            for key, val in all_class_models.items():
+            for key, val in self.all_class_models.items():
                 for row in self.__session.query(val):
                     objects.update({f'{type(row).__name__}.{row.id}': row})
 
@@ -136,14 +140,62 @@ class DBStorage:
         # we do this to prevent sql injection attack and also filter based on
         # multiple criteria
         if isinstance(query, dict):
-            if 'title' in query.keys():
+            if 'title' in query.keys() and query['title'] is not None:
                 filter_text += 'title LIKE :title'
                 params_val['title'] = f"%{query['title']}%"
-            if 'genere' in query.keys():
+            if 'genere' in query.keys() and query['title'] is not None:
                 filter_text += ' AND genere LIKE :genere'
                 params_val['genere'] = f"%{query['genere']}%"
         
-        result = self.__session.query(BookReading.user_id, Book.title, Book.genere).\
-                               join(Book).filter(text(filter_text).params(**params_val)).all()
-# filter(BookReading.user_id == user_id).all()
+        query_result = self.__session.query(BookReading.user_id,
+                                      BookReading.start_date,
+                                      BookReading.status,
+                                      BookReading.badge_id,
+                                      Book.title,
+                                      Book.author,
+                                      Book.genere,
+                                      Book.pages).\
+                               join(Book).filter(text(filter_text).params(**params_val)).\
+                                          filter(BookReading.status == '').all()
+        records = [
+        {
+            'user_id': record.user_id,
+            'start_date': record.start_date,
+            'status': record.status,
+            'badge_id': record.badge_id,
+            'title': record.title,
+            'author': record.author,
+            'genere': record.genere,
+            'pages': record.pages
+        } for record in query_result
+        ]
+
+        return records
+
+    def search_books(self, query):
+        filter_text = ''
+        params_val = {}
+
+        if 'title' in query.keys() and query['title'] is not None:
+            filter_text += 'title LIKE :title'
+            params_val['title'] = f"%{query['title']}%"
+        if 'author' in query.keys() and query['author'] is not None:
+            filter_text += 'author LIKE :author'
+            params_val['author'] = f"%{query['author']}%"
+        if 'genere' in query.keys() and query['title'] is not None:
+            filter_text += ' AND genere LIKE :genere'
+            params_val['genere'] = f"%{query['genere']}%"
+
+        query_result = self.__session.query(Book).\
+                       filter(text(filter_text).params(**params_val)).all()
+        
+        return query_result
+
+    def get_reading_by_book(self, user_id, book_id):
+        result = self.__session.query(BookReading).filter(BookReading.user_id == user_id).\
+                                                   filter(BookReading.book_id == book_id).first()
+        return result
+
+    def get_badge_by_type(self, btype):
+        result = self.__session.query(Badge).filter(Badge.btype.like(f"%{btype}%")).first()
         return result

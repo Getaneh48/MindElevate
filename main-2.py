@@ -14,11 +14,11 @@ import json
 
 # create book object and save it
 
-#book_d = {'title': 'Python for dummies', 'author': 'Allan Smith', 'genere': 'Education', 'pub_year': 2016, 'pages': 650}
+book_d = {'title': 'Python for dummies', 'author': 'Allan Smith', 'genre_id': 'f1e94135-76e6-466d-b06a-7dbdbf39a46e', 'pub_year': 2016, 'pages': 650}
 
-#book = Book(**book_d)
-#storage.add(book)
-#storage.save()
+book = Book(**book_d)
+storage.add(book)
+storage.save()
 
 # user_id = 4a2fa583-5080-49c8-9061-ef217bc42778
 # friend_id = 24b40bd3-2262-4fa3-a3cb-5abea29921c7
@@ -131,5 +131,5 @@ print(user.friend_requests)
 #badge.add()
 #badge.save()
 
-badge = storage.badge_by_type('page turner')
-print(badge)
+#badge = storage.badge_by_type('page turner')
+#print(badge)

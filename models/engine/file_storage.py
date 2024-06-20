@@ -11,6 +11,7 @@ from models.book_reading import BookReading
 from models.reading_log import ReadingLog
 from models.share_book import ShareBook
 from models.base_model import BaseModel
+from models.book_genre import BookGenre
 import os
 from datetime import datetime
 
@@ -37,6 +38,7 @@ class FileStorage:
     __file_path = 'test_file.json'
     __classes = {'User': User,
                  'Book': Book,
+                 'BookGenre': BookGenre,
                  'BookReading': BookReading,
                  'ReadingLog': ReadingLog,
                  'ShareBook': ShareBook,
