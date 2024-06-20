@@ -1,0 +1,62 @@
+@import '../../../../../assets/styles/variables.scss';
+
+.general-progress{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $background-color-5;
+    height:100px;
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 10px;
+    color:white;
+    margin-top:42px;
+
+    .label{
+        font-size: 1.8em;
+        font-weight: 500;
+    }
+
+    .pages-read-container{
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+
+        .pages_read {
+            font-size: 2em;
+        }
+        .separator{
+            font-size: 2em;
+            margin-left:5px;
+            margin-right:5px;
+        }
+        .total_pages{
+            font-size:2em;
+            .label {
+                font-size:0.7em;
+            }
+        }
+    }
+
+    .progress-in-percent{
+        width:70px;
+        height: 70px;
+        background-color: $background-color-2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2em;
+        gap:4px;
+        padding:10px;
+
+        .count{
+
+        }
+
+        .text{
+
+        }
+    }
+}

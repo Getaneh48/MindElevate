@@ -1,0 +1,81 @@
+@import '../assets/styles/variables.scss';
+
+#main-container{
+    display: flex;
+    background-color: $background-color-3;
+
+    .left-side{
+        flex:2%;
+        background-color: $background-color-1;
+    }
+
+    .right-side{
+        flex:90%;
+
+        header{
+            background-color: $background-color-2;
+            height:$header-height;
+            border-top:1px solid #5e5c62;
+            border-bottom:1px solid #ccc;
+
+            display: flex;
+            justify-content: space-evenly;
+
+            .logo{
+                flex:1;
+                display: flex;
+                justify-content: end;
+                position:relative;
+                z-index:9999;
+            
+                img{
+                    position:absolute;
+                    width:100px;
+                    right:-10px
+                }
+            }
+
+            .profile-container{
+                flex:1;
+                display:flex;
+                justify-content: flex-end;
+
+                .proifle-menu{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+
+                    .profile-info {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        
+                        .name {
+                            margin-right:10px;
+                            color:white;
+                        }
+                        img{
+                            width:30px;
+                        }
+                    }
+                }
+            }
+        }
+
+        main {
+            border-left:1px solid #ccc;
+            height:$main-body-height;
+        }
+
+        footer{
+            border-top:1px solid #ccc;
+            height:$footer-height;
+            background-color: $background-color-1;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

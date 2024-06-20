@@ -1,0 +1,25 @@
+@import '../../../../assets/styles/variables.scss';
+
+.daily-reading-progress-container {
+    margin-top:40px;
+    box-sizing: border-box;
+    padding:$gaps;
+    height: 82vh;
+    overflow: auto;
+
+    .daily-reading-progress-header{
+        display: flex;
+        align-items: center;
+        gap:$gaps;
+
+        img {
+            width:$header-logo-width;
+        }
+
+        .daily-reading-progress-title{
+            font-size:1.5em;
+            color:$text-color-3;
+            font-weight: bold;
+        }
+    }
+}

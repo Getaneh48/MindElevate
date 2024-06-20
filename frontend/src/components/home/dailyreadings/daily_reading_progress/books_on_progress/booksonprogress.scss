@@ -1,0 +1,24 @@
+@import '../../../../../assets/styles/variables.scss';
+
+.books-on-progress-container{
+    display: flex;
+    align-items: center;
+    margin-top: calc(2 * $gaps);
+
+    .label{
+        flex:0.2;
+        font-size:1.4em;
+    }
+
+    select.books-on-progress {
+        flex:0.5;
+        height:40px;
+        color:$text-color-1;
+        font-size:1.2em;
+
+        &:focus {
+            outline: none;
+            border:1px solid $text-color-1;
+        }
+    }
+}
