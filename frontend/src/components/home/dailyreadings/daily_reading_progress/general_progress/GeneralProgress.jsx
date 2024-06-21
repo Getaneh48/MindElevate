@@ -8,11 +8,29 @@ export default function GeneralProgress({selected_book}) {
     
 
     useEffect(()=>{
-        let total = 0;
-        for(const index in selected_book?.reading_logs) {
-            total += selected_book?.reading_logs[index].pages_read;
+        const getAllLogs = async () => {
+            try {
+                const url = `http://localhost:5001/api/v1/books_reading/${selected_book.id}/logs`;
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+
+                    let total = 0;
+                    for(const index in data) {
+                        total += data[index].pages_read;
+                    }
+                    setTotalPagesRead(total);
+                }
+            } catch (error) {
+                if (error.message == '') {
+                    console.log('Network error');
+                }
+            }
         }
-        setTotalPagesRead(total);
+
+        getAllLogs();
+        
     },[selected_book])
     return (
         <div className="general-progress">

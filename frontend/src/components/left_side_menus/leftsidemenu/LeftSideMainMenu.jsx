@@ -15,13 +15,13 @@ export default function LeftSideMainMenu() {
                         <Link to="/"><img src={home_icon_active} /></Link>
                     </li>
                     <li>
-                        <Link to="/"><img src={open_book} /></Link>
+                        <Link to="/booksread"><img src={open_book} /></Link>
                     </li>
                     <li>
-                        <Link to="/"><img src={bookmarked_books} /></Link>
+                        <Link to="/bookmarked"><img src={bookmarked_books} /></Link>
                     </li>
                     <li>
-                        <Link to="/"><img src={favorite_books} /></Link>
+                        <Link to="/favorites"><img src={favorite_books} /></Link>
                     </li>
                     <li>
                         <Link to="/"><img src={reading_friends} /></Link>

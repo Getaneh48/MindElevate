@@ -24,6 +24,23 @@
     .daily-readings-body {
         max-height: 400px;
         overflow: auto;
+
+        .message-area{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap:10px;
+            display: none;
+
+            &.error{
+                display: block;
+            }
+
+            img {
+                width:32px;
+                height:32px;
+            }
+        }
     }
     .daily-reading {
         margin-bottom: $gaps;

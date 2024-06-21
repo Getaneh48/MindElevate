@@ -1,0 +1,58 @@
+@import '../../assets/styles/variables.scss';
+
+.bm-container{
+    height: 82vh;
+    overflow: auto;
+    padding:$gaps;
+    box-sizing: border-box;
+    margin-top:40px;
+
+    .bm-header{
+        display: flex;
+        align-items: center;
+        gap:$gaps;
+
+        img{
+            width: 100px;
+        }
+
+        .bm-header-title {
+            font-size: 30px;
+            color:$text-color-3;
+        }
+    }
+
+    .bm-container{
+        .message-area{
+            display: none;
+
+            &.error{
+                display: block;
+                flex:1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            img {
+                width:32px;
+                height:32px;
+            }
+        }
+
+        .loading {
+            display: none;
+            &.active{
+                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            img {
+                width: 100px;
+            }
+        }
+    }
+}

@@ -29,6 +29,23 @@
         align-items: center;
         gap:calc($gaps + 20px);
 
+        .message-area{
+            margin:0 auto;
+            gap:10px;
+            display: flex;
+            align-items: center;
+            display: none;
+
+            &.error{
+                display: block;
+            }
+
+            img {
+                width:32px;
+                height:32px;
+            }
+        }
+
     }
 
     .count-books-container {

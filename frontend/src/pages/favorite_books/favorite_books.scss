@@ -1,0 +1,58 @@
+@import '../../assets/styles/variables.scss';
+
+.fv-container{
+    height: 82vh;
+    overflow: auto;
+    padding:$gaps;
+    box-sizing: border-box;
+    margin-top:40px;
+
+    .fv-header{
+        display: flex;
+        align-items: center;
+        gap:$gaps;
+
+        img{
+            width: 100px;
+        }
+
+        .fv-header-title {
+            font-size: 30px;
+            color:$text-color-3;
+        }
+    }
+
+    .fv-container{
+        .message-area{
+            display: none;
+
+            &.error{
+                display: block;
+                flex:1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            img {
+                width:32px;
+                height:32px;
+            }
+        }
+
+        .loading {
+            display: none;
+            &.active{
+                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            img {
+                width: 100px;
+            }
+        }
+    }
+}

@@ -15,11 +15,10 @@ import health_icon from '../../../assets/images/genre/Health-and-Fitness.png';
 import technology_icon from '../../../assets/images/genre/Technology.png';
 import biography_icon from '../../../assets/images/genre/Biography.png';
 import fiction_career_icon from '../../../assets/images/genre/Fiction-and-Literature.png';
+import warning_icon from '../../../assets/images/warning.png';
 
 
 function CountBooksByGenre({genre, count}) {
-    
-
     const icons = {
         'Lifestyle': lifestyle_icon,
         'Politics & Laws': poletics_icon,
@@ -50,6 +49,7 @@ function CountBooksByGenre({genre, count}) {
 
 export default function BooksReadByGenre() {
     const [genres, setGenres] = useState(null);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchGenres = async () => {
@@ -65,6 +65,9 @@ export default function BooksReadByGenre() {
                 }
             } catch (error) {
                 console.log(error);
+                if (error.message === 'Failed to fetch') {
+                    setError(true)
+                }
             }
             
         }
@@ -74,11 +77,13 @@ export default function BooksReadByGenre() {
 
     return (
         <section className="books-read-by-genere-container">
+            
             <div className="brbg_header">
                 <img src={bb_genre_icon} alt="Books Read by Genre"/>
                 <div className="title">Books Read by Genre</div>
             </div>
             <div className="brbg_body">
+            <div className={`${error ? "error message-area" : "message-area"}`}><img src={warning_icon} alt="Warning Icon" /><span className="error">Network Error</span></div>
                 {
                     genres ? (
                     Object.keys(genres).map((key, index) => {
@@ -86,7 +91,7 @@ export default function BooksReadByGenre() {
                             <CountBooksByGenre key={index} genre={key} count={genres[key]} />
                         )
                     })) : (
-                        <h3> No Genres Found</h3>
+                        ''
                     )
                 }
             </div>
