@@ -66,6 +66,40 @@
         main {
             border-left:1px solid #ccc;
             height:$main-body-height;
+            overflow: auto;
+            padding:16px;
+
+            .notification-area {
+                position: absolute;
+                width: 92%;
+                top:120px;
+                z-index: 999;
+                border:1px solid #ccc;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                box-sizing: border-box;
+                padding:5px;
+                border-radius: 10px;
+                box-shadow: 1px 1px 1px #e1e0e0;
+                background-color: $background-color-1;
+
+                .left-notif{
+                    flex:1;
+                    display: flex;
+                    align-items: center;
+                    gap: $gaps;
+
+                    .notification_icon {
+                        display: flex;
+                        align-items: center;
+                        img {
+                            width:30px;
+                        }
+                    }
+                }
+            }
         }
 
         footer{

@@ -1,6 +1,6 @@
-@import '../../../assets/styles/variables.scss';
+@import '../../assets/styles/variables.scss';
 
-.book-read-container {
+.favorite-book {
     height:120px;
     background-color: #f8f7fd;
     border-radius: 10px;
@@ -38,6 +38,7 @@
         display: flex;
         gap:$gaps;
         align-items: center;
+        justify-content: flex-end;
 
         img {
             &:hover{
@@ -47,14 +48,5 @@
                 height: 40px;
         }
         
-    }
-
-    .assigned-badge {
-        flex: 1;
-        display: flex;
-        justify-content: flex-end;
-        img {
-            width:80px;
-        }
     }
 }

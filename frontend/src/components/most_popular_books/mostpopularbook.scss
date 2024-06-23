@@ -1,0 +1,14 @@
+@import '../../assets/styles/variables.scss';
+
+.most-popular-book{
+    
+    .cover-image {
+        &:hover{
+            cursor: pointer;
+            background-color: $background-color-2;
+        }
+        img {
+            width:100px;
+        }
+    }
+}

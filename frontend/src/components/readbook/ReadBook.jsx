@@ -8,7 +8,7 @@ import loading_icon from '../../assets/images/loading.gif';
 
 export default function ReadBook() {
     const navigate = useNavigate();
-    const {id} = useParams(null);
+    const {id, ext} = useParams(null);
     const [book_to_read, setBookToRead] = useState(null);
     const [reading_info, setReadingInfo] = useState({});
     const [validation_error, setValidationError] = useState({})
@@ -19,7 +19,13 @@ export default function ReadBook() {
 
     useEffect(()=>{
         const fetchBookInfo = async () => {
-            const api_url = `https://www.dbooks.org/api/book/${encodeURIComponent(id)}`;
+            let api_url = ''
+            if (ext == 'true') {
+                api_url = `https://www.dbooks.org/api/book/${encodeURIComponent(id)}`;
+            } else {
+                api_url = `http://localhost:5001/api/v1/books/${encodeURIComponent(id)}`;
+            }
+            console.log(api_url)
             try {
                 setShowProgress(true);
                 const response = await fetch(`${api_url}`);
@@ -27,13 +33,13 @@ export default function ReadBook() {
                     const data = await response.json();
                     const bt_read = {
                         'title': data.title,
-                        'authors': data.authors,
+                        'authors': ext == 'true' ? data.authors : data.author,
                         'pages': data.pages,
-                        'year': data.year,
+                        'year': ext == 'true' ? data.year : data.pub_year,
                         'subtitle': data.subtitle,
                         'description': data.description,
                         'ref_id': data.id,
-                        'image': data.image
+                        'image': ext == 'true' ? data.image : data.cover_image,
                     }
 
                     setBookToRead(bt_read)

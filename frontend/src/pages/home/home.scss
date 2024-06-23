@@ -4,9 +4,13 @@
     min-height: $main-body-height;
     display: flex;
     flex-direction: column;
-    
+    gap:calc(2 * $gaps);
+
     .home-components{
         overflow: auto;
         height:82vh;
+        display: flex;
+        flex-direction: column;
+        gap:calc(2 * $gaps);
     }
 }

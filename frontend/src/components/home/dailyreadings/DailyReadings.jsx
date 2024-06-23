@@ -1,6 +1,6 @@
 import DailyReading from './dailyreading/DailyReading';
 import './dailyreadings.scss';
-import open_book from '../../../assets/images/open-book-2.png';
+import todays_reading_icon from '../../../assets/images/todays-reading.png';
 import warning_icon from '../../../assets/images/warning.png';
 
 import { useEffect, useState } from 'react';
@@ -38,7 +38,7 @@ export default function DailyReadings() {
         <section className='daily-readings'>
             
             <div className="daily-readings-header">
-                <img src={open_book}/>
+                <img src={todays_reading_icon}/>
                 <span className="title">Today&apos;s Reading</span>
             </div>
             <div className="daily-readings-body">

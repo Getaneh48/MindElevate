@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<MainLayout />}>
             <Route exact path="readbook" element={<ReadBook />} />
-            <Route exact path="readbook/:id" element={<ReadBook />} />
+            <Route exact path="readbook/:id/ext/:ext" element={<ReadBook />} />
             <Route exact path="readingprogress" element={<DailyReadingProgress />} />
             <Route exact path="readingprogress/:id" element={<DailyReadingProgress />} />
             <Route exact path="booksread" element={<BooksRead />} />

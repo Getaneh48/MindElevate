@@ -8,12 +8,15 @@ export default function RecommendedBook({rbook}) {
     const navigate = useNavigate();
 
     const handleReadNow = () => {
-        navigate(`/readbook/${rbook.id}`)
+        navigate(`/readbook/${rbook.id}/ext/${true}`)
     }
    
     return (
         <div className="recommended_book_container" onClick={()=>setHidden(!hidden)}>
-                <img src={rbook.image} alt="" className="cover_image"/>
+                <div className="cover-image">
+                    <img src={rbook.image} alt="" />
+                </div>
+                
                 <div className={hidden ? "hidden desc" : 'desc'}>
                     <div className="desc-body">
                         <div className="cover_image_full">

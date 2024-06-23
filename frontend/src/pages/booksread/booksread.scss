@@ -1,11 +1,11 @@
 @import '../../assets/styles/variables.scss';
 
 .books-read-container{
-    height: 82vh;
-    overflow: auto;
-    padding:$gaps;
     box-sizing: border-box;
     margin-top:40px;
+    display: flex;
+    flex-direction: column;
+    gap:$gaps;
 
     .books-read-header{
         display: flex;
@@ -17,12 +17,21 @@
         }
 
         .books-read-header-title {
-            font-size: 30px;
+            font-size: 1.6em;
             color:$text-color-3;
+            font-weight: bold;
         }
     }
 
-    .books-read-container{
+    .books-read-container-body{
+        height:350px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap:$gaps;
+        margin-top:15px;
+        
+
         .message-area{
             display: none;
 
@@ -53,6 +62,20 @@
             img {
                 width: 100px;
             }
+        }
+    }
+
+    .books-rbg{
+        margin-top:16px;
+    }
+
+    .not-found {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width:150px;
         }
     }
 }

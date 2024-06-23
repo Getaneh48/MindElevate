@@ -1,15 +1,12 @@
 @import '../../../assets/styles/variables.scss';
 
 .daily-readings {
-    margin-left: $gaps;
-    margin-right: $gaps;
-    margin-top:70px;
+    margin-top:20px;
     
     .daily-readings-header {
         display: flex;
         align-items: center;
         gap:10px;
-        padding-left:16px;
         img {
             width:100px;
         }

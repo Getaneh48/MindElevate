@@ -1,0 +1,83 @@
+@import '../../assets/styles/variables.scss';
+.most-popular-books {
+    margin-top:20px;
+    position: relative;
+
+    .most-popular-books-header {
+        display: flex;
+        gap: $gaps;
+        align-items: center;
+        margin-bottom: $gaps;
+
+        img {
+            width:100px;
+        }
+
+        .most-popular-books-header-title{
+            font-size: 1.6em;
+            color:$text-color-3;
+            font-weight: bold;
+        }
+    }
+    .most-popular-books-body {
+        display: flex;
+        align-items: center;
+        gap:$gaps;
+        background-color: $background-color-1;
+        padding: 10px;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    .book-detail-container{
+        display: flex;
+        flex-direction: column;
+        border:1px solid #ccc;
+        width: 50%;
+        margin:0 auto;
+        background-color: $background-color-1;
+        box-shadow: 1px 1px 1px #ccc;
+        border-radius: 10px;
+        padding:10px;
+        position: absolute;
+        z-index: 9999;
+        left:25%;
+        top:-20px;
+
+        .bdc-top{
+            display: flex;
+            gap: $gaps;
+
+            .cover-image{
+                img{
+                    width:150px;
+                }
+            }
+
+            .book-info{
+                flex:1;
+                display: flex;
+                flex-direction: column;
+
+                .book-title{
+                    font-size: 1.6em;
+                }
+            }
+
+            .close{
+                font-size: 1.2em;
+
+                &:hover{
+                    cursor: pointer;
+                    color:$text-color-3;
+                }
+            }
+        }
+
+        .bdc-bottom{
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+    }
+}

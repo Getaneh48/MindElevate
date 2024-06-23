@@ -20,8 +20,11 @@ ul {
     ul {
         li {
             margin-bottom: $menu-gaps-bottom;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
-                width:$main-menus-image-width;
+                height:$main-menus-image-width;
             }
         }
     }

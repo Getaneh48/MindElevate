@@ -4,16 +4,16 @@
     height: 150px;
     display: flex;
     align-items: center;
-
-    &:hover{
-        .cover_image {
-            background-color: rgba(255,255,255,0.5);
-            cursor: pointer;
-        }
-        
-    }
-    .cover_image{
+    
+    .cover-image{
         height:140px;
+        img {
+            height:130px;
+        }
+        &:hover{
+            cursor: pointer;
+            background-color: $background-color-2;
+        }
     }
 
     .desc.hidden {

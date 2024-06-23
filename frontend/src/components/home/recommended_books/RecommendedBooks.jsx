@@ -3,12 +3,10 @@ import recommended_books_icon from '../../../assets/images/recommended_books.png
 import RecommendedBook from './recommended_book/RecommendedBook';
 import { useEffect, useState } from 'react';
 import loading_icon from '../../../assets/images/loading.gif';
-import warning_icon from '../../../assets/images/warning.png';
 
 export default function RecommendedBooks() {
     const [recommended_books, setRecommendedBooks] = useState([]);
     const [loading_recommendation, setLoadingRecommendation] = useState(false);
-    const [error, setError] = useState(false);
 
     useEffect(()=>{
         const getRecommendation = async () => {
@@ -24,9 +22,7 @@ export default function RecommendedBooks() {
                 }
             } catch (error) {
                 console.log(error);
-                if (error.message === 'Failed to fetch') {
-                    setError(true);
-                }
+                
                 setLoadingRecommendation(false);
             }
             
@@ -43,7 +39,6 @@ export default function RecommendedBooks() {
             </div>
             <div className={`${loading_recommendation ? "active loading-progress" : "loading-progress"}`}><img src={loading_icon} alt="Loading recommended books in progress" /></div>
             <div className="rbooks_body">
-                <div className={`${error ? "error message-area" : "message-area"}`}><img src={warning_icon} alt="Warning icon" /><span className="error">Network Error</span></div>
                 {
                     recommended_books ? (
                         recommended_books?.map((rbook, index) => {

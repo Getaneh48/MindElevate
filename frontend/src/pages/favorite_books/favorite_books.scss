@@ -3,9 +3,8 @@
 .fv-container{
     height: 82vh;
     overflow: auto;
-    padding:$gaps;
     box-sizing: border-box;
-    margin-top:40px;
+    margin-top:20px;
 
     .fv-header{
         display: flex;
@@ -23,6 +22,14 @@
     }
 
     .fv-container{
+        display: flex;
+        flex-direction: column;
+        gap: $gaps;
+        border:1px solid #ccc;
+        border-radius: 10px;
+        height:50vh;
+        overflow: auto;
+
         .message-area{
             display: none;
 

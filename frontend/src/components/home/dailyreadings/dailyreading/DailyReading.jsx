@@ -1,7 +1,6 @@
 import './dailyreading.scss';
 import pages_read_icon from '../../../../assets/images/pages_read.png';
 import hour from '../../../../assets/images/24_hour.png';
-import open_book from '../../../../assets/images/open-book-2.png';
 import daily_badge from '../../../../assets/images/badges/daily_badge.png';
 import progress_icon from '../../../../assets/images/progress_icon.png'
 import PropTypes from 'prop-types';
@@ -39,10 +38,12 @@ export default function DailyReading({breading}) {
         <Link to={`/readingprogress/${breading?.id}`}>
         <article className='daily-reading'>
                 <div className="book-info">
-                    <div className="book-cover-image"><img src={open_book} /></div>
+                    <div className="book-cover-image"><img src={breading?.book.cover_image} /></div>
                     <div className="book-desc">
-                        <span className="book-title">Title - {breading?.book.title}</span>
-                        <span className="book-author">Author - {breading?.book.author}</span>
+                        <span className="book-title">{breading?.book.title}</span>
+                        <span className="book-author">Authors - {breading?.book.author}</span>
+                        <span className="genre">Genre - {breading?.book.genre.name}</span>
+                        <span className="publication">Year - {breading?.book.pub_year}</span>
                         <span className="book-total-pages">Total Pages - {breading?.book.pages} pages</span>
                     </div>
                 </div>
