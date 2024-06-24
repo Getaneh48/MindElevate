@@ -1,12 +1,14 @@
 import './recommendedbooks.scss';
 import recommended_books_icon from '../../../assets/images/recommended_books.png'
 import RecommendedBook from './recommended_book/RecommendedBook';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import loading_icon from '../../../assets/images/loading.gif';
 
 export default function RecommendedBooks() {
     const [recommended_books, setRecommendedBooks] = useState([]);
     const [loading_recommendation, setLoadingRecommendation] = useState(false);
+    const [bookmarkInfo, setBookmarkInfo] = useState(null);
+    const selected_genre = useRef();
 
     useEffect(()=>{
         const getRecommendation = async () => {
@@ -29,7 +31,51 @@ export default function RecommendedBooks() {
         }
 
         getRecommendation();
-    },[])
+    },[]);
+
+    const handleBookmark = async () => {
+        try {
+            const url = 'http://localhost:5001/api/v1/bookmarks/new';
+            const book_api_url = `https://www.dbooks.org/api/book/${encodeURIComponent(bookmarkInfo.book.id)}`;
+            const response = await fetch(book_api_url);
+            if (response.ok) {
+                const book_data = await response.json();
+                console.log(book_data);
+                if (book_data.status == 'ok') {
+                    const book_info = {
+                        title: book_data.title,
+                        author: book_data.authors,
+                        genre_id: selected_genre.current.value,
+                        pub_year: book_data.year,
+                        pages: book_data.pages,
+                        cover_image: book_data.image,
+                        subtitle: book_data.subtitle,
+                        description: book_data.description,
+                    }
+
+                    const resp = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(book_info),
+                    });
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        console.log(data)
+                        if(data.success) {
+                            setBookmarkInfo(null)
+                        }
+
+                    } else {
+                        console.log(resp);
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <section className="recommended_books_container">
@@ -43,7 +89,7 @@ export default function RecommendedBooks() {
                     recommended_books ? (
                         recommended_books?.map((rbook, index) => {
                             return (
-                                <RecommendedBook rbook={rbook} key={index} />
+                                <RecommendedBook rbook={rbook} setBookmarkInfo={setBookmarkInfo}key={index} />
                             )
                         })
                     ) : (
@@ -51,8 +97,41 @@ export default function RecommendedBooks() {
                     )
                     
                 }
-                
+
             </div>
+            {
+                    bookmarkInfo ? (
+                        <div className="genre-selection-container">
+                            <div className="genre-selection-header">
+                                <span className='title'>Genre</span>
+                                <span className="close" onClick={()=>setBookmarkInfo(null)}>x</span>
+                            </div>
+                            <div className="genre-selection-body">
+                                {
+                                    bookmarkInfo['genres'].length > 0 ? (
+                                        <select className='genres-selection' ref={selected_genre}>
+                                            <option value="">Select Genre</option>
+                                            {
+                                                bookmarkInfo['genres'].map((genre, index) => {
+                                                    return (
+                                                        <option value={genre.id} key={index}>{genre.name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    ) : (
+                                        'Non Found'
+                                    )
+                                }
+                            </div>
+                            <div className="genre-selection-actions">
+                                <button className="bookmark-now" onClick={handleBookmark}>Bookmark Now</button>
+                            </div>
+                        </div>
+                    ) : (
+                        ''
+                    )
+                }
         </section>
     )
 }

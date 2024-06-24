@@ -21,7 +21,7 @@
         }
     }
 
-    .fv-container{
+    .fv-container-body{
         display: flex;
         flex-direction: column;
         gap: $gaps;
@@ -29,6 +29,8 @@
         border-radius: 10px;
         height:50vh;
         overflow: auto;
+        margin-top:$gaps;
+        flex:1;
 
         .message-area{
             display: none;
@@ -61,5 +63,19 @@
                 width: 100px;
             }
         }
+
+        .not-results-found{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding:10px;
+            img {
+                width:150px;
+            }
+        }
+    }
+
+    .most-popular-books-container{
+        margin-bottom: 20px;
     }
 }

@@ -4,6 +4,9 @@ import favorite_icon from '../../assets/images/favorite-books.png';
 
 import { useEffect, useState } from 'react';
 import FavoriteBook from './FavoriteBook';
+import book_not_found_icon from '../../assets/images/book-not-found.png';
+import MostPopularBooks from '../../components/most_popular_books/MostPopularBooks';
+import RecommendedBooks from '../../components/home/recommended_books/RecommendedBooks';
 
 export default function FavoriteBooks() {
     const [loading, setLoading] = useState(false);
@@ -42,7 +45,7 @@ export default function FavoriteBooks() {
                 <img src={favorite_icon} alt="Favorite Books Icon" />
                 <span className="fv-header-title">Favorites</span>
             </div>
-            <div className="fv-container">
+            <div className="fv-container-body">
                 <div className={`${loading ? "active loading" : "loading"}`}><img src={loading_icon} alt="Loading content" /></div>
                 {
                     favorites.length > 0 ? (
@@ -52,10 +55,19 @@ export default function FavoriteBooks() {
                             )
                         })
                     ) : (
-                        'None Found'
+                        <div className="not-results-found">
+                            <img src={book_not_found_icon} alt="Favorite books not found" />
+                        </div>
                     )
                     
                 }
+            </div>
+            <div className="most-popular-books-container">
+                <MostPopularBooks />
+            </div>
+
+            <div className="recommended-books-container">
+                <RecommendedBooks />
             </div>
         </section>
     )

@@ -7,7 +7,8 @@ import books_read_icon from '../../../assets/images/books-read-2.png';
 //import open_book from '../../../assets/images/open-book.png';
 import bookmarked_books from '../../../assets/images/bookmarked_books.png';
 import bookmarked_books_active from '../../../assets/images/bookmarked_book_active.png';
-import favorite_books from '../../../assets/images/favorite-books.png';
+import favorite_books from '../../../assets/images/favorite-books-2.png';
+import favorite_books_active from '../../../assets/images/favorite-books-active.png';
 import reading_friends from '../../../assets/images/reading_friends.png';
 import { useState } from 'react';
 
@@ -54,7 +55,15 @@ export default function LeftSideMainMenu() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/favorites"><img src={favorite_books} /></Link>
+                        <Link to="/favorites" onClick={()=>setActiveMenu(4)}>
+                        {
+                                active_menu_id == 4 ? (
+                                    <img src={favorite_books_active} />
+                                ) : (
+                                    <img src={favorite_books} />
+                                )
+                        }
+                        </Link>
                     </li>
                     <li>
                         <Link to="/"><img src={reading_friends} /></Link>

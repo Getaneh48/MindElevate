@@ -31,7 +31,37 @@ export default function MostPopularBooks() {
             fetchPopularBooks();
         }
        
-    },[selected_book])
+    },[selected_book]);
+
+    const bookmarkBook = async () => {
+        const url = 'http://localhost:5001/api/v1/bookmarks';
+
+        try {
+            if (selected_book) {
+                const data = {
+                    'id': selected_book.id,
+                }
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const resp_data = await response.json();
+                    alert(resp_data.message);
+                } else {
+                    console.log(response);
+                }
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 
     return (
         <div className="most-popular-books">
@@ -74,6 +104,7 @@ export default function MostPopularBooks() {
                         </div>
 
                         <div className="bdc-bottom">
+                            <button onClick={bookmarkBook}>Bookmark</button>
                             <button onClick={()=>navigate(`/readbook/${selected_book.id}/ext/${false}`)}>Read Book</button>
                         </div>
                 

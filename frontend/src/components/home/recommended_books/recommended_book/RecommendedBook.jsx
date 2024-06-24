@@ -1,15 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './recommendedbook.scss';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 
-export default function RecommendedBook({rbook}) {
+export default function RecommendedBook({rbook, setBookmarkInfo}) {
     const [hidden, setHidden] = useState(true);
+    const [genres, setGenres] = useState([]);
     const navigate = useNavigate();
 
     const handleReadNow = () => {
         navigate(`/readbook/${rbook.id}/ext/${true}`)
     }
+
+    useEffect(()=> {
+        const fetchGenres = async () => {
+            try {
+                const url = 'http://localhost:5001/api/v1/books/genres';
+                const response = await fetch(url)
+                if (response.ok) {
+                    const data = await response.json();
+                    setGenres(data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        fetchGenres()
+    },[])
    
     return (
         <div className="recommended_book_container" onClick={()=>setHidden(!hidden)}>
@@ -26,18 +44,21 @@ export default function RecommendedBook({rbook}) {
                             <p><span className="label">Title</span><span className="book-title">{rbook.title}</span> </p>
                             <p><span className="label">Authors</span><span className="book-title">{rbook.authors}</span> </p>
                             <p><span className="label">Subtitle</span><span className="book-title">{rbook.subtitle}</span> </p>
-                            <div className="read-now"><button className='read-now-btn' onClick={handleReadNow}>Read Now</button></div>
+                            <div className="actions">
+                                <button className='read-now-btn' onClick={handleReadNow}>Read</button>
+                                <button className="bookmark" onClick={()=>setBookmarkInfo({'genres': genres, 'book': rbook})}>Bookmark</button>
+                            </div>
+                            
                         </div>
                         <span className="close" onClick={()=>setHidden(!hidden)}>x</span>
                     </div>
 
-                    
-                    
                 </div>
         </div>
     )
 }
 
 RecommendedBook.propTypes = {
-    rbook: PropTypes.object.isRequired, // Adjust type if needed
+    rbook: PropTypes.object.isRequired,
+    setBookmarkInfo: PropTypes.func,
 };

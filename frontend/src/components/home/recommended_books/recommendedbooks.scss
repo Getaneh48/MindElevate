@@ -42,6 +42,7 @@
         display: flex;
         align-items: center;
         // overflow: hidden;
+
         gap:10px;
 
         .message-area{
@@ -59,6 +60,58 @@
                 width:32px;
                 height:32px;
             }
+        }
+
+    }
+
+    .genre-selection-container{
+        flex:1;
+        border:1px solid #ccc;
+        width:50%;
+        background-color: $background-color-1;
+        position:absolute;
+        left:25%;
+        top:-50px;
+        height:200px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        .genre-selection-header{
+            border-bottom:1px solid;
+            height: 40px;
+            background-color: $background-color-2;
+            color:white;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            justify-content: space-between;
+            padding-left: $gaps;
+            padding-right: $gaps;
+
+            .close {
+                &:hover{
+                    cursor: pointer;
+                    color:$text-color-3;
+                }
+            }
+        }
+
+        .genre-selection-body {
+            padding: $gaps;
+
+            select {
+                height: 40px;
+                width:100%;
+            }
+        }
+
+        .genre-selection-actions {
+            padding: 0px $gaps $gaps $gaps;
+            display: flex;
+            justify-content: center;
         }
     }
 }

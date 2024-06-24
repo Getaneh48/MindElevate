@@ -71,6 +71,13 @@
                     color:$text-color-2;
                     font-weight: bold;
                 }
+
+                .actions{
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    gap: $gaps;
+                }
             }
 
             .close {
