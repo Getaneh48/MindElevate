@@ -9,6 +9,7 @@ export default function RecommendedBooks() {
     const [loading_recommendation, setLoadingRecommendation] = useState(false);
     const [bookmarkInfo, setBookmarkInfo] = useState(null);
     const selected_genre = useRef();
+    const [inprogress, setInProgress] = useState(false);
 
     useEffect(()=>{
         const getRecommendation = async () => {
@@ -35,6 +36,7 @@ export default function RecommendedBooks() {
 
     const handleBookmark = async () => {
         try {
+            setInProgress(true);
             const url = 'http://localhost:5001/api/v1/bookmarks/new';
             const book_api_url = `https://www.dbooks.org/api/book/${encodeURIComponent(bookmarkInfo.book.id)}`;
             const response = await fetch(book_api_url);
@@ -64,12 +66,19 @@ export default function RecommendedBooks() {
                         const data = await resp.json();
                         console.log(data)
                         if(data.success) {
-                            setBookmarkInfo(null)
+                            setBookmarkInfo(null);
+                            setInProgress(false);
+                            alert(data.message);
+                        } else {
+                            alert(data.message);
                         }
 
                     } else {
                         console.log(resp);
+                        setInProgress(false);
                     }
+                } else {
+                    setInProgress(false);
                 }
             }
         } catch (error) {
@@ -125,7 +134,18 @@ export default function RecommendedBooks() {
                                 }
                             </div>
                             <div className="genre-selection-actions">
-                                <button className="bookmark-now" onClick={handleBookmark}>Bookmark Now</button>
+                                {
+                                    inprogress ? (
+                                        <div className="genre-selection-action">
+                                            <img src={loading_icon} alt="saving in porgress" />
+                                             <button className="bookmark-now">Bookmark Now</button>
+                                        </div>
+                                       
+                                    ) : (
+                                        <button className="bookmark-now" onClick={handleBookmark}>Bookmark Now</button>
+                                    )
+                                }
+                                
                             </div>
                         </div>
                     ) : (
