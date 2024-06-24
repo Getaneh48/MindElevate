@@ -21,8 +21,8 @@ class BookmarkBook(BaseModel, Base):
     book_id = Column(String(120), ForeignKey('books.id'), nullable=False)
     bookmarked_by = Column(String(120), ForeignKey('users.id'), nullable=False)
     bookmarked_date = Column(DateTime, default=datetime.utcnow())
-    book = relationship('Book', cascade='all, delete')
-    user = relationship('User', cascade='all, delete', backref='bookmarked_books')
+    book = relationship('Book')
+    user = relationship('User', backref='bookmarked_books')
 
     def __init__(self, *args, **kwargs):
         """

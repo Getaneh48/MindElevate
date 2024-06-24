@@ -56,3 +56,10 @@ def genre_list():
     result = storage.all('BookGenre')
     result_dict = [genre.to_dict() for genre in result.values()]
     return jsonify(result_dict), 200
+
+@app_views.route('/books/title/<title>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
+def get_book_by_title(title):
+    book = storage.get_book_by_title(title)
+    book_dict = book.to_dict()
+    book_dict['genre'] = book.genre.to_dict()
+    return jsonify(book_dict), 200

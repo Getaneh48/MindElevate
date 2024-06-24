@@ -18,37 +18,42 @@ def books_read():
         reading = user.booksreading
         for br in reading:
             if br.status == 'completed':
-                book = br.book
-                br_dict = {}
-                for key, val in br.to_dict().items():
-                    if key != 'book':
-                        br_dict[key] = val
-                br_dict['book'] = book.to_dict()
+                print(br)
+                br_dict = br.to_dict()
+                if 'badge_id' in br.to_dict().keys():
+                    br_dict['badge'] = br.badge.to_dict()
+                book_dict = br.book.to_dict()
+                book_dict['genre'] = br.book.genre.to_dict()
+                br_dict['book'] = book_dict
                 bread.append(br_dict)
 
         return jsonify(bread), 200
     else:
         return jsonify({'status': False, 'message': 'Resource not found'}), 404
 
-@app_views.route('/booksread/<br_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/booksread/<br_id>', methods=['GET', 'PUT'], strict_slashes=False)
 def book_read(br_id):
-    user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
-    user = storage.get('User', user_id)
-    bread = storage.get('BookReading', br_id) 
-    if bread and bread.user_id == user_id:
-        if bread.status == 'completed':
-            book = bread.book
-            br_dict = {}
-            for key, val in bread.to_dict().items():
-                if key != 'book':
-                    br_dict[key] = val
-            br_dict['book'] = book.to_dict()
+    if request.method == 'GET':
+        user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+        user = storage.get('User', user_id)
+        bread = storage.get('BookReading', br_id) 
+        if bread and bread.user_id == user_id:
+            if bread.status == 'completed':
+                book = bread.book
+                br_dict = {}
+                for key, val in bread.to_dict().items():
+                    if key != 'book':
+                        br_dict[key] = val
+                br_dict['book'] = book.to_dict()
 
-            return jsonify(br_dict), 200
+                return jsonify(br_dict), 200
+            else:
+                return jsonify({'status': False, 'message': 'Resource not found'}), 404
         else:
             return jsonify({'status': False, 'message': 'Resource not found'}), 404
-    else:
-        return jsonify({'status': False, 'message': 'Resource not found'}), 404
+
+    if request.method == 'PUT':
+        pass
 
 @app_views.route('/booksread/<br_id>/favourite', methods=['POST'], strict_slashes=False)
 def add_book_to_favourites(br_id):
@@ -81,3 +86,20 @@ def search_books_read():
 
         return jsonify(search_result), 200
 
+@app_views.route('/booksread/by_genres', methods=['GET'], strict_slashes=False)
+def books_by_genre():
+    result = storage.get_books_count_by_genre(user_id)
+    return jsonify(result), 200
+
+@app_views.route('/booksread/most_pupular', methods=['GET'], strict_slashes=False)
+def most_popular_books():
+    most_read_books = storage.get_most_read_books()
+    most_liked_books = storage.get_most_liked_books()
+    most_fav_books = storage.get_most_favorited_books()
+
+    popular_books = most_read_books + most_liked_books + most_fav_books
+    popular_books = list(set(popular_books))
+
+    print(f"favorited - {popular_books}")
+    if popular_books:
+        return jsonify(dict(popular_books)), 200

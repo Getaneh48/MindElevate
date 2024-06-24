@@ -15,7 +15,7 @@ class Friend(BaseModel, Base):
     # friend_id = Column(String(120), ForeignKey('users.id'), nullable=False)
     user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
     friend_id = Column(String(120), nullable=False)
-    user = relationship('User', cascade='all, delete', backref='friends')
+    user = relationship('User', backref='friends')
 
     def __init__(self, *args, **kwargs):
         """

@@ -19,8 +19,8 @@ class FavouriteBook(BaseModel, Base):
     __tablename__ = 'favourite_books'
     book_id = Column(String(120), ForeignKey('books.id'), nullable=False, unique=True)
     user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
-    book = relationship('Book', cascade='all, delete')
-    user = relationship('User', cascade='all, delete', backref='favourite_books')
+    book = relationship('Book')
+    user = relationship('User', backref='favourite_books')
 
     def __init__(self, *args, **kwargs):
         """

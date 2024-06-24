@@ -17,7 +17,7 @@ class FriendRequest(BaseModel, Base):
     request_date = Column(DateTime, default=datetime.utcnow())
     status = Column(String(20), default='pending')
     message = Column(String(2554))
-    requested_user = relationship('User', cascade='all, delete', backref='friend_requests')
+    requested_user = relationship('User', backref='friend_requests')
 
     def __init__(self, *args, **kwargs):
         """

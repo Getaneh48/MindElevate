@@ -20,7 +20,9 @@ def favorites():
         for fav in favsb:
             f = {}
             f.update(fav.to_dict())
-            f.update({'book': fav.book.to_dict()})
+            book_dict = fav.book.to_dict()
+            book_dict['genre'] = fav.book.genre.to_dict()
+            f.update({'book': book_dict})
             favsb_list.append(f)
     else:
         return jsonify({'success': False, 'message': 'Record not found'}), 404
@@ -44,3 +46,68 @@ def favorite(f_id):
         if favb:
             favb.delete()
             return ''
+
+@app_views.route('/favorites/add', methods=['PUT'], strict_slashes=False)
+def mark_book_as_favorite():
+    if request.method == 'PUT':
+        if request.is_json:
+            try:
+                data = request.get_json();
+                book_reading = storage.get('BookReading', data['br_id'])
+                book_reading.is_favorite = True
+                book_reading.save()
+            
+                # save the like detail to the favorites table
+                fav = {
+                    'user_id': book_reading.user_id,
+                    'book_id': book_reading.book_id,
+                }
+
+                favorite = FavouriteBook(**fav)
+                favorite.add()
+                favorite.save()
+            except Exception as ex:
+                print(ex)
+
+            return jsonify({'success': True, 'message': 'Update successfull'}), 200
+
+
+@app_views.route('/favorites/remove', methods=['PUT'], strict_slashes=False)
+def remove_book_from_favorite():
+    if request.method == 'PUT':
+        if request.is_json:
+            data = request.get_json();
+            print(data)
+            book_reading = storage.get('BookReading', data['br_id'])
+            print(book_reading)
+            book_reading.is_favorite = False
+            book_reading.save()
+
+            return jsonify({'success': True, 'message': 'Update successfull'}), 200
+
+@app_views.route('/favorites/remove', methods=['POST'], strict_slashes=False)
+def remove_favorite_book():
+    if request.method == 'POST':
+        if request.is_json:
+            data = request.get_json()
+
+            fav_book = storage.get('FavouriteBook', data['id'])
+            if fav_book:
+                user_id = fav_book.user_id
+                book_id = fav_book.book_id
+
+                fav_book.delete()
+                # check if the favorite book is available on the books reading table
+                book_read = storage.get_bookreading_by_user_and_book(user_id, book_id)
+                print(f"fav-book: {book_read}")
+                if book_read:
+                    book_read.is_favorite = False
+                    # now , set is_favorite field of bookreading table to false
+                    book_read.save()
+            else:
+                return jsonify({'success': False, 'message': 'Bad Request'}), 400
+        else:
+            return jsonify({'success': False, 'message': 'Bad Request'}), 400
+
+        return jsonify({'success': True, 'message': 'Book Removed from favorite'}), 200
+

@@ -20,7 +20,7 @@ class BookReview(BaseModel, Base):
     reviewer_id = Column(String(120), ForeignKey('users.id'), nullable=False)
     description = Column(String(254), nullable=False)
     book = relationship('Book')
-    reviewer = relationship('User', cascade='all, delete', backref='books_reviewed')
+    reviewer = relationship('User', backref='books_reviewed')
 
     def __init__(self, *args, **kwargs):
         """

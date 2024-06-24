@@ -16,7 +16,7 @@ class ReadingLog(BaseModel, Base):
     hours_read = Column(Integer, nullable=False)
     status = Column(String(50), nullable=True)
     badge_id = Column(String(120), ForeignKey('badges.id'), nullable=True)
-    book_reading = relationship('BookReading', cascade='all, delete', backref='reading_logs')
+    book_reading = relationship('BookReading', backref='reading_logs')
     badge = relationship('Badge', backref='badge')
 
     def __init__(self, *args, **kwargs):

@@ -206,10 +206,9 @@ def reading_logs(br_id):
             total_pages_read = 0
             for log in book_reading.reading_logs:
                 total_pages_read += log.pages_read
-
+            
             # check if the read page count is not more than the remaining pages
             remaining_pages = book.pages - total_pages_read
-            print(remaining_pages)
             if int(data['pages_read']) > remaining_pages:
                 msg = "Pages read shouldn't be greater than the total pages remaining"
                 return jsonify({"success":False,
@@ -240,14 +239,22 @@ def reading_logs(br_id):
             # mark the status "completed" and assign a badge accordingly
 
             if (int(data['pages_read']) + total_pages_read) == book.pages:
-                print("completed")
                 book_reading.status = 'completed'
                 # assign badge
-                badge = storage.get_badge_by_type("page turner")
-                if badge:
-                    book_reading.badge_id = badge.id
+                # badge only will assigned if the user finishes the book befere
+                # the finishing goal
+
+                today = datetime.today()
+                created_at = book_reading.created_at;
+
+                diff = today - created_at
+                # check at least if the user finish before 75 % of the finishing goal
+                days_in_perc = int((diff.days / book_reading.expected_completion_day) * 100)
+                if days_in_perc <= 75:
+                    badge = storage.get_badge_by_type("page turner")
+                    if badge:
+                        book_reading.badge_id = badge.id
                 # save
-                print(book_reading)
                 book_reading.save()
 
             # new_log.add()
@@ -325,3 +332,24 @@ def reading_log(br_id, l_id):
             return jsonify({'success': True, 'message': 'Update successful'})
         else:
             return jsonify({'success': False, 'message': 'Reading Log Not Found'}), 404
+
+@app_views.route('/booksreading/like', methods=['PUT'], strict_slashes=False)
+def like_book():
+    if request.method == 'PUT':
+        if request.is_json:
+            data = request.get_json()
+
+            bookr = storage.get('BookReading', data['br_id'])
+            if bookr:
+                bookr.is_liked = data['is_liked']
+                try:
+                    bookr.save()
+                except Exception as ex:
+                    print(ex)
+
+                return jsonify({'success': True, 'mesasge': 'Book updated successfully'}), 200
+            else:
+                return jsonify({'success': False, 'message': 'Record not found'}), 404
+        else:
+            return jsonify({'success': False, 'message': 'Bad request'}), 400
+

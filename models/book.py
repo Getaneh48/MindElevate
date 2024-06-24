@@ -18,7 +18,9 @@ class Book(BaseModel, Base):
     pub_year = Column(Integer, nullable=False)
     pages = Column(Integer, nullable=False)
     cover_image = Column(String(254))
-    genre = relationship('BookGenre', cascade='all, delete')
+    subtitle = Column(String(length=500))
+    description = Column(String(length=1000))
+    genre = relationship('BookGenre')
 
     def __init__(self, *args, **kwargs):
         """
@@ -30,6 +32,8 @@ class Book(BaseModel, Base):
         self.pub_year = ''
         self.pages = 0
         self.cover_image = ''
+        self.subtitle = ''
+        self.description = ''
 
         if kwargs:
             for key, val in kwargs.items():

@@ -18,6 +18,7 @@ from models.recommend_book import RecommendBook
 from sqlalchemy import create_engine, desc, asc, text
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.session import sessionmaker, Session
+from sqlalchemy import text, select, func
 from os import getenv
 
 
@@ -94,6 +95,7 @@ class DBStorage:
         delete a model from the database
         """
         if obj:
+            print("deleting object")
             self.__session.delete(obj)
             self.__session.commit()
 
@@ -198,4 +200,72 @@ class DBStorage:
 
     def get_badge_by_type(self, btype):
         result = self.__session.query(Badge).filter(Badge.btype.like(f"%{btype}%")).first()
+        return result
+
+    def get_books_count_by_genre(self, user_id):
+        sql = text("select `bg`.name, count(`br`.book_id) as total_read from " \
+                   "`book_genres` as bg inner join `books` as b " \
+                   "on `bg`.id = `b`.genre_id inner join `book_readings` as br " \
+                   "on `b`.id = `br`.book_id  where `br`.user_id = :user_id " \
+                   "group by `bg`.name")
+
+        result = self.__session.execute(sql, params={'user_id': user_id}).fetchall()
+
+        return dict(result)
+    def get_most_read_books(self):
+        """
+        sql = text("select `b`.title, count(`b`.title) as Read_Count from book_readings as br inner join books as b on `br`.book_id = `b`.id group by `b`.title order by `Read_Count` desc limit 10")
+
+        result = self.__session.execute(sql).fetchall()
+        """
+        query = self.__session.query(Book.title, func.count(Book.title).label("Read_Count"))
+        query = query.join(BookReading, Book.id == BookReading.book_id)
+        query = query.group_by(Book.title)
+        query = query.order_by(func.count(Book.title).desc())
+        query = query.limit(5)
+
+        return query.all()
+
+    def get_most_liked_books(self):
+        query = self.__session.query(Book.title, func.count(Book.title).label("Liked_Count"))
+        query = query.join(BookReading, Book.id == BookReading.book_id)
+        query = query.group_by(Book.title)
+        query = query.filter(BookReading.is_liked == True)
+        query = query.order_by(func.count(Book.title).desc())
+        query = query.limit(5)
+        
+        return query.all()
+
+    def get_most_favorited_books(self):
+        query = self.__session.query(Book.title, func.count(Book.title).label("Favorited_Count"))
+        query = query.join(BookReading, Book.id == BookReading.book_id)
+        query = query.group_by(Book.title)
+        query = query.filter(BookReading.is_favorite == True)
+        query = query.order_by(func.count(Book.title).desc())
+        query = query.limit(5)
+        
+        return query.all()
+
+    def get_book_by_title(self, title):
+        result = self.__session.query(Book).filter(Book.title.like(f"%{title}%")).first()
+        return result
+
+    def get_favorite_book(self,user_id, book_id):
+        result = self.__session.query(FavouriteBook).\
+                                      filter(FavouriteBook.user_id == user_id, \
+                                             FavouriteBook.book_id == book_id).first()
+
+        return result
+
+    def get_bookreading_by_user_and_book(self, user_id, book_id):
+        result = self.__session.query(BookReading).\
+                                      filter(BookReading.user_id == user_id, \
+                                             BookReading.book_id == book_id).first()
+
+        return result
+
+    def get_bookmarked_book_by_userid_and_bookid(self, user_id, book_id):
+        result = self.__session.query(BookmarkBook).\
+                                      filter(BookmarkBook.bookmarked_by == user_id, \
+                                             BookmarkBook.book_id == book_id).first()
         return result

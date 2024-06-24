@@ -21,12 +21,13 @@ class BookReading(BaseModel, Base):
     hours_per_day = Column(Integer, default=0)
     expected_completion_day = Column(Integer, default=0)
     is_favorite = Column(Boolean)
+    is_liked = Column(Boolean)
     friend_visible = Column(Boolean)
     status = Column(String(20), default="on progress")
     badge_id = Column(String(120), ForeignKey('badges.id'))
-    user = relationship('User', cascade='all, delete', backref='booksreading')
-    book = relationship('Book', cascade='all, delete')
-    badge = relationship('Badge', cascade='all, delete')
+    user = relationship('User', backref='booksreading')
+    book = relationship('Book')
+    badge = relationship('Badge')
 
     def __init__(self, *args, **kwargs):
         """
@@ -40,6 +41,7 @@ class BookReading(BaseModel, Base):
         self.hours_per_day = 0
         self.expected_completion_day = 0
         self.is_favorite = False
+        self.is_liked = False
         self.friend_visible = False
         self.status = ''
 
