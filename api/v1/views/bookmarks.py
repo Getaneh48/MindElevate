@@ -69,21 +69,33 @@ def add_new_book_to_bookmark_list():
             data = request.get_json()
 
             try:
-                # first try to save the new book
-                new_book = Book(**data)
-                book_id = new_book.id
-                new_book.add()
-                new_book.save()
-
-                # second, store the bookmark info
-                new_bookmark = {
+                # first check if the book already exists before saving
+                existed_book = storage.get_book_by_title_author_and_year(data['title'],\
+                        data['author'], data['pub_year'])
+                if not existed_book:
+                    # first try to save the new book
+                    new_book = Book(**data)
+                    book_id = new_book.id
+                    new_book.add()
+                    new_book.save()
+                    
+                    # store the bookmark info
+                    new_bookmark = {
                         'book_id': book_id,
                         'bookmarked_by': user_id,
                         }
-                bbook = BookmarkBook(**new_bookmark)
-                bbook.add()
-                bbook.save()
-                return jsonify({'success': True, 'message': 'Bookmark successfull!'}), 200
+                    bbook = BookmarkBook(**new_bookmark)
+                    bbook.add()
+                    bbook.save()
+                    return jsonify({'success': True, 'message': 'The book is bookmarked successfully'}), 200
+                else:
+                    book_id = existed_book.id
+                    # check if the book is already bookmarked
+                    bookmarked_book = storage.get_bookmarked_book_by_userid_and_bookid(user_id, book_id)
+                    if bookmarked_book:
+                        return jsonify({'success': False, 'message': 'The book is already bookmarked'}), 200
+                    return jsonify({'success': True, 'message': 'The book is bookmarked successfully'}), 200
+
             except Exception as ex:
                 # log the error
 

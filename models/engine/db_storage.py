@@ -250,6 +250,12 @@ class DBStorage:
         result = self.__session.query(Book).filter(Book.title.like(f"%{title}%")).first()
         return result
 
+    def get_book_by_title_author_and_year(self, title, author, year):
+        result = self.__session.query(Book).filter(Book.title.like(f"%{title}%")).\
+                                            filter(Book.author.like(f"%{author}%")).\
+                                            filter(Book.pub_year == year).first()
+        return result
+
     def get_favorite_book(self,user_id, book_id):
         result = self.__session.query(FavouriteBook).\
                                       filter(FavouriteBook.user_id == user_id, \

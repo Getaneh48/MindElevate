@@ -13,7 +13,7 @@ class Book(BaseModel, Base):
     """
     __tablename__ = 'books'
     title = Column(String(120), nullable=False)
-    author = Column(String(120), nullable=False)
+    author = Column(String(length=500), nullable=False)
     genre_id = Column(String(120), ForeignKey("book_genres.id"), nullable=False)
     pub_year = Column(Integer, nullable=False)
     pages = Column(Integer, nullable=False)
