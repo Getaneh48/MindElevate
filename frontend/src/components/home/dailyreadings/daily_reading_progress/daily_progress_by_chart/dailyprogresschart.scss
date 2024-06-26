@@ -1,0 +1,51 @@
+.daily-progress-chart-container{
+    display: flex;
+    flex-direction: column;
+
+    .daily-progress-chart-header{
+        display: flex;
+        justify-content: flex-end;
+
+        select {
+            height: 40px;
+            border-radius: 10px;
+        }
+    }
+
+    .daily-progress-chart-body {
+        display: flex;
+        justify-content: space-between;
+
+        .prev{
+            flex:0.3;
+            display: flex;
+            align-items: center;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            img {
+                height:60px;
+            }
+        }
+
+        .daily-chart-content{
+            flex:2;
+        }
+
+        .next {
+            flex:0.3;
+            display: flex;
+            align-items: center;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            img {
+                height:60px;
+            }
+        }
+    }
+}
