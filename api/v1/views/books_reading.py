@@ -353,3 +353,15 @@ def like_book():
         else:
             return jsonify({'success': False, 'message': 'Bad request'}), 400
 
+@app_views.route('books_reading/<br_id>/logs/all', methods=['GET'], strict_slashes=False)
+def get_all_bookreading_log_summary(br_id):
+    results = storage.get_all_readinglogs_summary(br_id)
+    print(results)
+    if results:
+        logs = []
+        for row in results:
+            logs.append({'date': row[0].strftime("%Y-%m-%d"), 'total_pages': int(row[1])})
+        
+        return jsonify(logs), 200 
+    else:    
+        return jsonify({'success':False, 'message': 'No data found'}), 404

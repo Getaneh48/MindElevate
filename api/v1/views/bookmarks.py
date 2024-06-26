@@ -9,7 +9,7 @@ from flasgger.utils import swag_from
 import json
 
 user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
-@app_views.route('/bookmarks', methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route('/bookmarks', methods=['GET', 'POST', 'DELETE'], strict_slashes=False)
 def bookmarks():
     if request.method == 'GET':
         user = storage.get('User', user_id)
@@ -19,7 +19,9 @@ def bookmarks():
             for bm in bookmarked:
                 bm_d = {}
                 bm_d.update(bm.to_dict())
-                bm_d.update({'book': bm.book.to_dict()})
+                book_dict = bm.book.to_dict()
+                book_dict['genre'] = bm.book.genre.to_dict()
+                bm_d.update({'book': book_dict})
                 bmark_list.append(bm_d)
         else:
             return jsonify({'success': False, 'message': 'Record not found'}), 404
@@ -59,6 +61,18 @@ def bookmarks():
                 print(ex)
                 raise
                 return jsonify({'success': False, 'message': 'Unable to process the request'}), 200
+        else:
+            return jsonify({'success': False, 'message': 'Bad request'}), 400
+
+    if request.method == 'DELETE':
+        if request.is_json:
+            data = request.get_json()
+            bmark = storage.get('BookmarkBook', data['id'])
+            if bmark:
+                bmark.delete()
+                return jsonify({'success': False, 'message': 'Book removed from bookmark list'}), 200
+            else:
+                return jsonify({'success': False, 'message': 'Resource not found'}), 404
         else:
             return jsonify({'success': False, 'message': 'Bad request'}), 400
 
@@ -115,8 +129,3 @@ def bookmark(b_id):
             return jsonify(bm), 200
         else:
             return jsonify({'success': False, 'message': 'Resource not found'}), 404
-
-    if request.method == 'DELETE':
-        if bmark:
-            bmark.delete()
-            return ''

@@ -18,11 +18,15 @@ def books_recommended():
     sorted_data = dict(sorted(result.items(), key=lambda item: item[1], reverse=True))
     genres = list(sorted_data.keys())
     index = random.randint(1, len(genres))
-    url = f"https://www.dbooks.org/api/search/${genres[index - 1]}"
-    response = requests.get(url)
+    try:
+        url = f"https://www.dbooks.org/api/search/${genres[index - 1]}"
+        response = requests.get(url)
 
-    if response.status_code == 200:
-        data = response.json()
-        return jsonify(data['books'][0:10]), 200
-    else:
-        return jsonify({'success': False, 'message': 'Unable to fetch the data'}), 400
+        if response.status_code == 200:
+            data = response.json()
+            return jsonify(data['books'][0:10]), 200
+        else:
+            return jsonify({'success': False, 'message': 'Unable to fetch the data'}), 400
+    except requests.exceptions.ConnectionError as e:
+        print("Unable to communicate with the book api service")
+        return jsonify({'success': False, 'message': 'Unable to communicate with the book api service'}), 503

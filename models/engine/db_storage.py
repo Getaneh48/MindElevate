@@ -18,7 +18,7 @@ from models.recommend_book import RecommendBook
 from sqlalchemy import create_engine, desc, asc, text
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.session import sessionmaker, Session
-from sqlalchemy import text, select, func
+from sqlalchemy import text, select, func, Date
 from os import getenv
 
 
@@ -274,4 +274,13 @@ class DBStorage:
         result = self.__session.query(BookmarkBook).\
                                       filter(BookmarkBook.bookmarked_by == user_id, \
                                              BookmarkBook.book_id == book_id).first()
+        return result
+
+    def get_all_readinglogs_summary(self, br_id):
+        result = self.__session.query(func.cast(ReadingLog.created_at, Date).label('reading_date'),
+                               func.sum(ReadingLog.pages_read).label('pages_read')).\
+                                       filter(ReadingLog.br_id == br_id).\
+                                       group_by(func.cast(ReadingLog.created_at, Date)).\
+                                               all()
+
         return result
