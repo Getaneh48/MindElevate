@@ -1,0 +1,56 @@
+@import '../../../assets/styles/variables.scss';
+
+.bookmarked-book {
+    min-height:150px;
+    background-color: #f8f7fd;
+    border-radius: 10px;
+    padding:10px;
+    box-sizing: border-box;
+    display: flex;
+    gap:$gaps;
+
+    &:hover{
+        background-color: $background-color-1;
+    }
+    
+    .cover-image {
+        img {
+            height: 100px;
+        }
+    }
+    .book-info {
+        flex:1;
+        display: flex;
+        flex-direction: column;
+
+        .title{
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .bottom-info {
+            display: flex;
+            gap: $gaps;
+            color:$text-color-3;
+            font-weight: 500;
+            margin-top:5px;
+        }
+    }
+
+    .book-actions {
+        flex:1;
+        display: flex;
+        gap:$gaps;
+        align-items: center;
+        justify-content: flex-end;
+
+        img {
+            &:hover{
+                cursor: pointer;
+                opacity:0.5;
+            }
+                height: 40px;
+        }
+        
+    }
+}

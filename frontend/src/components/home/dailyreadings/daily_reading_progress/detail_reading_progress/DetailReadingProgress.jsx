@@ -5,6 +5,7 @@ import ReadingGoal from '../reading_goal/ReadingGoal';
 import TodayProgress from '../todays_progress/TodayProgress';
 import './detail_reading_progress.scss';
 import PropTypes from 'prop-types';
+import DailyProgressChart from '../daily_progress_by_chart/DailyProgressChart';
 
 export default function DetailReadingProgress({selected_book}) {
     const [show_daily_log_form, setShowDailyLogForm] = useState(false);
@@ -37,6 +38,7 @@ export default function DetailReadingProgress({selected_book}) {
 
                 <div className="reading-goals-container">
                     <ReadingGoal selected_book={selected_book} />
+                    <DailyProgressChart selected_book={selected_book}/>
                 </div>
 
                 <div className="todays-progress-conta">

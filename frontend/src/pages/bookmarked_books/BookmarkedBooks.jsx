@@ -1,13 +1,73 @@
 import './bookmarked_books.scss';
-import warning_icon from '../../assets/images/warning.png';
+//import warning_icon from '../../assets/images/warning.png';
 import loading_icon from '../../assets/images/loading.gif';
 import bookmarked_icon from '../../assets/images/bookmarked-books.png';
+import book_not_found_icon from '../../assets/images/book-not-found.png';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import BookmarkedBook from '../../components/home/bookmarked_books/BookmarkedBook';
+import { useNavigate } from 'react-router';
 
 export default function BookmarkedBooks() {
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [inprogress, setInProgress] = useState(true);
+    const [bookmarks, setBookmarks] = useState([]);
+    const navigate = useNavigate();
+    
+    const removeFromBookmark = async (id) => {
+        if (confirm("Are you sure?")) {
+            setInProgress(true);
+            try {
+                const url = `http://localhost:5001/api/v1/bookmarks`;
+                const pdata = {'id': id}
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(pdata),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setInProgress(false);
+                    setBookmarks(bookmarks.filter(bookmark => bookmark.id != id));
+                    alert(data.message);
+                } else {
+                    setInProgress(false);
+                }
+            } catch (error) {
+                console.log(error);
+                setInProgress(false);
+            }
+        }
+    }
+
+    const handleReadNow = async (book_id) => {
+        navigate(`/readbook/${book_id}/ext/${false}`)
+    }
+
+    useEffect(()=>{
+        const fetchBookmarks = async () => {
+            try {
+                setInProgress(true);
+                const url = 'http://localhost:5001/api/v1/bookmarks';
+    
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    setBookmarks(data);
+                    setInProgress(false)
+                } else {
+                    setInProgress(false);
+                }
+            } catch (error) {
+                console.log(error);
+                setInProgress(false);
+            }
+        }
+
+        fetchBookmarks();
+        
+    },[])
 
     return (
         <section className="bm-container">
@@ -16,8 +76,21 @@ export default function BookmarkedBooks() {
                 <span className="bm-header-title">Bookmarked</span>
             </div>
             <div className="bm-container">
-                <div className={`${error ? "error message-area" : "message-area"}`}><img src={warning_icon} alt="" /><span className="error">Network Error</span></div>
-                <div className={`${loading ? "active loading" : "loading"}`}><img src={loading_icon} alt="Loading content" /></div>
+                <div className={`${inprogress ? "active loading" : "loading"}`}><img src={loading_icon} alt="Loading content" /></div>
+                {
+                    bookmarks.length > 0 ? (
+                        bookmarks?.map((bbook, index) => {
+                            return (
+                                <BookmarkedBook bbook={bbook} removeFromBookmark={removeFromBookmark} handleReadNow={handleReadNow} key={index} />
+                            )
+                        })
+                    ) : (
+                        <div className="not-results-found">
+                            <img src={book_not_found_icon} alt="Bookmarked books list is empty" />
+                        </div>
+                    )
+                    
+                }
             </div>
         </section>
     )

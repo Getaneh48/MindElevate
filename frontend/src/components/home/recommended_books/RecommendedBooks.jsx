@@ -10,6 +10,7 @@ export default function RecommendedBooks() {
     const [bookmarkInfo, setBookmarkInfo] = useState(null);
     const selected_genre = useRef();
     const [inprogress, setInProgress] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(()=>{
         const getRecommendation = async () => {
@@ -22,7 +23,14 @@ export default function RecommendedBooks() {
                     console.log(data);
                     setRecommendedBooks(data);
                     setLoadingRecommendation(false);
+                } else {
+                    if (response.status == 503) {
+                        console.log(response.statusText)
+                        setError(response.statusText);
+                        setLoadingRecommendation(false);
+                    }
                 }
+
             } catch (error) {
                 console.log(error);
                 
@@ -105,6 +113,16 @@ export default function RecommendedBooks() {
                         <h3>No recommendation available</h3>
                     )
                     
+                }
+
+                {
+                    error ? (
+                        <div className="error_info">
+                            <span>{error}</span>
+                        </div>
+                    ) : (
+                        ''
+                    )
                 }
 
             </div>

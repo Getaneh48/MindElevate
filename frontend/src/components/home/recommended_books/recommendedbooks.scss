@@ -62,6 +62,17 @@
             }
         }
 
+        .error_info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex:1;
+
+            span {
+                font-weight: bold;
+            }
+        }
+
     }
 
     .genre-selection-container{

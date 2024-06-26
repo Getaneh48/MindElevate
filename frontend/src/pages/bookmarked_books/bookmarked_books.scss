@@ -3,9 +3,8 @@
 .bm-container{
     height: 82vh;
     overflow: auto;
-    padding:$gaps;
     box-sizing: border-box;
-    margin-top:40px;
+    margin-top:20px;
 
     .bm-header{
         display: flex;
@@ -23,6 +22,10 @@
     }
 
     .bm-container{
+        display: flex;
+        flex-direction: column;
+        gap: $gaps;
+
         .message-area{
             display: none;
 
@@ -52,6 +55,18 @@
 
             img {
                 width: 100px;
+            }
+        }
+
+        .not-results-found{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height:200px;
+
+            img {
+                width:100px;
             }
         }
     }
