@@ -1,6 +1,9 @@
+@import '../../../../../assets/styles/variables.scss';
+
 .daily-progress-chart-container{
     display: flex;
     flex-direction: column;
+    margin-top:20px;
 
     .daily-progress-chart-header{
         display: flex;
@@ -32,6 +35,11 @@
 
         .daily-chart-content{
             flex:2;
+            .max-page{
+                position: relative;
+                left: -2px;
+                color:$text-color-3;
+            }
         }
 
         .next {
@@ -47,5 +55,15 @@
                 height:60px;
             }
         }
+    }
+
+    .daily-progress-chart-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color:$text-color-3;
+        font-weight: 400;
+        font-size: 1.2em;
     }
 }
