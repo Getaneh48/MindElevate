@@ -1,5 +1,10 @@
 #!/usr/bin/python3
-""" objects that handles all default RestFul API actions for books reading """
+"""
+Module: api.v1.views
+
+This module defines the views and routes for the v1 version of the API. It includes endpoints for managing bookmarks,
+books, and user interactions.
+"""
 from models.bookmark_book import BookmarkBook
 from models import storage
 from models import Book
@@ -9,9 +14,26 @@ from flasgger.utils import swag_from
 import json
 
 user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
-@app_views.route('/bookmarks', methods=['GET', 'POST', 'DELETE'], strict_slashes=False)
+
+
+@app_views.route('/bookmarks', methods=['GET', 'POST', 'DELETE'],
+                 strict_slashes=False)
 def bookmarks():
+    """
+    Function: bookmarks
+
+    This function handles the /bookmarks endpoint and provides functionality for managing bookmarks.
+
+    Parameters:
+    - request: The incoming HTTP request object.
+
+    Returns:
+    A JSON response with appropriate status code and message.
+    """
     if request.method == 'GET':
+        """
+        Get the user's bookmarked books and return them as a list.
+        """
         user = storage.get('User', user_id)
         bmark_list = []
         if user.bookmarked_books:
@@ -24,11 +46,15 @@ def bookmarks():
                 bm_d.update({'book': book_dict})
                 bmark_list.append(bm_d)
         else:
-            return jsonify({'success': False, 'message': 'Record not found'}), 404
+            return jsonify({'success': False,
+                            'message': 'Record not found'}), 404
 
         return jsonify(bmark_list), 200
 
     if request.method == 'POST':
+        """
+        Add a new bookmark for a book.
+        """
         if request.is_json:
             data = request.get_json()
             new_bookmark = {
@@ -38,33 +64,40 @@ def bookmarks():
 
             try:
                 # first, check if the book exists
-                book = storage.get('Book',data['id'])
+                book = storage.get('Book', data['id'])
                 if not book:
-                    return jsonify({'success': False, 'message': "The book doesn't exist"}), 200
+                    return jsonify({'success': False,
+                                    'message': "The book doesn't exist"}), 200
                 # second, check if the book is already been bookmarked
                 result = storage.get_bookmarked_book_by_userid_and_bookid(user_id, data['id'])
                 if result:
-                    return jsonify({'success': False, 'message': 'The book is already been bookmarked'}), 200
-                # third, check if the book is already read, if it is, there is no
-                # point bookmarking it.
+                    return jsonify({'success': False,
+                                    'message': 'The book is already been bookmarked'}), 200
+                # third, check if the book is already read, if it is,
+                # there is no point bookmarking it.
                 book_reading = storage.get_bookreading_by_user_and_book(user_id, data['id'])
                 if book_reading:
-                    return jsonify({'success': False, 'message': 'The book has already been read'}), 200
+                    return jsonify({'success': False, 
+                                    'message': 'The book has already been read'}), 200
 
                 # finally save the bookmark
                 bbook = BookmarkBook(**new_bookmark)
                 bbook.add()
                 bbook.save()
 
-                return jsonify({'success': True, 'message': 'Bookmark successfull'}), 200
+                return jsonify({'success': True,
+                                'message': 'Bookmark successfull'}), 200
             except Exception as ex:
-                print(ex)
                 raise
-                return jsonify({'success': False, 'message': 'Unable to process the request'}), 200
+                return jsonify({'success': False, 
+                                'message': 'Unable to process the request'}), 200
         else:
             return jsonify({'success': False, 'message': 'Bad request'}), 400
 
     if request.method == 'DELETE':
+        """
+        Delete a bookmark for a book.
+        """
         if request.is_json:
             data = request.get_json()
             bmark = storage.get('BookmarkBook', data['id'])
@@ -78,6 +111,17 @@ def bookmarks():
 
 @app_views.route('/bookmarks/new', methods=['POST'], strict_slashes=False)
 def add_new_book_to_bookmark_list():
+    """
+    Function: add_new_book_to_bookmark_list
+
+    This function handles the /bookmarks/new endpoint and allows adding a new book to the bookmark list.
+
+    Parameters:
+    - request: The incoming HTTP request object.
+
+    Returns:
+    A JSON response with appropriate status code and message.
+    """
     if request.method == 'POST':
         if request.is_json:
             data = request.get_json()
@@ -119,6 +163,18 @@ def add_new_book_to_bookmark_list():
 
 @app_views.route('/bookmarks/<b_id>', methods=['GET', 'DELETE'], strict_slashes=False)
 def bookmark(b_id):
+    """
+    Function: bookmark
+
+    This function handles the /bookmarks/<b_id> endpoint and provides operations on a specific bookmark.
+
+    Parameters:
+    - b_id: The ID of the bookmark.
+    - request: The incoming HTTP request object.
+
+    Returns:
+    A JSON response with appropriate status code and message.
+    """
     bmark = storage.get('BookmarkBook', b_id)
 
     if request.method == 'GET':
