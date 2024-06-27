@@ -7,9 +7,10 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import String, Column, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
+
 class FriendRequest(BaseModel, Base):
     """
-    
+    A class representing a friend request
     """
     __tablename__ = 'friend_requests'
     request_from = Column(String(120), nullable=False)
@@ -21,6 +22,7 @@ class FriendRequest(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """
+        A constructor method to initialize attributes of the object
         """
         super().__init__()
 

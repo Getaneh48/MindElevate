@@ -18,7 +18,7 @@ class RecommendBook(BaseModel, Base):
     recommender_id = Column(String(120), nullable=False)
     book_id = Column(String(120), ForeignKey('books.id'), nullable=False)
     description = Column(TEXT)
-    user  = relationship('User', cascade='all', backref='books_recommended')
+    user = relationship('User', cascade='all', backref='books_recommended')
 
     def __init__(self, *args, **kwargs):
         """
@@ -31,7 +31,7 @@ class RecommendBook(BaseModel, Base):
         super().__init__()
         self.book_id = ''
         self.recommender_id = ''
-        self.user_id= ''
+        self.user_id = ''
         self.description = ''
 
         if kwargs:

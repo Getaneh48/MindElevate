@@ -17,7 +17,8 @@ class FavouriteBook(BaseModel, Base):
         user_id (str): The ID of the user who mark the book as a favourite.
     """
     __tablename__ = 'favourite_books'
-    book_id = Column(String(120), ForeignKey('books.id'), nullable=False, unique=True)
+    book_id = Column(String(120), ForeignKey('books.id'),
+                     nullable=False, unique=True)
     user_id = Column(String(120), ForeignKey('users.id'), nullable=False)
     book = relationship('Book')
     user = relationship('User', backref='favourite_books')

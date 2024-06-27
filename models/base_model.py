@@ -17,7 +17,8 @@ class BaseModel:
         created_at (datetime): The datetime the object was created.
         updated_at (datetime): The datetime the object was last updated.
     """
-    id = Column(String(120), nullable=False, default=str(uuid.uuid4()), primary_key=True)
+    id = Column(String(120), nullable=False,
+                default=str(uuid.uuid4()), primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
@@ -48,7 +49,8 @@ class BaseModel:
 
         for key in dictionary.keys():
             if isinstance(dictionary[key], datetime):
-                dictionary[key] = dictionary[key].strftime("%Y-%m-%dT%H:%M:%S.%f")
+                dictionary[key] = dictionary[key].\
+                                  strftime("%Y-%m-%dT%H:%M:%S.%f")
 
         return dictionary
 
