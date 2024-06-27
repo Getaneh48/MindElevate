@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import PropTypes from 'prop-types';
 import MonthSelector from '../../../../month_selector/MonthSelector';
 import { useEffect, useState } from 'react';
+//import moment from 'moment';
 
 
 
@@ -17,10 +18,10 @@ const MyBarChart = ({ data, max_page }) => {
   
     return (
       <BarChart width={700} height={300} data={data}>
-        <XAxis dataKey="date" tickFormatter={formatDate}/>
-        <YAxis  domain={[0, max_page]}/>
+        <XAxis dataKey="date" tickFormatter={formatDate} stroke="#1a5678" strokeWidth={4}/>
+        <YAxis  domain={[0, max_page]} stroke="#1a5678" strokeWidth={4}/>
         <Tooltip />
-        <Bar dataKey="total_pages" fill="#1a5678" />
+        <Bar dataKey="total_pages" fill="#ff7088" />
       </BarChart>
     );
   };
@@ -102,12 +103,28 @@ export default function DailyProgressChart({selected_book}) {
     },[selected_book.id]);
 
     useEffect(()=>{
-       setWeek(1); // reset the week to the start for every month change
-       
+        const today = new Date();
+        const num_weeks = getNumberOfWeeksInMonth(today.getFullYear(), today.getMonth());
+        const today_str = today.toLocaleDateString();
+        let found = false;
+
+        for(let w = 1; w < num_weeks; w++) {
+            const result = getStartandEndDateOfWeek(w);
+            if (today_str >= result.start_date && today_str <= result.end_date){
+                setWeek(w);
+                found = true;
+                break;
+            }
+        }
+
+        if (found == false){
+            setWeek(1); // reset the week to the start for every month change
+        } 
+
     },[selected_month]);
 
     useEffect(()=> {
-        
+        console.log(week);
         const result = getStartandEndDateOfWeek(week);
         
         let dt = result.start_date;
@@ -131,10 +148,7 @@ export default function DailyProgressChart({selected_book}) {
             }
             dt = incrementDateByOneDay(new Date(dt), 'yyyy-MM-dd');
         }
-
-        console.log(datas);
         setData(datas);
-        
     }, [week, selected_month, all_readings])
 
     // Handle next week button click
@@ -168,10 +182,15 @@ export default function DailyProgressChart({selected_book}) {
                     <img src={prev_icon} alt="" />
                 </div>
                 <div className="daily-chart-content">
+                    <span className="max-page">Max Page</span>
                     <MyBarChart data={datas} max_page={selected_book.book.pages} />
                 </div>
                 <div className="next" onClick={handleNextWeek}>
                     <img src={next_icon} alt="" /></div>
+            </div>
+
+            <div className="daily-progress-chart-footer">
+                <span className="chart-label">Daily Readings</span>
             </div>
             
         </div>
