@@ -24,7 +24,9 @@ def books_recommended():
 
         if response.status_code == 200:
             data = response.json()
-            return jsonify(data['books'][0:10]), 200
+            if data['status'] == 'ok':
+                return jsonify(data['books'][0:10]), 200
+            return jsonify({'success': False, 'message': 'Resource not found'}), 404 
         else:
             return jsonify({'success': False, 'message': 'Unable to fetch the data'}), 400
     except requests.exceptions.ConnectionError as e:
