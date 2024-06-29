@@ -23,69 +23,71 @@ def books_reading():
             reading = user.booksreading
             for br in reading:
                 br_dict = br.to_dict()
-                br_dict['book'] = br.book
+                br_dict['book'] = br.book.to_dict()
                 breading.append(br_dict)
 
         return jsonify(breading)
 
     if request.method == 'POST':
         data = request.get_json()
-
-        book_data = {
+        if request.is_json:
+            book_data = {
                 'title': data['book']['title'],
                 'author': data['book']['authors'],
                 'genre_id': data['reading_info']['genre'],
                 'pub_year': int(data['book']['year']),
                 'pages': int(data['book']['pages']),
                 'cover_image': data['book']['image']
-        }
+            }
 
-        try:
-            # check if the book is already been saved
-            results = storage.search_books({'title': data['book']['title']})
-            found = False
-            found_book = None
-            book_id = None
-            for result in results:
-                if result.title == data['book']['title'] and \
+            try:
+                # check if the book is already been saved
+                results = storage.search_books({'title': data['book']['title']})
+                found = False
+                found_book = None
+                book_id = None
+                for result in results:
+                    if result.title == data['book']['title'] and \
                         result.author == data['book']['authors'] and \
                         result.pub_year == int(data['book']['year']):
                             found = True
                             found_book = result
                             break
-            if found:
-                book_id = found_book.id
-                # check if the book is being read or completed reading
-                reading = storage.get_reading_by_book(user_id, found_book.id)
-                if reading:
-                    if reading.status == "completed":
-                        return jsonify({'success': False, 'message': 'The book has already been read!'}), 200
-                    else:
-                        return jsonify({'success': False, 'message': 'Reading the book is on progress'}), 200
-            else:
-                # first save the book
-                new_book = Book(**book_data)
-                book_id = new_book.id
-                storage.add(new_book)
-                storage.save()
+                if found:
+                    book_id = found_book.id
+                    # check if the book is being read or completed reading
+                    reading = storage.get_reading_by_book(user_id, book_id)
+                    if reading:
+                        if reading.status == "completed":
+                            return jsonify({'success': False, 'message': 'The book has already been read!'}), 200
+                        else:
+                            return jsonify({'success': False, 'message': 'Reading the book is on progress'}), 200
+                else:
+                    # first save the book
+                    new_book = Book(**book_data)
+                    book_id = new_book.id
+                    storage.add(new_book)
+                    storage.save()
 
-            # Reading goal data
-            reading_goal_data = {
-                'user_id': user_id,
-                'book_id': book_id,
-                'pages_per_day': data['reading_info']['pages_per_day'],
-                'hours_per_day': data['reading_info']['pages_per_hour'],
-                'expected_completion_day': data['reading_info']['days_to_finish'],
-                'status': 'on progress',
-                }
+                # Reading goal data
+                reading_goal_data = {
+                    'user_id': user_id,
+                    'book_id': book_id,
+                    'pages_per_day': data['reading_info']['pages_per_day'],
+                    'hours_per_day': data['reading_info']['pages_per_hour'],
+                    'expected_completion_day': data['reading_info']['days_to_finish'],
+                    'status': 'on progress',
+                    }
 
-            new_book_reading = BookReading(**reading_goal_data)
-            new_book_reading.add()
-            new_book_reading.save()
+                new_book_reading = BookReading(**reading_goal_data)
+                new_book_reading.add()
+                new_book_reading.save()
 
-            return jsonify({'success': True, 'message': 'The book has been saved successfully'}), 200
-        except Exception as ex:
-            return jsonify({'success': False, 'message': 'Error occured'}), 500
+                return jsonify({'success': True, 'message': 'The book has been saved successfully'}), 200
+            except Exception as ex:
+                return jsonify({'success': False, 'message': 'Error occured'}), 500
+        else:
+            return jsonify({'success': False, 'message': 'Bad request'}), 415
 
 @app_views.route('/books_reading/onprogress', methods=['GET'], strict_slashes=False)
 def reading_onprogress():
