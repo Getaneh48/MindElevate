@@ -257,9 +257,8 @@ class DBStorage:
         return result
 
     def get_book_on_reading_by_title(self, title):
-        result = self.__session.query(BookReading).join(Book, Bookd.id == BookReading.book_id).\
-                                                  .filter(Book.title.like(f"%{title}%")).first()
-
+        result = self.__session.query(BookReading).join(Book, Book.id == BookReading.book_id).\
+                                                   filter(Book.title.like(f"%{title}%")).first()
         return result;
 
     def get_favorite_book(self,user_id, book_id):
