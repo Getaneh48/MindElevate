@@ -60,6 +60,9 @@ def genre_list():
 @app_views.route('/books/title/<title>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 def get_book_by_title(title):
     book = storage.get_book_by_title(title)
-    book_dict = book.to_dict()
-    book_dict['genre'] = book.genre.to_dict()
-    return jsonify(book_dict), 200
+    if book:
+        book_dict = book.to_dict()
+        book_dict['genre'] = book.genre.to_dict()
+        return jsonify(book_dict), 200
+    else:
+        return jsonify({'success': False, 'message': 'book information not found'}), 404
