@@ -60,7 +60,8 @@ def genre_list():
 @app_views.route('/books/title/<title>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 def get_book_by_title(title):
     book = storage.get_book_by_title(title)
-    if book:
+
+    if book is not None:
         book_dict = book.to_dict()
         book_dict['genre'] = book.genre.to_dict()
         return jsonify(book_dict), 200
