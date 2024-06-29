@@ -28,11 +28,16 @@ def test_can_get_book_on_progress():
 def test_can_add_book_to_favorite():
     bookr_id = add_new_book_reading()
     bookr = storage.get('BookReading', bookr_id)
-    data = {'user_id': user_id, 'bookr_id': bookr.book_id}
     response = requests.post(url + 'booksread/' + bookr_id + '/favourite')
     assert response.status_code == 200
     assert response.json()['success'] == True
     assert response.json()['message'] == 'Book added to favourites'
+
+def test_can_non_existent_book_added_to_favorite():
+    response = requests.post(url + 'booksread/34343-f3433' + '/favourite')
+    assert response.status_code == 404
+    assert response.json()['success'] == False
+    assert response.json()['message'] == 'Resource not found!'
 
 def add_new_book_reading(status='on progress'):
     user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
