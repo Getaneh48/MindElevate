@@ -14,14 +14,14 @@ def books_read():
     user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
     user = storage.get('User', user_id)
     bread = []
-    if user.booksreading:
+    if user.booksreading is not None:
         reading = user.booksreading
         for br in reading:
             if br.status == 'completed':
-                print(br)
                 br_dict = br.to_dict()
                 if 'badge_id' in br.to_dict().keys():
-                    br_dict['badge'] = br.badge.to_dict()
+                    if br.badge is not None:
+                        br_dict['badge'] = br.badge.to_dict()
                 book_dict = br.book.to_dict()
                 book_dict['genre'] = br.book.genre.to_dict()
                 br_dict['book'] = book_dict
