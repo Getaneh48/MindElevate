@@ -194,8 +194,8 @@ class DBStorage:
         return query_result
 
     def get_reading_by_book(self, user_id, book_id):
-        result = self.__session.query(BookReading).filter(BookReading.user_id == user_id).\
-                                                   filter(BookReading.book_id == book_id).first()
+        result = self.__session.query(BookReading).filter(BookReading.user_id == user_id,
+                                                          BookReading.book_id == book_id).first()
         return result
 
     def get_badge_by_type(self, btype):
@@ -255,6 +255,12 @@ class DBStorage:
                                             filter(Book.author.like(f"%{author}%")).\
                                             filter(Book.pub_year == year).first()
         return result
+
+    def get_book_on_reading_by_title(self, title):
+        result = self.__session.query(BookReading).join(Book, Bookd.id == BookReading.book_id).\
+                                                  .filter(Book.title.like(f"%{title}%")).first()
+
+        return result;
 
     def get_favorite_book(self,user_id, book_id):
         result = self.__session.query(FavouriteBook).\
