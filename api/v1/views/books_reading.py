@@ -166,9 +166,9 @@ def get_reading_book(rb_id):
         if book_reading:
             print('deleting...')
             storage.delete()
-            return jsonify({"success": True}), 200
+            return jsonify({"success": True, 'message': 'book reading information deleted successfully'}), 200
         else:
-            return abort(404)
+            return jsonify({'success': False, 'message': 'book reading information not found'}), 404
     else:
         abort(405)
     return ''
@@ -185,7 +185,7 @@ def reading_logs(br_id):
             rlogs_dict.reverse()
             return jsonify(rlogs_dict), 200
         else:
-            return abort(404)
+            return jsonify({'success': False, 'message': 'book reading information not found'}), 404
 
     if request.method == 'POST':
         data = request.get_json()
@@ -262,7 +262,7 @@ def reading_logs(br_id):
             # new_log.add()
             # new_log.save()
         else:
-            return abort(404)
+            return jsonify({'success': False, 'message': 'book reading information not found'}), 404
 
     return jsonify({"success": True}), 200
 
@@ -277,8 +277,8 @@ def reading_log(br_id, l_id):
             for rl in rlogs:
                 if rl.id == l_id:
                     return jsonify(rl.to_dict()), 200
-
-        return jsonify({"success", False}), 404
+        else:
+            return jsonify({"success", False}), 404
 
     if request.method == 'PUT':
         # check if reading the book is completed
@@ -349,7 +349,7 @@ def like_book():
                 except Exception as ex:
                     print(ex)
 
-                return jsonify({'success': True, 'mesasge': 'Book updated successfully'}), 200
+                return jsonify({'success': True, 'message': 'Book updated successfully'}), 200
             else:
                 return jsonify({'success': False, 'message': 'Record not found'}), 404
         else:
@@ -358,7 +358,6 @@ def like_book():
 @app_views.route('books_reading/<br_id>/logs/all', methods=['GET'], strict_slashes=False)
 def get_all_bookreading_log_summary(br_id):
     results = storage.get_all_readinglogs_summary(br_id)
-    print(results)
     if results:
         logs = []
         for row in results:
