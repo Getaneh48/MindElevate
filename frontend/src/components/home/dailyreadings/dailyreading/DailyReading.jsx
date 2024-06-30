@@ -3,6 +3,7 @@ import pages_read_icon from '../../../../assets/images/pages_read.png';
 import hour from '../../../../assets/images/24_hour.png';
 import daily_badge from '../../../../assets/images/badges/daily_badge.png';
 import progress_icon from '../../../../assets/images/progress_icon.png'
+import open_book_icon from '../../../../assets/images/open-book-4.png';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -38,7 +39,7 @@ export default function DailyReading({breading}) {
         <Link to={`/readingprogress/${breading?.id}`}>
         <article className='daily-reading'>
                 <div className="book-info">
-                    <div className="book-cover-image"><img src={breading?.book.cover_image} /></div>
+                    <div className="book-cover-image"><img src={breading?.book.cover_image ? breading?.book.cover_image : open_book_icon} /></div>
                     <div className="book-desc">
                         <span className="book-title">{breading?.book.title}</span>
                         <span className="book-author">Authors - {breading?.book.author}</span>
