@@ -45,9 +45,6 @@ def bookmarks():
                 book_dict['genre'] = bm.book.genre.to_dict()
                 bm_d.update({'book': book_dict})
                 bmark_list.append(bm_d)
-        else:
-            return jsonify({'success': False,
-                            'message': 'Record not found'}), 404
 
         return jsonify(bmark_list), 200
 
@@ -57,6 +54,8 @@ def bookmarks():
         """
         if request.is_json:
             data = request.get_json()
+            if 'id' not in data:
+                return jsonify({'success': False, 'message': 'Bad request'}), 400
             new_bookmark = {
                     'bookmarked_by': user_id,
                     'book_id': data['id']
