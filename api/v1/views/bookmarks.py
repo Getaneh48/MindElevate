@@ -99,6 +99,8 @@ def bookmarks():
         """
         if request.is_json:
             data = request.get_json()
+            if 'id' not in data:
+                return jsonify({'success': False, 'message': 'Bad request'}), 400
             bmark = storage.get('BookmarkBook', data['id'])
             if bmark:
                 bmark.delete()
