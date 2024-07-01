@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import './leftsidemainmenu.scss';
-import home_icon_active from '../../../assets/images/Home-active.png';
-import home_icon from '../../../assets/images/Home.png';
+//import home_icon_active from '../../../assets/images/Home-active.png';
+//import home_icon from '../../../assets/images/Home.png';
 import books_read_active_icon from '../../../assets/images/books-read-2-active.png';
 import books_read_icon from '../../../assets/images/books-read-2.png';
 //import open_book from '../../../assets/images/open-book.png';
+import dashboard_icon from '../../../assets/images/dashboard.png';
+import dashboard_active_icon from '../../../assets/images/dashboard-active.png';
 import bookmarked_books from '../../../assets/images/bookmarked_books.png';
 import bookmarked_books_active from '../../../assets/images/bookmarked_book_active.png';
 import favorite_books from '../../../assets/images/favorite-books-2.png';
@@ -22,9 +24,9 @@ export default function LeftSideMainMenu() {
                         <Link to="/" onClick={()=>setActiveMenu(1)}>
                             {
                                 active_menu_id == 1 ? (
-                                    <img src={home_icon_active} alt="Home icon active"/>
+                                    <img src={dashboard_active_icon} alt="Dashboard icon active"/>
                                 ) : (
-                                    <img src={home_icon} alt="Home" />
+                                    <img src={dashboard_icon} alt="Dashboard" />
                                 )
                             }
                             
