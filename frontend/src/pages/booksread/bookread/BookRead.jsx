@@ -5,6 +5,7 @@ import like_icon from '../../../assets/images/like.png';
 import liked_icon from '../../../assets/images/liked.png';
 import favorite_icon from '../../../assets/images/favorite.png';
 import favorite_marked from '../../../assets/images/favorite-marked.png';
+import open_book_icon from '..//../../assets/images/open-book-4.png';
 import getBadge from '../../../datas/badges';
 import { useEffect, useState } from 'react';
 
@@ -80,7 +81,7 @@ export default function BookRead({bookr}) {
     console.log(is_favorite);
     return (
         <div className="book-read-container">
-            <div className="cover-image"><img src={bookr.book.cover_image} alt="" /></div>
+            <div className="cover-image"><img src={bookr.book.cover_image ? bookr.book.cover_image : open_book_icon} alt="" /></div>
             <div className="book-info">
                 <span className="title">{bookr.book.title}</span>
                 <span className="authors">{bookr.book.author}</span>
