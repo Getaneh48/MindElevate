@@ -36,7 +36,7 @@ export default function DailyReading({breading}) {
     }, [breading])
 
     return (
-        <Link to={`/readingprogress/${breading?.id}`}>
+        <Link to={`/melv/readingprogress/${breading?.id}`}>
         <article className='daily-reading'>
                 <div className="book-info">
                     <div className="book-cover-image"><img src={breading?.book.cover_image ? breading?.book.cover_image : open_book_icon} /></div>
