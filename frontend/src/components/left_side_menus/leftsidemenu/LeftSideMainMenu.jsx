@@ -21,7 +21,7 @@ export default function LeftSideMainMenu() {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/" onClick={()=>setActiveMenu(1)}>
+                        <Link to="/melv" onClick={()=>setActiveMenu(1)}>
                             {
                                 active_menu_id == 1 ? (
                                     <img src={dashboard_active_icon} alt="Dashboard icon active"/>
@@ -33,7 +33,7 @@ export default function LeftSideMainMenu() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/booksread" onClick={()=>setActiveMenu(2)}>
+                        <Link to="/melv/booksread" onClick={()=>setActiveMenu(2)}>
                             {
                                     active_menu_id == 2 ? (
                                         <img src={books_read_active_icon} />
@@ -45,7 +45,7 @@ export default function LeftSideMainMenu() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/bookmarked" onClick={()=>setActiveMenu(3)}>
+                        <Link to="/melv/bookmarked" onClick={()=>setActiveMenu(3)}>
                             {
                                     active_menu_id == 3 ? (
                                         <img src={bookmarked_books_active} />
@@ -57,7 +57,7 @@ export default function LeftSideMainMenu() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/favorites" onClick={()=>setActiveMenu(4)}>
+                        <Link to="/melv/favorites" onClick={()=>setActiveMenu(4)}>
                         {
                                 active_menu_id == 4 ? (
                                     <img src={favorite_books_active} />
@@ -68,7 +68,7 @@ export default function LeftSideMainMenu() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/"><img src={reading_friends} /></Link>
+                        <Link to="/melv"><img src={reading_friends} /></Link>
                     </li>
                 </ul>
             </nav>

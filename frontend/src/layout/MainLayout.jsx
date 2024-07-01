@@ -14,7 +14,7 @@ export default function MainLayout() {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        location.pathname !== '/' ? setIsDefaultLocation(false) : setIsDefaultLocation(true);
+        location.pathname !== '/melv' ? setIsDefaultLocation(false) : setIsDefaultLocation(true);
     },[location,setIsDefaultLocation])
 
     useEffect(()=> {

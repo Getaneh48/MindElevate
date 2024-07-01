@@ -7,12 +7,14 @@ import DailyReadingProgress from './components/home/dailyreadings/daily_reading_
 import BooksRead from './pages/booksread/BooksRead';
 import BookmarkedBooks from './pages/bookmarked_books/BookmarkedBooks';
 import FavoriteBooks from './pages/favorite_books/FavoriteBooks';
+import LandingPage from './pages/landing_page/LandingPage';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<MainLayout />}>
+        <Route exact path="/" element={<LandingPage />} />
+        <Route exact path="/melv" element={<MainLayout />}>
             <Route exact path="readbook" element={<ReadBook />} />
             <Route exact path="readbook/:id/ext/:ext" element={<ReadBook />} />
             <Route exact path="readingprogress" element={<DailyReadingProgress />} />

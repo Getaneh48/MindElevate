@@ -1,0 +1,194 @@
+$header-height: 60px;
+$title-color: #ff7088;
+$gap: 16px;
+
+
+.landing-page-container {
+    background-color: #ecedf1;
+    min-height:100vh;
+    a {
+        color: white;
+    }
+    .landing-page-header {
+        background-color: #1a5678;
+        height:$header-height;
+        color:white;
+        font-weight: 400;
+        font-size: 1.4em;
+        padding:0px 16px 0px 0px;
+        position: fixed;
+        width:100%;
+        header {
+            display: flex;
+            justify-content: space-evenly;
+            height: $header-height;
+
+            .landing-page-header-left{
+                flex: 1;
+            }
+
+            .landing-page-header-center {
+                flex:0.5;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                img {
+                    width:100px;
+                    position: absolute;
+                    top:10px;
+                }
+            }
+
+            .landing-page-header-right{
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap:16px;
+
+                a:hover{
+                    cursor: pointer;
+                    color:#ff7088;
+                }
+            }
+        }
+    }
+
+    .landing-page-body {
+        padding:16px;
+        display: flex;
+        flex-direction: column;
+        gap: calc(3 * $gap);
+
+        section.about{
+            margin-top:100px;
+            border-radius: 20px;
+            // border:1px solid #ccc;
+            padding: $gap;
+            display: flex;
+            flex-direction: column;
+            gap:$gap;
+            .title{
+                font-size: 2.5em;
+                font-weight: bold;
+                color:$title-color;
+            }
+
+            .content{
+                font-size: 1.5em;
+                display: flex;
+
+                span {
+                    flex:1;
+                    font-size: 1.5em;
+                }
+                .shot{
+                    flex:2;
+                    img {
+                        width:400px;
+                    }
+                }
+                
+            }
+        }
+
+        section.content-2{
+            border:1px solid;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #1a5678;
+            color:white;
+            border-radius: 20px;
+
+            .title{
+                font-size: 2.5em;
+                margin-bottom: calc(2 * $gap);
+                padding:$gap;
+                font-weight: bold;
+            }
+
+            .content{
+                display: flex;
+                gap: $gap;
+                span{
+                    flex:1;
+                    text-align: end;
+                    font-size: 1.5em;
+                    font-weight: bold;
+                }
+                .shot{
+                    flex:1;
+                    img {
+                        width:400px;
+                    }
+                }
+            }
+        }
+
+        section.content-3{
+            display: flex;
+            flex-direction: column;
+
+            .title{
+                font-size:2.5em;
+                color:$title-color;
+                font-weight: bold;
+                margin-bottom: calc(2 * $gap);
+                margin-top:calc(2 * $gap);
+            }
+
+            .content{
+                display: flex;
+                gap: $gap;
+                span {
+                    flex:1;
+                    font-size: 1.5em;
+                }
+
+                .shot{
+                    flex:2;
+                }
+            }
+        }
+
+        section.content-4{
+            padding:70px;
+            border-radius:10%;
+            height:400px;
+            background-color: $title-color;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color:white;
+
+            .title{
+                font-size:2.5em;
+                font-weight: bold;
+            }
+
+            .content{
+                flex:1;
+                display: flex;
+                gap: $gap;
+                padding:40px;
+                span{
+                    flex:1;
+                    text-align: right;
+                    font-size: 2em;
+                }
+                .shot{
+                    flex:1;
+                    img {
+                        width:500px;
+                    }
+                }
+                
+            }
+        }
+    }
+}

@@ -5,6 +5,7 @@ import ReadingGoal from '../reading_goal/ReadingGoal';
 import TodayProgress from '../todays_progress/TodayProgress';
 import './detail_reading_progress.scss';
 import PropTypes from 'prop-types';
+import open_book_4 from '../../../../../assets/images/open-book-4.png';
 import DailyProgressChart from '../daily_progress_by_chart/DailyProgressChart';
 
 export default function DetailReadingProgress({selected_book}) {
@@ -17,7 +18,7 @@ export default function DetailReadingProgress({selected_book}) {
                 <div className="book-info-container">
                     <div className="book-info">
                         <div className="cover-image">
-                            <img src={selected_book?.book.cover_image} alt="Book Cover Image" />
+                            <img src={selected_book?.book.cover_image ? selected_book?.book.cover_image : open_book_4} alt="Book Cover Image" />
                         </div>
                         <div className="book-basic-info">
                             <span className="title">{selected_book?.book.title}</span>

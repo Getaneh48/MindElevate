@@ -4,7 +4,7 @@ import './addbookbtn.scss';
 export default function AddBookBtn() {
     return (
         <section className="add-book-section">
-                <Link to="/readbook"><span className="add">+</span></Link>
+                <Link to="/melv/readbook"><span className="add">+</span></Link>
         </section>
     )
 }
