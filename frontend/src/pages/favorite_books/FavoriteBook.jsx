@@ -1,5 +1,6 @@
 import './favoritebook.scss';
 import remove_favorite_icon from '../../assets/images/remove-favorite.png';
+import open_book_icon from '../../assets/images/open-book-4.png';
 
 import PropTypes from 'prop-types';
 
@@ -30,7 +31,7 @@ export default function FavoriteBook({fbook, favorites, setFavorites}) {
     }
     return (
         <div className="favorite-book">
-            <div className="cover-image"><img src={fbook?.book.cover_image} alt="" /></div>
+            <div className="cover-image"><img src={fbook?.book.cover_image ? fbook?.book.cover_image : open_book_icon} alt="" /></div>
             <div className="book-info">
                 <span className="title">{fbook?.book.title}</span>
                 <span className="authors">{fbook?.book.author}</span>
