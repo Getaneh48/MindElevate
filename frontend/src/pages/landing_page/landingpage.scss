@@ -64,7 +64,7 @@ $gap: 16px;
         section.about{
             margin-top:100px;
             border-radius: 20px;
-            border:1px solid #ccc;
+            // border:1px solid #ccc;
             padding: $gap;
             display: flex;
             flex-direction: column;
@@ -104,9 +104,10 @@ $gap: 16px;
             border-radius: 20px;
 
             .title{
-                font-size: 2em;
+                font-size: 2.5em;
                 margin-bottom: calc(2 * $gap);
                 padding:$gap;
+                font-weight: bold;
             }
 
             .content{
@@ -116,6 +117,7 @@ $gap: 16px;
                     flex:1;
                     text-align: end;
                     font-size: 1.5em;
+                    font-weight: bold;
                 }
                 .shot{
                     flex:1;
@@ -154,7 +156,7 @@ $gap: 16px;
 
         section.content-4{
             padding:70px;
-            border-radius:50%;
+            border-radius:10%;
             height:400px;
             background-color: $title-color;
 
