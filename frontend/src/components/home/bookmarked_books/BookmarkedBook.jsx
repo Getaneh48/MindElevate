@@ -1,12 +1,13 @@
 import './bookmarkedbook.scss';
 import remove_bookmark_icon from '../../../assets/images/remove-bookmark.png';
 import read_book_icon from '../../../assets/images/read-book.png';
+import open_book_icon from '../../../assets/images/open-book-4.png';
 import PropTypes from 'prop-types';
 
 export default function BookmarkedBook({bbook, removeFromBookmark, handleReadNow  }) {
     return (
         <div className="bookmarked-book">
-            <div className="cover-image"><img src={bbook?.book?.cover_image} alt="" /></div>
+            <div className="cover-image"><img src={bbook?.book?.cover_image ? bbook?.book?.cover_image : open_book_icon} alt="" /></div>
             <div className="book-info">
                 <span className="title">{bbook?.book?.title}</span>
                 <span className="authors">{bbook?.book?.author}</span>
