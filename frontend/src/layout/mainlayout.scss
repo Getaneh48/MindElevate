@@ -68,6 +68,7 @@
             height:$main-body-height;
             overflow: auto;
             padding:16px;
+            box-sizing: border-box;
 
             .notification-area {
                 position: absolute;
