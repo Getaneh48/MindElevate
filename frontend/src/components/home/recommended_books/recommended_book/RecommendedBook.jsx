@@ -10,7 +10,7 @@ export default function RecommendedBook({rbook, setBookmarkInfo}) {
     const navigate = useNavigate();
 
     const handleReadNow = () => {
-        navigate(`/readbook/${rbook.id}/ext/${true}`)
+        navigate(`/melv/readbook/${rbook.id}/ext/${true}`)
     }
 
     useEffect(()=> {

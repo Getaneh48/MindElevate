@@ -48,7 +48,7 @@ export default function DailyLogForm({selected_book, setShowDailyLogForm}) {
                         console.log(data);
                         if (data.success) {
                             alert('Daily Log added successfully!');
-                            navigate('/');
+                            navigate('/melv');
                         } else {
                             alert(data.message);
                         }

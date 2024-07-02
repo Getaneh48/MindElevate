@@ -106,7 +106,7 @@ export default function MostPopularBooks() {
 
                         <div className="bdc-bottom">
                             <button onClick={bookmarkBook}>Bookmark</button>
-                            <button onClick={()=>navigate(`/readbook/${selected_book.id}/ext/${false}`)}>Read Book</button>
+                            <button onClick={()=>navigate(`/melv/readbook/${selected_book.id}/ext/${false}`)}>Read Book</button>
                         </div>
                 
                     </div>

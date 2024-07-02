@@ -135,7 +135,7 @@ export default function ReadBook() {
                     console.log(responseData);
                     if (responseData.success) {
                         alert("Data Saved!")
-                        navigate('/')
+                        navigate('/melv')
                     } else {
                         alert(responseData.message)
                     }

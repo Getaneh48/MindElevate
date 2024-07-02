@@ -43,7 +43,7 @@ export default function BookmarkedBooks() {
     }
 
     const handleReadNow = async (book_id) => {
-        navigate(`/readbook/${book_id}/ext/${false}`)
+        navigate(`/melv/readbook/${book_id}/ext/${false}`)
     }
 
     useEffect(()=>{
