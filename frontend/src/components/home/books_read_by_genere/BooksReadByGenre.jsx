@@ -15,6 +15,7 @@ import health_icon from '../../../assets/images/genre/Health-and-Fitness.png';
 import technology_icon from '../../../assets/images/genre/Technology.png';
 import biography_icon from '../../../assets/images/genre/Biography.png';
 import fiction_career_icon from '../../../assets/images/genre/Fiction-and-Literature.png';
+import config from '../../../config/config';
 
 
 function CountBooksByGenre({genre, count}) {
@@ -52,7 +53,7 @@ export default function BooksReadByGenre() {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const url = 'http://localhost:5001/api/v1/booksread/by_genres';
+                const url = `${config.api_url}/booksread/by_genres`;
                 const response = await fetch(url);
                 if (response.ok) {
                     const data = await response.json();

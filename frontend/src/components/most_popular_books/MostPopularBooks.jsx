@@ -3,6 +3,7 @@ import './mostpopularbooks.scss';
 import MostPopularBook from './MostPopularBook';
 import popular_book_icon from '../../assets/images/popular-books.png';
 import { useNavigate } from 'react-router';
+import config from '../../config/config';
 
 export default function MostPopularBooks() {
     const [popular_books, setPopularBooks] = useState([]);
@@ -13,7 +14,7 @@ export default function MostPopularBooks() {
         if (selected_book == null) {
             const fetchPopularBooks = async () => {
                 try {
-                    const url = 'http://localhost:5001/api/v1/booksread/most_pupular';
+                    const url = `${config.api_url}/booksread/most_pupular`;
                     const response = await fetch(url);
                     if(response.ok) {
                         const resp_data = await response.json();
@@ -34,7 +35,7 @@ export default function MostPopularBooks() {
     },[selected_book]);
 
     const bookmarkBook = async () => {
-        const url = 'http://localhost:5001/api/v1/bookmarks';
+        const url = `${config.api_url}/bookmarks`;
 
         try {
             if (selected_book) {

@@ -7,6 +7,7 @@ import book_not_found_icon from '../../assets/images/book-not-found.png';
 import { useEffect, useState } from 'react';
 import BookmarkedBook from '../../components/home/bookmarked_books/BookmarkedBook';
 import { useNavigate } from 'react-router';
+import config from '../../config/config';
 
 export default function BookmarkedBooks() {
     const [inprogress, setInProgress] = useState(true);
@@ -17,7 +18,7 @@ export default function BookmarkedBooks() {
         if (confirm("Are you sure?")) {
             setInProgress(true);
             try {
-                const url = `http://localhost:5001/api/v1/bookmarks`;
+                const url = `${config.api_url}/bookmarks`;
                 const pdata = {'id': id}
                 const response = await fetch(url, {
                     method: 'DELETE',
@@ -49,7 +50,7 @@ export default function BookmarkedBooks() {
         const fetchBookmarks = async () => {
             try {
                 setInProgress(true);
-                const url = 'http://localhost:5001/api/v1/bookmarks';
+                const url = `${config.api_url}/bookmarks`;
     
                 const response = await fetch(url);
                 if (response.ok) {

@@ -6,6 +6,7 @@ import warning_icon from '../assets/images/warning.png';
 import Home from '../pages/home/Home';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
+import config from '../config/config';
 
 export default function MainLayout() {
     const location = useLocation();
@@ -19,7 +20,7 @@ export default function MainLayout() {
 
     useEffect(()=> {
         const checkNetworkStatus = async () => {
-            const url = 'http://localhost:5001/api/v1/index/status';
+            const url = `${config.api_url}/index/status`;
 
             try {
                 const response = await fetch(url);

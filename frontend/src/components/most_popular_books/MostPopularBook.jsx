@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './mostpopularbook.scss';
 import PropTypes from 'prop-types';
+import config from '../../config/config';
 
 export default function MostPopularBook({book_title, setSelectedBook}) {
     const [book, setBook] = useState(null);
@@ -8,7 +9,7 @@ export default function MostPopularBook({book_title, setSelectedBook}) {
     useEffect(()=>{
         const fetchPopularBook = async () => {
             try {
-                const url = `http://localhost:5001/api/v1/books/title/${book_title}`;
+                const url = `${config.api_url}/books/title/${book_title}`;
                 const response = await fetch(url);
                 if(response.ok) {
                     const resp_data = await response.json();

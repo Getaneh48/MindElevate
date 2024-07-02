@@ -5,6 +5,7 @@ import ReadingGoal from './readinggoal/ReadingGoal';
 import SearchBook from './searchbook/SearchBook';
 import { useNavigate, useParams } from 'react-router';
 import loading_icon from '../../assets/images/loading.gif';
+import config from '../../config/config';
 
 export default function ReadBook() {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function ReadBook() {
             if (ext == 'true') {
                 api_url = `https://www.dbooks.org/api/book/${encodeURIComponent(id)}`;
             } else {
-                api_url = `http://localhost:5001/api/v1/books/${encodeURIComponent(id)}`;
+                api_url = `${config.api_url}/books/${encodeURIComponent(id)}`;
             }
             console.log(api_url)
             try {
@@ -116,7 +117,7 @@ export default function ReadBook() {
             }
 
             try{
-                const url = 'http://localhost:5001/api/v1/booksreading';
+                const url = `${config.api_url}/booksreading`;
                 const options = {
                     method: 'POST',
                     headers: {

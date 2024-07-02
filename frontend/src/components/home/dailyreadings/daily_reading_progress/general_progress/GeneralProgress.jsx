@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import './general_progress.scss';
 import PropTypes from 'prop-types';
 import {useState} from 'react';
+import config from '../../../../../config/config';
 
 export default function GeneralProgress({selected_book}) {
     const [total_pages_read, setTotalPagesRead] = useState(0);
@@ -10,7 +11,7 @@ export default function GeneralProgress({selected_book}) {
     useEffect(()=>{
         const getAllLogs = async () => {
             try {
-                const url = `http://localhost:5001/api/v1/books_reading/${selected_book.id}/logs`;
+                const url = `${config.api_url}/books_reading/${selected_book.id}/logs`;
                 const response = await fetch(url);
                 if (response.ok) {
                     const data = await response.json();
