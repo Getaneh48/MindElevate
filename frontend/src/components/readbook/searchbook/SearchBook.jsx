@@ -38,7 +38,7 @@ export default function SearchBook({setBookToReadNow, reset_form, setShowProgres
 
         setShowProgress(true);
         try {
-            const response = await fetch(`${api_url + encodeURIComponent(searchTerm)}`);
+            const response = await fetch(`${api_url + searchTerm.replace(' ', '+')}`);
             if (response.ok) {
                 const data = await response.json();
                 setBooks(data.books);
