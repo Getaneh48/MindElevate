@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import BookRead from './bookread/BookRead';
 import BooksReadByGenre from '../../components/home/books_read_by_genere/BooksReadByGenre';
 import MostPopularBooks from '../../components/most_popular_books/MostPopularBooks';
+import config from '../../config/config';
 
 export default function BooksRead() {
     const [error, setError] = useState(false);
@@ -15,7 +16,7 @@ export default function BooksRead() {
     const [books_read, setBooksRead] = useState([]);
 
     useEffect(()=> {
-        const url = 'http://localhost:5001/api/v1/booksread';
+        const url = `${config.api_url}/booksread`;
         const fetchReadBooks = async () => {
             try {
                 setLoading(true)

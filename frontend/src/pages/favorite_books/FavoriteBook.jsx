@@ -3,13 +3,14 @@ import remove_favorite_icon from '../../assets/images/remove-favorite.png';
 import open_book_icon from '../../assets/images/open-book-4.png';
 
 import PropTypes from 'prop-types';
+import config from '../../config/config';
 
 export default function FavoriteBook({fbook, favorites, setFavorites}) {
     const removeFromFavorite = async () => {
         const data = {
             id: fbook.id,
         }
-        const url = 'http://localhost:5001/api/v1/favorites/remove';
+        const url = `${config.api_url}/favorites/remove`;
         try {
             const response = await fetch(url, {
                 method: 'POST',

@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import PropTypes from 'prop-types';
 import MonthSelector from '../../../../month_selector/MonthSelector';
 import { useEffect, useState } from 'react';
+import config from '../../../../../config/config';
 //import moment from 'moment';
 
 
@@ -86,7 +87,7 @@ export default function DailyProgressChart({selected_book}) {
 
     useEffect(()=>{
         const fetchAllLogs = async () => {
-            const url = `http://localhost:5001/api/v1/books_reading/${selected_book.id}/logs/all`;
+            const url = `${config.api_url}/books_reading/${selected_book.id}/logs/all`;
             const response = await fetch(url);
             if (response.ok) {
                 const logs = await response.json();

@@ -2,6 +2,7 @@ import './bookdetail.scss';
 import book_detail_icon from '../../../assets/images/book-detail.png';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import config from '../../../config/config';
 
 export default function BookDetail({book_to_read, reading_info, setReadingInfo, validation_error, reset_form}) {
 
@@ -15,7 +16,7 @@ export default function BookDetail({book_to_read, reading_info, setReadingInfo, 
 
     useEffect(() => {
         const fetchGenres = async () => {
-            const url = 'http://localhost:5001/api/v1/books/genres';
+            const url = `${config.api_url}/books/genres`;
             try {
                 const response = await fetch(url);
                 if (response.ok) {

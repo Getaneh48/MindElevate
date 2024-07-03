@@ -5,12 +5,13 @@ import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import DetailReadingProgress from './detail_reading_progress/DetailReadingProgress';
 //import GeneralProgress from './general_progress/GeneralProgress';
+import config from '../../../../config/config';
 
 export default function DailyReadingProgress() {
     const {id} = useParams(null);
     const [books_reading, setBooksReading] = useState([]);
     const [selected_book, setSelectedBook] = useState(null);
-    const url = 'http://localhost:5001/api/v1//books_reading/onprogress';
+    const url = `${config.api_url}/books_reading/onprogress`;
 
     useEffect(()=> {
         const fetch_books_onreading = async ()=> {

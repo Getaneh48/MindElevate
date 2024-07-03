@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './recommendedbook.scss';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
+import config from '../../../../config/config';
 
 export default function RecommendedBook({rbook, setBookmarkInfo}) {
     const [hidden, setHidden] = useState(true);
@@ -9,13 +10,13 @@ export default function RecommendedBook({rbook, setBookmarkInfo}) {
     const navigate = useNavigate();
 
     const handleReadNow = () => {
-        navigate(`/readbook/${rbook.id}/ext/${true}`)
+        navigate(`/melv/readbook/${rbook.id}/ext/${true}`)
     }
 
     useEffect(()=> {
         const fetchGenres = async () => {
             try {
-                const url = 'http://localhost:5001/api/v1/books/genres';
+                const url = `${config.api_url}/books/genres`;
                 const response = await fetch(url)
                 if (response.ok) {
                     const data = await response.json();

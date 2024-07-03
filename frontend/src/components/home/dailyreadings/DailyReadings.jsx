@@ -4,9 +4,10 @@ import todays_reading_icon from '../../../assets/images/todays-reading.png';
 import warning_icon from '../../../assets/images/warning.png';
 
 import { useEffect, useState } from 'react';
+import config from '../../../config/config';
 
 export default function DailyReadings() {
-    const url = 'http://localhost:5001/api/v1//books_reading/onprogress';
+    const url = `${config.api_url}/books_reading/onprogress`;
     const [books_reading, setBooksReading] = useState([]);
     const [error, setError] = useState(false);
 

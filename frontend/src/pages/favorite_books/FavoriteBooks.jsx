@@ -7,13 +7,14 @@ import FavoriteBook from './FavoriteBook';
 import book_not_found_icon from '../../assets/images/book-not-found.png';
 import MostPopularBooks from '../../components/most_popular_books/MostPopularBooks';
 import RecommendedBooks from '../../components/home/recommended_books/RecommendedBooks';
+import config from '../../config/config';
 
 export default function FavoriteBooks() {
     const [loading, setLoading] = useState(false);
     const [favorites, setFavorites] = useState([]);
 
     useEffect(()=>{
-        const url = 'http://localhost:5001/api/v1/favorites';
+        const url = `${config.api_url}/favorites`;
         
         const fetchFavorites = async () => {
             try {

@@ -8,6 +8,7 @@ import favorite_marked from '../../../assets/images/favorite-marked.png';
 import open_book_icon from '..//../../assets/images/open-book-4.png';
 import getBadge from '../../../datas/badges';
 import { useEffect, useState } from 'react';
+import config from '../../../config/config';
 
 export default function BookRead({bookr}) {
     const [is_favorite, setIsFavorite] = useState(bookr.is_favorite);
@@ -22,9 +23,9 @@ export default function BookRead({bookr}) {
         try {
             let url = ''
             if (favorite) {
-                url = 'http://localhost:5001/api/v1/favorites/add';
+                url = `${config.api_url}/favorites/add`;
             } else {
-                url = 'http://localhost:5001/api/v1/favorites/remove';
+                url = `${config.api_url}/favorites/remove`;
             }
             
             const data = {
@@ -53,7 +54,7 @@ export default function BookRead({bookr}) {
 
     const handleLike = async () => {
         try {            
-            const url = 'http://localhost:5001/api/v1/booksreading/like';
+            const url = `${config.api_url}/booksreading/like`;
             const data = {
                 'br_id': bookr.id,
                 'is_liked': !is_liked,

@@ -3,6 +3,7 @@ import recommended_books_icon from '../../../assets/images/recommended_books.png
 import RecommendedBook from './recommended_book/RecommendedBook';
 import { useEffect, useRef, useState } from 'react';
 import loading_icon from '../../../assets/images/loading.gif';
+import config from '../../../config/config';
 
 export default function RecommendedBooks() {
     const [recommended_books, setRecommendedBooks] = useState([]);
@@ -14,7 +15,7 @@ export default function RecommendedBooks() {
 
     useEffect(()=>{
         const getRecommendation = async () => {
-            const url = 'http://localhost:5001/api/v1/books_recommended';
+            const url = `${config.api_url}/books_recommended`;
             try {
                 setLoadingRecommendation(true)
                 const response = await fetch(url);
@@ -45,7 +46,7 @@ export default function RecommendedBooks() {
     const handleBookmark = async () => {
         try {
             setInProgress(true);
-            const url = 'http://localhost:5001/api/v1/bookmarks/new';
+            const url = `${config.api_url}/bookmarks/new`;
             const book_api_url = `https://www.dbooks.org/api/book/${encodeURIComponent(bookmarkInfo.book.id)}`;
             const response = await fetch(book_api_url);
             if (response.ok) {

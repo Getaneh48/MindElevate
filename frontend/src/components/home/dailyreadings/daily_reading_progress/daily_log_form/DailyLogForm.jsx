@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './daily_log_form.scss';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
+import config from '../../../../../config/config';
 
 export default function DailyLogForm({selected_book, setShowDailyLogForm}) {
     const [pages_read, setPagesRead] = useState('');
@@ -32,7 +33,7 @@ export default function DailyLogForm({selected_book, setShowDailyLogForm}) {
             }
             console.log(reading_log);
 
-            const url = `http://localhost:5001/api/v1/books_reading/${selected_book.id}/logs`;
+            const url = `${config.api_url}/books_reading/${selected_book.id}/logs`;
             try {
                     const response = await fetch(url, {
                         method: 'POST',
@@ -47,7 +48,7 @@ export default function DailyLogForm({selected_book, setShowDailyLogForm}) {
                         console.log(data);
                         if (data.success) {
                             alert('Daily Log added successfully!');
-                            navigate('/');
+                            navigate('/melv');
                         } else {
                             alert(data.message);
                         }
