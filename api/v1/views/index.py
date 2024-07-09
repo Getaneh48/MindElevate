@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-""" Index """
+"""
+Index module for book recommendations.
+
+This module provides routes and functions to generate book recommendations based on user preferences and book genres.
+"""
+
+# Import necessary modules and classes
 from models import storage
 from api.v1.views import app_views
 from flask import jsonify
@@ -7,14 +13,53 @@ import requests
 import random
 import json
 
-user_id = '4a2fa583-5080-49c8-9061-ef217bc42778' 
+user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+
+# Route for checking the status of the API
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
-    """ Status of API """
+    """
+    Check the status of the API.
+
+    This route returns a simple status message indicating that the API is operational.
+
+    Returns:
+    JSON: A status message.
+    Status Code: 200 OK
+
+    Example Response:
+    {
+        "status": "OK"
+    }
+    """
     return jsonify({"status": "OK"})
 
+# Route for retrieving recommended books based on user preferences and genres
 @app_views.route('/books_recommended', methods=['GET'], strict_slashes=False)
 def books_recommended():
+    """
+    Retrieve recommended books based on user preferences and genres.
+
+    This route generates book recommendations by selecting a random genre from
+    the user's preferred genres and fetching books from an external API.
+
+    Returns:
+    JSON: A list of dictionaries containing recommended book information. Each dictionary includes book details.
+    Status Code: 200 OK if recommendations are found.
+    Status Code: 404 Not Found if no recommendations are available.
+
+    Example Response:
+    [
+        {
+            "id": 1,
+            "title": "Recommended Book Title 1",
+            "author": "Author Name 1",
+            "genre": "Genre 1",
+            ...
+        },
+        ...
+    ]
+    """
     result = storage.get_books_count_by_genre(user_id)
     sorted_data = dict(sorted(result.items(), key=lambda item: item[1], reverse=True))
     genres = list(sorted_data.keys())
