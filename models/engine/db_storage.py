@@ -287,5 +287,7 @@ class DBStorage:
                                        filter(ReadingLog.br_id == br_id).\
                                        group_by(func.cast(ReadingLog.created_at, Date)).\
                                                all()
+    def get_genres_by_id_list(self, genres_list):
+        result = self.__session.query(BookGenre).filter(BookGenre.id.in_(genres_list)).all()
 
         return result
