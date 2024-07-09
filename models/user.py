@@ -8,6 +8,7 @@ genre preferences.
 from models.base_model import BaseModel, Base
 from sqlalchemy import String, Column, Integer, Table, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.mysql import LONGTEXT, TEXT
 import models
 from os import environ
 
@@ -38,7 +39,7 @@ class User(BaseModel, Base):
     age = Column(Integer)
     sex = Column(String(10))
     picture = Column(String(140))
-    book_genere_prefs = Column(String(255))
+    book_genere_prefs = Column(TEXT)
 
     def __init__(self, *args, **kwargs):
         """
