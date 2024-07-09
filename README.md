@@ -23,6 +23,7 @@ The main focus of this application is to help,
 
 ### Links
 - MindElevate: http://web-01.get4848.tech/
+- Blog post about MindElevate: https://medium.com/@getaneh11/mindelevate-elevating-your-reading-habit-d99308e3dcff
 - Linkedin: https://www.linkedin.com/in/getaneh-alemayehu-7a1406b2/
 
 ## Features
