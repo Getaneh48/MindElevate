@@ -112,8 +112,7 @@ then, Install SQLAlchemy module version 1.4.x.
     MELV_API_PORT=<port> python3 -m api.v1.app
   ```
 ## Licensing
-
-    
+MIT License
 
 
 
