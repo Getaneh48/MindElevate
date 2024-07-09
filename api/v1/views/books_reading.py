@@ -1,5 +1,12 @@
 #!/usr/bin/python3
-""" objects that handles all default RestFul API actions for books reading """
+"""
+Module that handles all default RESTful API actions for book reading.
+
+This module provides routes and functions to manage book reading activities,
+including tracking reading progress, logging reading sessions, and managing favorite books.
+"""
+
+# Import necessary modules and classes
 from models.book_reading import BookReading
 from models.book import Book
 from models.favourite_book import FavouriteBook
@@ -13,8 +20,46 @@ from datetime import date
 from datetime import datetime
 
 user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+
+# Route for managing book reading activities
 @app_views.route('/booksreading', methods=['GET', 'POST'], strict_slashes=False)
 def books_reading():
+    """
+    Manage book reading activities.
+
+    This route allows you to retrieve a list of books the user is currently reading or
+    add a new book to their reading list.
+
+    Args:
+    user_id (str): The unique ID of the user.
+
+    Returns:
+    JSON: A list of dictionaries containing information about books the user is currently reading for GET requests.
+    Status Code: 200 OK for successful GET requests.
+    JSON: A response message for POST requests.
+    Status Code: 200 OK for successful POST requests.
+    Status Code: 415 Unsupported Media Type for invalid request data.
+    Status Code: 500 Internal Server Error if an error occurs during book saving.
+
+    Example Response for GET:
+    [
+        {
+            "id": 1,
+            "book": {
+                "id": 1,
+                "title": "Book Title 1",
+                "author": "Author Name 1",
+                "genre": "Genre 1",
+                ...
+            },
+            "pages_per_day": 50,
+            "hours_per_day": 2,
+            "expected_completion_day": "2023-09-15",
+            ...
+        },
+        ...
+    ]
+    """
     user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
     if request.method == 'GET':
         user = storage.get('User', user_id)
@@ -89,8 +134,48 @@ def books_reading():
         else:
             return jsonify({'success': False, 'message': 'Bad request'}), 415
 
+# Route for retrieving books that the user is currently reading
 @app_views.route('/books_reading/onprogress', methods=['GET'], strict_slashes=False)
 def reading_onprogress():
+    """
+    Retrieve books that the user is currently reading.
+
+    This route returns a list of books that the user is currently reading, along with
+    their reading progress and related information.
+
+    Returns:
+    JSON: A list of dictionaries containing book reading information. Each dictionary includes book
+    details, reading progress, and reading logs.
+    Status Code: 200 OK if books are found.
+
+    Example Response:
+    [
+        {
+            "id": 1,
+            "book": {
+                "id": 1,
+                "title": "Book Title",
+                "author": "Author Name",
+                "genre": {"id": 1, "name": "Genre Name"},
+                ...
+            },
+            "pages_per_day": 50,
+            "hours_per_day": 2,
+            "expected_completion_day": "2023-09-15",
+            "reading_logs": [
+                {
+                    "id": 1,
+                    "pages_read": 30,
+                    "hours_read": 1.5,
+                    "status": "incomplete",
+                    "created_at": "2023-09-10"
+                },
+                ...
+            ]
+        },
+        ...
+    ]
+    """
     user = storage.get('User', user_id)
     onprogress = storage.readingOnProgress(user)
     results = []
@@ -123,8 +208,45 @@ def reading_onprogress():
         results.append(new_item)
     return jsonify(results)
 
+# Route for managing a specific book reading activity by its ID
 @app_views.route('/books_reading/<rb_id>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 def get_reading_book(rb_id):
+    """
+    Manage a specific book reading activity by its ID.
+
+    This route allows you to retrieve, update, or delete information about a book reading
+    activity identified by its unique ID.
+
+    Args:
+    rb_id (int): The unique ID of the book reading activity.
+
+    Returns:
+        JSON: The book reading activity details as a dictionary for GET requests.
+        Status Code: 200 OK for successful GET requests.
+        JSON: The updated book reading activity details for PUT requests.
+        Status Code: 200 OK for successful PUT requests.
+        JSON: A response message for DELETE requests.
+        Status Code: 200 OK for successful DELETE requests.
+        Status Code: 404 Not Found if the book reading activity with the given ID is not found.
+    
+    Example Response for GET:
+    {
+        "id": 1,
+        "book_id": 1,
+        "pages_per_day": 50,
+        "hours_per_day": 2,
+        "expected_completion_day": "2023-09-15",
+        "friend_visible": true,
+        "status": "in progress",
+        "book": {
+            "id": 1,
+            "title": "Book Title",
+            "author": "Author Name",
+            ...
+        }
+    }
+    """
+
     if request.method == 'GET':
         book_reading = storage.get('BookReading', rb_id)
         if book_reading:
@@ -173,8 +295,39 @@ def get_reading_book(rb_id):
         abort(405)
     return ''
 
+# Route for managing reading logs for a specific book reading activity
 @app_views.route('/books_reading/<br_id>/logs', methods=['GET', 'POST'], strict_slashes=False)
 def reading_logs(br_id):
+    """
+    Manage reading logs for a specific book reading activity.
+
+    This route allows you to retrieve a list of reading logs for a book reading activity or add a new reading log.
+
+    Args:
+        br_id (int): The unique ID of the book reading activity.
+
+    Returns:
+        JSON: A list of dictionaries containing reading log information for GET requests.
+        Status Code: 200 OK for successful GET requests.
+        JSON: A response message for POST requests.
+        Status Code: 200 OK for successful POST requests.
+        Status Code: 404 Not Found if the book reading activity with the given ID is not found.
+        Status Code: 200 OK if the book reading is already completed.
+
+    Example Response for GET:
+    [
+        {
+            "id": 1,
+            "br_id": 1,
+            "pages_read": 30,
+            "hours_read": 1.5,
+            "status": "incomplete",
+            "created_at": "2023-09-10"
+        },
+        ...
+    ]
+    """
+
     book_reading = storage.get('BookReading', br_id)
     if request.method == 'GET':
         if book_reading:
@@ -266,9 +419,37 @@ def reading_logs(br_id):
 
     return jsonify({"success": True}), 200
 
+# Route for managing a specific reading log by its ID
 @app_views.route('books_reading/<br_id>/logs/<l_id>',
                  methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 def reading_log(br_id, l_id):
+    """
+    Manage a specific reading log by its ID.
+
+    This route allows you to retrieve, update, or delete information about a reading log identified by its unique ID.
+
+    Args:
+        br_id (int): The unique ID of the book reading activity.
+        l_id (int): The unique ID of the reading log.
+
+    Returns:
+        JSON: The reading log details as a dictionary for GET requests.
+        Status Code: 200 OK for successful GET requests.
+        JSON: A response message for PUT requests.
+        Status Code: 200 OK for successful PUT requests.
+        Status Code: 404 Not Found if the reading log with the given ID is not found.
+        Status Code: 200 OK if the book reading is already completed.
+
+        Example Response for GET:
+        {
+            "id": 1,
+            "br_id": 1,
+            "pages_read": 30,
+            "hours_read": 1.5,
+            "status": "incomplete",
+            "created_at": "2023-09-10"
+        }
+    """
     book_reading = storage.get('BookReading', br_id)
 
     if request.method == 'GET':
@@ -335,8 +516,29 @@ def reading_log(br_id, l_id):
         else:
             return jsonify({'success': False, 'message': 'Reading Log Not Found'}), 404
 
+# Route for liking or disliking a book
 @app_views.route('/booksreading/like', methods=['PUT'], strict_slashes=False)
 def like_book():
+    """
+    Like or dislike a book.
+
+    This route allows you to update the "is_liked" status of a book reading activity.
+
+    Args:
+        br_id (int): The unique ID of the book reading activity.
+        is_liked (bool): True if the book is liked, False otherwise.
+
+    Returns:
+        JSON: A response message for PUT requests.
+        Status Code: 200 OK for successful PUT requests.
+        Status Code: 404 Not Found if the book reading activity with the given ID is not found.
+
+        Example Response:
+        {
+            "success": True,
+            "message": "Book updated successfully"
+        }
+    """
     if request.method == 'PUT':
         if request.is_json:
             data = request.get_json()
@@ -355,8 +557,34 @@ def like_book():
         else:
             return jsonify({'success': False, 'message': 'Bad request'}), 400
 
+# Route for retrieving all reading logs for a specific book reading activity
 @app_views.route('books_reading/<br_id>/logs/all', methods=['GET'], strict_slashes=False)
 def get_all_bookreading_log_summary(br_id):
+    """
+    Retrieve all reading logs for a specific book reading activity.
+
+    This route returns a summary of all reading logs for a book reading activity, including
+    the date and total pages read on each day.
+
+    Args:
+        br_id (int): The unique ID of the book reading activity.
+
+    Returns:
+        JSON: A list of dictionaries containing reading log summary information. Each dictionary
+        includes the date and total pages read.
+        
+        Status Code: 200 OK if reading logs are found.
+        Status Code: 404 Not Found if no reading logs are found for the given book reading activity.
+
+    Example Response:
+    [
+        {
+            "date": "2023-09-10",
+            "total_pages": 30
+        },
+        ...
+    ]
+    """
     results = storage.get_all_readinglogs_summary(br_id)
     if results:
         logs = []
