@@ -1,0 +1,7 @@
+# python byte codes
+*.pyc
+
+# python cache folders
+models/__pycache__/
+tests/__pycache__/
+tests/test_api/__pycache__/
