@@ -5,6 +5,7 @@ from api.v1.views import app_views
 from flask import jsonify
 import requests
 import random
+import json
 
 user_id = '4a2fa583-5080-49c8-9061-ef217bc42778' 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
@@ -17,6 +18,10 @@ def books_recommended():
     result = storage.get_books_count_by_genre(user_id)
     sorted_data = dict(sorted(result.items(), key=lambda item: item[1], reverse=True))
     genres = list(sorted_data.keys())
+    user = storage.get('User',user_id)
+    prefs = json.loads(user.book_genere_prefs)
+    pref_genres = storage.get_genres_by_id_list(prefs)
+    print(pref_genres)
     if len(genres) <= 0:
         return jsonify({'success': False, 'message': 'No results found'}), 404
     index = random.randint(1, len(genres))
