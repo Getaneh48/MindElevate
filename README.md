@@ -5,7 +5,7 @@
 - [Technologies](#technologies)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
+- [Licensing](#licensing)
 
 ## Introduction
 
@@ -59,18 +59,61 @@ HTML5: As the latest standard for web application structure, I employed HTML5 to
 - SQLAlchemy ORM (Object-Relational Mapper): This powerful library streamlines database interaction by enabling the definition and manipulation of database entities using Python objects. SQLAlchemy eliminates the need to write raw SQL queries, allowing me to interact with the database using intuitive Python code instead.
 
 ## Installation
-1. clone the entire repository
-  - `git clone`
-2. Frontend
-  - the frontend of the application is built with react js. to run the applicaton it requires the following dependencies
+Clone the entire repository to your local directory
+`git clone https://github.com/Getaneh48/MindElevate.git`
+### Dependencies
+#### Frontend
+**React js**
+```
+  npm install vite --save-dev
+  vite
+```
+Follow the onscreen instruction to install react
+#### Backend API server
+**python3**
+ ```
+ sudo apt update
+ sudo apt install python3
+ ```
+**pip3**
+ ```
+  sudo apt install python3-pip
+ ```
+**Flask**
+```
+  pip3 install flask
+```
+**Flask-Cors**
+```
+  pip3 install flask-cors
+```
+**SQLAlchemy**
+before installing SQLAlchemy, we need to install MySQLdb mobule version 2.0.x.
+```
+  sudo apt-get install libmysqlclient-dev
+  sudo apt-get install zlib1g-dev
+  sudo pip3 install mysqlclient
+```
+then, Install SQLAlchemy module version 1.4.x.
+```
+  sudo pip3 install SQLAlchemy
+```
+## Usage
+#### Running the frontend of the MindElevate app
+  From the root folder of the app, type the following commands
   ```
-  node v18.x
+    cd frontend
+    npm run dev
   ```
-  - Install node using `nvm` (node virtual manager). then, run the following command
-    ```
-     cd frontend
-     npm install
-    ```
+#### Running the MindElevate Backend Server
+  From the root folder of the app, type the following commands
+  ```
+    MELV_MYSQL_USER=<user> MELV_MYSQL_PWD=<password> MELV_MYSQL_HOST=<host> MELV_MYSQL_DB=<db name> MELV_TYPE_STORAGE=db
+    MELV_API_PORT=<port> python3 -m api.v1.app
+  ```
+## Licensing
+
+    
 
 
 
