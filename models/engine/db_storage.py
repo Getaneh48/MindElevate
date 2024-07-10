@@ -19,7 +19,8 @@ from sqlalchemy import create_engine, desc, asc, text
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.session import sessionmaker, Session
 from sqlalchemy import text, select, func, Date
-from os import getenv
+import os
+from dotenv import load_dotenv
 
 
 class DBStorage:
@@ -28,11 +29,12 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        user = getenv("MELV_MYSQL_USER")
-        passwd = getenv("MELV_MYSQL_PWD")
-        db = getenv("MELV_MYSQL_DB")
-        host = getenv("MELV_MYSQL_HOST")
-        env = getenv("MELV_ENV")
+        load_dotenv()
+        user = os.environ.get("MELV_MYSQL_USER")
+        passwd = os.environ.get("MELV_MYSQL_PWD")
+        db = os.environ.get("MELV_MYSQL_DB")
+        host = os.environ.get("MELV_MYSQL_HOST")
+        env = os.environ.get("MELV_ENV")
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(user, passwd, host, db),
