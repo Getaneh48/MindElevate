@@ -11,7 +11,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import LONGTEXT, TEXT
 import models
 from os import environ
-
+from dotenv import load_dotenv, find_dotenv
+import os
 
 class User(BaseModel, Base):
     """
@@ -68,7 +69,10 @@ class User(BaseModel, Base):
             for key, val in kwargs.items():
                 setattr(self, key, val)
 
-    if environ['MELV_TYPE_STORAGE'] == 'db':
+        # load the enviroment variable
+        load_dotenv(find_dotenv())
+
+    if os.environ.get('MELV_TYPE_STORAGE') == 'db':
         def get_friends(self):
             friends = []
             for friend in self.friends:
