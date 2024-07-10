@@ -7,11 +7,17 @@ from flask import Flask, render_template, make_response, jsonify
 from flask_cors import CORS
 from flasgger import Swagger
 from flasgger.utils import swag_from
+from flask_jwt_extended import create_access_token, get_jwt_identity,\
+        jwt_required, JWTManager
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.config['JWT_SECRET_KEY'] = 'THIS IS A SECRET KEY'
 app.register_blueprint(app_views)
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+
+# JWT SETUP
+jwt = JWTManager(app)
 
 @app.teardown_appcontext
 def close_db(error):
