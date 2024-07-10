@@ -10,3 +10,4 @@ from api.v1.views.favorites import *
 from api.v1.views.bookmarks import *
 from api.v1.views.books import *
 from api.v1.views.booksread import *
+from api.v1.views.account import *
