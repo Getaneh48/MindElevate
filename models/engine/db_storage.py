@@ -293,3 +293,9 @@ class DBStorage:
         result = self.__session.query(BookGenre).filter(BookGenre.id.in_(genres_list)).all()
 
         return result
+
+    def get_user_by_name(self, username):
+        result = self.__session.query(User).filter(text('username = :username').\
+                                            params({'username': username})).first()
+
+        return result
