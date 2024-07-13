@@ -14,11 +14,12 @@ from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from flasgger.utils import swag_from
 import json
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
 
 # Route for retrieving the user's favorite books
 @app_views.route('/favorites', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def favorites():
     """
     Retrieve the user's favorite books.
@@ -49,6 +50,8 @@ def favorites():
         ...
     ]
     """
+
+    user_id = get_jwt_identity()
     user = storage.get('User', user_id)
 
     favsb_list = []
@@ -68,6 +71,7 @@ def favorites():
 
 # Route for managing a specific favorite book by its ID
 @app_views.route('/favorites/<f_id>', methods=['GET', 'DELETE'], strict_slashes=False)
+@jwt_required()
 def favorite(f_id):
     """
     Manage a specific favorite book by its ID.
@@ -114,6 +118,7 @@ def favorite(f_id):
 
 # Route for marking a book as favorite
 @app_views.route('/favorites/add', methods=['PUT'], strict_slashes=False)
+@jwt_required()
 def mark_book_as_favorite():
     """
     Mark a book as favorite.
@@ -157,6 +162,7 @@ def mark_book_as_favorite():
 
 # Route for removing a book from favorites
 @app_views.route('/favorites/remove', methods=['PUT'], strict_slashes=False)
+@jwt_required()
 def remove_book_from_favorite():
     """
     Remove a book from favorites.
@@ -179,9 +185,7 @@ def remove_book_from_favorite():
     if request.method == 'PUT':
         if request.is_json:
             data = request.get_json();
-            print(data)
             book_reading = storage.get('BookReading', data['br_id'])
-            print(book_reading)
             book_reading.is_favorite = False
             book_reading.save()
 
@@ -189,6 +193,7 @@ def remove_book_from_favorite():
 
 # Route for removing a favorite book
 @app_views.route('/favorites/remove', methods=['POST'], strict_slashes=False)
+@jwt_required()
 def remove_favorite_book():
     """
     Remove a favorite book.
