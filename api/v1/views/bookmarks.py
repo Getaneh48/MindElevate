@@ -12,12 +12,12 @@ from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from flasgger.utils import swag_from
 import json
-
-user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 @app_views.route('/bookmarks', methods=['GET', 'POST', 'DELETE'],
                  strict_slashes=False)
+@jwt_required()
 def bookmarks():
     """
     Function: bookmarks
@@ -30,6 +30,7 @@ def bookmarks():
     Returns:
     A JSON response with appropriate status code and message.
     """
+    user_id = get_jwt_identity()
     if request.method == 'GET':
         """
         Get the user's bookmarked books and return them as a list.
@@ -111,6 +112,7 @@ def bookmarks():
             return jsonify({'success': False, 'message': 'Bad request'}), 400
 
 @app_views.route('/bookmarks/new', methods=['POST'], strict_slashes=False)
+@jwt_required()
 def add_new_book_to_bookmark_list():
     """
     Function: add_new_book_to_bookmark_list
@@ -123,6 +125,7 @@ def add_new_book_to_bookmark_list():
     Returns:
     A JSON response with appropriate status code and message.
     """
+    user_id = get_jwt_identity()
     if request.method == 'POST':
         if request.is_json:
             data = request.get_json()
@@ -163,6 +166,7 @@ def add_new_book_to_bookmark_list():
                 return jsonify({'success': False, 'message': 'Unable to process the request'}), 200
 
 @app_views.route('/bookmarks/<b_id>', methods=['GET', 'DELETE'], strict_slashes=False)
+@jwt_required()
 def bookmark(b_id):
     """
     Function: bookmark
