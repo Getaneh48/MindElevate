@@ -16,7 +16,6 @@ from flasgger.utils import swag_from
 import json
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
 
 # Route for retrieving a list of books the user has read
 @app_views.route('/booksread', methods=['GET'], strict_slashes=False)

@@ -18,11 +18,12 @@ from flasgger.utils import swag_from
 import json
 from datetime import date
 from datetime import datetime
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
 
 # Route for managing book reading activities
 @app_views.route('/booksreading', methods=['GET', 'POST'], strict_slashes=False)
+@jwt_required()
 def books_reading():
     """
     Manage book reading activities.
@@ -60,7 +61,7 @@ def books_reading():
         ...
     ]
     """
-    user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+    user_id = get_jwt_identity()
     if request.method == 'GET':
         user = storage.get('User', user_id)
         breading = []
@@ -136,6 +137,7 @@ def books_reading():
 
 # Route for retrieving books that the user is currently reading
 @app_views.route('/books_reading/onprogress', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def reading_onprogress():
     """
     Retrieve books that the user is currently reading.
@@ -176,6 +178,7 @@ def reading_onprogress():
         ...
     ]
     """
+    user_id = get_jwt_identity()
     user = storage.get('User', user_id)
     onprogress = storage.readingOnProgress(user)
     results = []
@@ -210,6 +213,7 @@ def reading_onprogress():
 
 # Route for managing a specific book reading activity by its ID
 @app_views.route('/books_reading/<rb_id>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
+@jwt_required()
 def get_reading_book(rb_id):
     """
     Manage a specific book reading activity by its ID.
@@ -297,6 +301,7 @@ def get_reading_book(rb_id):
 
 # Route for managing reading logs for a specific book reading activity
 @app_views.route('/books_reading/<br_id>/logs', methods=['GET', 'POST'], strict_slashes=False)
+@jwt_required()
 def reading_logs(br_id):
     """
     Manage reading logs for a specific book reading activity.
@@ -422,6 +427,7 @@ def reading_logs(br_id):
 # Route for managing a specific reading log by its ID
 @app_views.route('books_reading/<br_id>/logs/<l_id>',
                  methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
+@jwt_required()
 def reading_log(br_id, l_id):
     """
     Manage a specific reading log by its ID.
@@ -518,6 +524,7 @@ def reading_log(br_id, l_id):
 
 # Route for liking or disliking a book
 @app_views.route('/booksreading/like', methods=['PUT'], strict_slashes=False)
+@jwt_required()
 def like_book():
     """
     Like or dislike a book.
@@ -559,6 +566,7 @@ def like_book():
 
 # Route for retrieving all reading logs for a specific book reading activity
 @app_views.route('books_reading/<br_id>/logs/all', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def get_all_bookreading_log_summary(br_id):
     """
     Retrieve all reading logs for a specific book reading activity.
