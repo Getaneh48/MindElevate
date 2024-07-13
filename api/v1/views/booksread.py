@@ -14,11 +14,13 @@ from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from flasgger.utils import swag_from
 import json
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
 
 # Route for retrieving a list of books the user has read
 @app_views.route('/booksread', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def books_read():
     """
     Retrieve a list of books the user has read.
@@ -58,7 +60,7 @@ def books_read():
         ...
     ]
     """
-    user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+    user_id = get_jwt_identity()
     user = storage.get('User', user_id)
     bread = []
     if user.booksreading is not None:
@@ -80,6 +82,7 @@ def books_read():
 
 # Route for managing a specific book that the user has read
 @app_views.route('/booksread/<br_id>', methods=['GET', 'PUT'], strict_slashes=False)
+@jwt_required()
 def book_read(br_id):
     """
     Manage a specific book that the user has read.
@@ -115,7 +118,7 @@ def book_read(br_id):
     }
     """
     if request.method == 'GET':
-        user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+        user_id = get_jwt_identity()
         user = storage.get('User', user_id)
         bread = storage.get('BookReading', br_id) 
         if bread and bread.user_id == user_id:
@@ -138,6 +141,7 @@ def book_read(br_id):
 
 # Route for adding a book to the user's favorites list
 @app_views.route('/booksread/<br_id>/favourite', methods=['POST'], strict_slashes=False)
+@jwt_required()
 def add_book_to_favourites(br_id):
     """
     Add a book to the user's favorites list.
@@ -159,7 +163,7 @@ def add_book_to_favourites(br_id):
         "message": "Book added to favourites"
     }
     """
-    user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+    user_id = get_jwt_identity()
     book_read = storage.get('BookReading', br_id)
     if book_read:
         try:
@@ -174,6 +178,7 @@ def add_book_to_favourites(br_id):
 
 # Route for searching for books the user has read
 @app_views.route('/booksread/search', methods=['GET', 'POST'], strict_slashes=False)
+@jwt_required()
 def search_books_read():
     """
     Search for books the user has read.
@@ -209,7 +214,7 @@ def search_books_read():
         ...
     ]
     """
-    user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
+    user_id = get_jwt_identity()
     if request.method == 'POST':
         query = request.get_json()
         search_result = storage.search_books_read(user_id, query)
@@ -225,6 +230,7 @@ def search_books_read():
 
 # Route for retrieving books read by genre
 @app_views.route('/booksread/by_genres', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def books_by_genre():
     """
     Retrieve books read by genre.
@@ -242,11 +248,13 @@ def books_by_genre():
         ...
     }
     """
+    user_id = get_jwt_identity()
     result = storage.get_books_count_by_genre(user_id)
     return jsonify(result), 200
 
 # Route for retrieving the most popular books
 @app_views.route('/booksread/most_pupular', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def most_popular_books():
     """
     Retrieve the most popular books.
@@ -273,7 +281,6 @@ def most_popular_books():
     popular_books = most_read_books + most_liked_books + most_fav_books
     popular_books = list(set(popular_books))
 
-    print(f"favorited - {popular_books}")
     if popular_books:
         return jsonify(dict(popular_books)), 200
     return jsonify({'success': False, 'message': 'Not Found'}), 404
