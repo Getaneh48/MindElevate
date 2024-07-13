@@ -12,11 +12,12 @@ from flask import jsonify
 import requests
 import random
 import json
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-user_id = '4a2fa583-5080-49c8-9061-ef217bc42778'
 
 # Route for checking the status of the API
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def status():
     """
     Check the status of the API.
@@ -36,6 +37,7 @@ def status():
 
 # Route for retrieving recommended books based on user preferences and genres
 @app_views.route('/books_recommended', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def books_recommended():
     """
     Retrieve recommended books based on user preferences and genres.
@@ -60,13 +62,15 @@ def books_recommended():
         ...
     ]
     """
+    user_id = get_jwt_identity()
     result = storage.get_books_count_by_genre(user_id)
     sorted_data = dict(sorted(result.items(), key=lambda item: item[1], reverse=True))
     genres = list(sorted_data.keys())
     user = storage.get('User',user_id)
-    prefs = json.loads(user.book_genere_prefs)
-    pref_genres = storage.get_genres_by_id_list(prefs)
-    print(pref_genres)
+    if user.book_genere_prefs:
+        prefs = json.loads(user.book_genere_prefs)
+        pref_genres = storage.get_genres_by_id_list(prefs)
+        print(pref_genres)
     if len(genres) <= 0:
         return jsonify({'success': False, 'message': 'No results found'}), 404
     index = random.randint(1, len(genres))
