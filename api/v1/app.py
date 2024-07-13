@@ -36,8 +36,8 @@ def not_found(error):
     return make_response(jsonify({'error': "Not found"}), 404)
 
 app.config['SWAGGER'] = {
-    'title': 'AirBnB clone Restful API',
-    'uiversion': 3
+    'title': 'MindElevate Restful API',
+    'uiversion': 1
 }
 
 Swagger(app)
