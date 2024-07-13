@@ -13,9 +13,11 @@ from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from flasgger.utils import swag_from
 import json
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 # Route for retrieving a list of all books
 @app_views.route('/books', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def books():
     """
     Retrieve a list of all books.
@@ -56,6 +58,7 @@ def books():
 
 # Route for retrieving, updating, or deleting a specific book by its ID
 @app_views.route('/books/<bid>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
+@jwt_required()
 def book(bid):
     """
     Retrieve, update, or delete a specific book by its ID.
@@ -109,6 +112,7 @@ def book(bid):
 
 # Route for searching books based on title, author, or genre
 @app_views.route('/books/search', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def search_books():
     """
     Search for books based on title, author, or genre.
@@ -148,6 +152,7 @@ def search_books():
 
 # Route for retrieving a list of all book genres
 @app_views.route('/books/genres', methods=['GET'], strict_slashes=False)
+@jwt_required()
 def genre_list():
     """
     Retrieve a list of all book genres.
@@ -181,6 +186,7 @@ def genre_list():
 
 # Route for retrieving a book by its title
 @app_views.route('/books/title/<title>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
+@jwt_required()
 def get_book_by_title(title):
     """
     Retrieve, update, or delete a book by its title.
