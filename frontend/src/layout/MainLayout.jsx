@@ -14,6 +14,13 @@ export default function MainLayout() {
     const [notification, setNotification] = useState(null);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        //check if the user is logged in 
+        if (localStorage.getItem('access_token') == 'null' || localStorage.getItem('access_token') == null){
+            navigate('/login');
+        }
+    },[]);
+
     useEffect(()=>{
         location.pathname !== '/melv' ? setIsDefaultLocation(false) : setIsDefaultLocation(true);
     },[location,setIsDefaultLocation])
