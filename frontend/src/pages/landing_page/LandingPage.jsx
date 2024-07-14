@@ -19,9 +19,9 @@ export default function LandingPage() {
                         <img src={logo_icon} alt="App logo" />
                     </div>
                     <div className="landing-page-header-right">
-                        <Link to="/melv"><span className="login">Login</span></Link>
+                        <Link to="/login"><span className="login">Login</span></Link>
                         <span className="separator">|</span>
-                        <Link to="/melv"><span className="register">Create Account</span></Link>
+                        <Link to="/register"><span className="register">Create Account</span></Link>
                     </div>
                 </header>
             </div>
