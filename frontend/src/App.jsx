@@ -8,11 +8,15 @@ import BooksRead from './pages/booksread/BooksRead';
 import BookmarkedBooks from './pages/bookmarked_books/BookmarkedBooks';
 import FavoriteBooks from './pages/favorite_books/FavoriteBooks';
 import LandingPage from './pages/landing_page/LandingPage';
+import Login from './pages/accounts/Login';
+import Register from './pages/accounts/Register';
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/register" element={<Register />} />
         <Route exact path="/" element={<LandingPage />} />
         <Route exact path="/melv" element={<MainLayout />}>
             <Route exact path="readbook" element={<ReadBook />} />
