@@ -35,8 +35,8 @@ class User(BaseModel, Base):
     __tablename__ = 'users'
     username = Column(String(50), nullable=False)
     password = Column(String(100), nullable=False)
-    first_name = Column(String(100), nullable=False)
-    last_name = Column(String(100), nullable=False)
+    first_name = Column(String(100))
+    last_name = Column(String(100))
     age = Column(Integer)
     sex = Column(String(10))
     picture = Column(String(140))
