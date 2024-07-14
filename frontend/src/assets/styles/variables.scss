@@ -20,3 +20,54 @@ $title-font-size: 1.6em;
 $components-background-color: #f8f7fd;
 $header-logo-width: 100px;
 $main-menu-icon-width: 50px;
+$input-height:45px;
+$input-bg-color:#ecf0f1;
+$button-bg-color:#1a5678;
+$button-height:60px;
+
+@mixin input {
+    height: $input-height;
+    background-color: $input-bg-color;
+    border:none;
+    font-size: 1.4em;
+    &:focus {
+        border:1px solid #ccc;
+        outline: none;
+    }
+}
+
+@mixin input-group {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    .label{
+        font-size:1.7em;
+        color:$text-color-2;
+    }
+    input {
+        @include input;
+    }
+}
+
+@mixin button {
+    margin-top:$gaps;
+    background-color: $button-bg-color;
+    height: $button-height;
+    font-size: 1.5em;
+    color:white;
+    font-weight: 600;
+
+    &:focus {
+        outline: none;
+        background-color: $background-color-4;
+        border:1px solid $background-color-4;
+    }
+}
+
+@mixin footer {
+    background-color: $footer_bg_color;
+    height: $footer_height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
