@@ -1,0 +1,60 @@
+@import '../../assets/styles/variables.scss';
+$footer_height: $footer-height;
+$footer_bg_color: #f6f5f5;
+$header_height: $header-height;
+$header_bg_color: #1a5678;
+$login_body_height: 87vh;
+$login_form_bg_color: #ffffff;
+.login-container{
+    background-color: #e9e7e7;
+    .login-header{
+        height:$header_height;
+        background-color: $header_bg_color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+            width:100px;
+            position:relative;
+            top:20px;
+        }
+    }
+    .login-body{
+        height: $login_body_height;
+        .login-form{
+            background-color: $login_form_bg_color;
+            border-radius: 5px;
+            min-height: 400px;
+            width:40%;
+            margin:0 auto;
+            margin-top:70px;
+            box-sizing: border-box;
+            padding:calc(2 * $gaps);
+            display: flex;
+            flex-direction: column;
+            gap:$gaps;
+            
+            .login-form-title{
+                font-size:1.8em;
+                color:$text-color-1;
+            }
+
+            .login-form-group {
+                display: flex;
+                flex-direction: column;
+                gap:$gaps;
+                margin-top:$gaps;
+                .login-form-input-group {
+                    @include input-group;
+                }
+
+                .login-btn{
+                    @include button;
+                }
+            }
+        }
+    }
+    footer{
+        @include footer
+    }
+}
