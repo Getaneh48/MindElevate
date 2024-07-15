@@ -299,3 +299,10 @@ class DBStorage:
                                             params({'username': username})).first()
 
         return result
+
+    def is_email_exist(self, email):
+        result = self.__session.query(User).filter(text('email = :email').\
+                                            params({'email': email})).first()
+        if result:
+            return True
+        return False
