@@ -37,22 +37,22 @@ def validate_login_data(data):
     return True
 
 def validate_reg_data(data):
-    errors = []
+    errors = {}
     if 'username' not in data:
-        errors.append("username required")
+        errors["username"] = "username required"
     else:
         if not re.match(r"^[a-zA-Z]+[_0-9]*[a-zA-Z]*$", data['username']):
-            errors.append("Invalid username")
+            errors["username"] = "Invalid username"
     if 'password' not in data:
-        errors.append("password required")
+        errors["password"] = "password required"
     else:
         if not check_password_complexity(data['password']):
-            errors.append("password does not meet complexity criteria")
+            errors["password"] = "password does not meet complexity criteria"
     if 'email' not in data:
-        errors.append("email required")
+        errors["email"] = "email required"
     else:
         if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$", data['email']):
-            errors.append("invalid email")
+            errors["email"] = "invalid email"
 
     return errors
 
@@ -93,12 +93,14 @@ def register():
             user = storage.get_user_by_name(data['username'])
             # check if the username provided is taken or not
             if user is not None:
-                return jsonify({'success': False, 'message': 'username already taken'}), 200
+                return jsonify({'success': False, 'message': 'validation error',
+                                'data': {'username': 'username already taken'}}), 400
 
             #check if the email is already taken or not
             exist = storage.is_email_exist(data['email'])
             if exist is True:
-                return jsonify({'success': False, 'message': 'email already taken'}), 200
+                return jsonify({'success': False, 'message': 'validation error',
+                                'data':{'email': 'email already taken'}}), 400
             
             user_info = {
                     'username': data['username'],
@@ -131,5 +133,5 @@ def register():
                 print(ex)
                 return jsonify({'success': False, 'message': 'Interval Server Error'}), 500
         else:
-            return jsonify({'success': False, 'message': 'validation error', 'errors': errors}), 400
+            return jsonify({'success': False, 'message': 'validation error', 'data': errors}), 400
             
