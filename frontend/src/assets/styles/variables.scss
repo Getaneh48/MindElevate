@@ -25,27 +25,27 @@ $input-bg-color:#ecf0f1;
 $button-bg-color:#1a5678;
 $button-height:60px;
 
-@mixin input {
+@mixin input($fs: 1.4em) {
     height: $input-height;
     background-color: $input-bg-color;
     border:none;
-    font-size: 1.4em;
+    font-size: $fs;
     &:focus {
         border:1px solid #ccc;
         outline: none;
     }
 }
 
-@mixin input-group {
+@mixin input-group($label_fs:1.7em, $input_fs: 1.4em) {
     display: flex;
     flex-direction: column;
     gap:5px;
     .label{
-        font-size:1.7em;
+        font-size:$label_fs;
         color:$text-color-2;
     }
     input {
-        @include input;
+        @include input($input_fs);
     }
 }
 

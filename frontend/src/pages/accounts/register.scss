@@ -1,0 +1,122 @@
+@import '../../assets/styles/variables.scss';
+$footer_height: $footer-height;
+$footer_bg_color: #f6f5f5;
+$header_height: $header-height;
+$header_bg_color: #1a5678;
+$login_body_height: 87vh;
+$login_form_bg_color: #ffffff;
+.register-container{
+    background-color: #e9e7e7;
+    .register-header{
+        height:$header_height;
+        background-color: $header_bg_color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+            width:100px;
+            position:relative;
+            top:20px;
+        }
+    }
+    .register-body{
+        min-height: $login_body_height;
+        .register-form{
+            background-color: $login_form_bg_color;
+            border-radius: 5px;
+            min-height: 400px;
+            width:40%;
+            margin:0 auto;
+            margin-top:70px;
+            box-sizing: border-box;
+            padding:calc(2 * $gaps);
+            display: flex;
+            flex-direction: column;
+            gap:$gaps;
+            .register-form-title-container{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                
+                .register-form-title{
+                    font-size:1.8em;
+                    color:$text-color-1;
+                    font-weight: bold;
+                    flex:1;
+                } 
+                .register-form-subtitle{
+                    font-size:1.2em;
+                    flex:1;
+                } 
+            }
+            
+            .register-form-group {
+                display: flex;
+                flex-direction: column;
+                gap:$gaps;
+                margin-top:$gaps;
+                .register-form-input-group {
+                    @include input-group(1.3em, 1.2em);
+                    input[type="password"] {
+                        color:$text-color-1;
+                    }
+                    .error {
+                        color:$text-color-3;
+                        font-weight: 300;
+                    }
+                }
+
+                .register-btn{
+                    @include button;
+                }
+            }
+
+            .register-actions {
+                display: flex;
+                flex-direction: column;
+                gap:$gaps;
+
+                .join-btn {
+                    @include button;
+                }
+
+                .separator{
+                    display: flex;
+                    align-items: center;
+
+                    .left-line, .right-line{
+                        flex:1;
+                    }
+
+                    .or-text{
+                        margin-left:5px;
+                        margin-right:5px;
+                        color:$text-color-3;
+                        font-weight: bold;
+                    }
+                }
+
+                .privacy-policy {
+                    font-weight: 300;
+                }
+
+                .member-confirmation {
+                    display: flex;
+                    gap:$gaps;
+                    span, a{
+                        font-size: 1.4em;
+                    }
+
+                    a {
+                        color:$text-color-2;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+    footer{
+        margin-top:$gaps;
+        @include footer
+    }
+}
