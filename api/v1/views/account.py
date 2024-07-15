@@ -74,7 +74,16 @@ def login():
             if user:
                 try:
                     if bcrypt.verify(data['password'], user.password) is True:
-                        access_token = create_access_token(identity=user.id)
+                        acct_info = {
+                                     'username': user.username,
+                                     'first_name': user.first_name,
+                                     'last_name': user.last_name,
+                                     'age': user.age,
+                                     'sex':user.sex,
+                                     'book_genere_prefs': user.book_genere_prefs,
+                                     'id': user.id
+                                     }
+                        access_token = create_access_token(identity=acct_info)
                         return jsonify({'success': True, 'message': 'Login successfull',\
                                         'access_token': access_token}), 200
                     else:
@@ -105,10 +114,18 @@ def register():
                     }
             try:
                 new_user = User(**user_info)
+                acct_info = {
+                             'username': new_user.username,
+                             'first_name': new_user.first_name,
+                             'last_name': new_user.last_name,
+                             'age': new_user.age,
+                             'sex':new_user.sex,
+                             'book_genere_prefs': new_user.book_genere_prefs,
+                             'id': new_user.id
+                             }
                 new_user.add()
                 new_user.save()
-
-                access_token = create_access_token(identity=data['username'])
+                access_token = create_access_token(identity=acct_info)
                 return jsonify({'success': True, 'message': 'User registration is successfull',\
                                 'access_token': access_token}), 200
             except Exception as ex:
