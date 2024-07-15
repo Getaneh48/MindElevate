@@ -48,20 +48,11 @@ def validate_reg_data(data):
     else:
         if not check_password_complexity(data['password']):
             errors.append("password does not meet complexity criteria")
-
-    if 'first_name' not in data:
-        errors.append('First name required')
+    if 'email' not in data:
+        errors.append("email required")
     else:
-        if len(data['first_name']) < 2:
-            errors.append('First name should be >= 2 character')
-        else:
-            if not re.match(r"^[a-zA-Z]+[ ]*[a-zA-Z]+$", data['first_name']):
-                errors.append('Invalid first name')
-    if 'last_name' not in data:
-        errors.append('Last name required')
-    else:
-        if not re.match(r"^[a-zA-Z]+[ ]*[a-zA-Z]+$", data['last_name']):
-                errors.append('Invalid last name')
+        if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$", data['email']):
+            errors.append("invalid email")
 
     return errors
 
@@ -103,14 +94,20 @@ def register():
             # check if the username provided is taken or not
             if user is not None:
                 return jsonify({'success': False, 'message': 'username already taken'}), 200
+
+            #check if the email is already taken or not
+            exist = storage.is_email_exist(data['email'])
+            if exist is True:
+                return jsonify({'success': False, 'message': 'email already taken'}), 200
             
             user_info = {
                     'username': data['username'],
                     'password': bcrypt.hash(data['password']),
-                    'first_name': data['first_name'],
-                    'last_name': data['last_name'],
+                    'first_name': '',
+                    'last_Name': '',
                     'age': data['age'] if 'age' in  data else None,
                     'sex': data['sex'] if 'sex' in data else None,
+                    'email': data['email']
                     }
             try:
                 new_user = User(**user_info)
@@ -120,6 +117,7 @@ def register():
                              'last_name': new_user.last_name,
                              'age': new_user.age,
                              'sex':new_user.sex,
+                             'email': new_user.email,
                              'book_genere_prefs': new_user.book_genere_prefs,
                              'id': new_user.id
                              }
