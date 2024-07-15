@@ -29,6 +29,7 @@ class User(BaseModel, Base):
         last_name (str): The last name of the user.
         age (int): The age of the user.
         sex (str): The gender of the user.
+        email (str): The email of the user.
         picture (str): The profile picture URL or path of the user.
         book_genre_prefs (list): A list of preferred book genres for the user.
     """
@@ -39,6 +40,7 @@ class User(BaseModel, Base):
     last_name = Column(String(100))
     age = Column(Integer)
     sex = Column(String(10))
+    email = Column(String(200))
     picture = Column(String(140))
     book_genere_prefs = Column(TEXT)
 
@@ -62,6 +64,7 @@ class User(BaseModel, Base):
         self.last_name = ''
         self.age = ''
         self.sex = ''
+        self.email = ''
         self.picture = ''
         self.book_genere_prefs = ''
 
