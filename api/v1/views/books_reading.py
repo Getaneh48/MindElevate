@@ -61,7 +61,8 @@ def books_reading():
         ...
     ]
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     if request.method == 'GET':
         user = storage.get('User', user_id)
         breading = []
@@ -178,7 +179,8 @@ def reading_onprogress():
         ...
     ]
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     user = storage.get('User', user_id)
     onprogress = storage.readingOnProgress(user)
     results = []
@@ -594,6 +596,7 @@ def get_all_bookreading_log_summary(br_id):
     ]
     """
     results = storage.get_all_readinglogs_summary(br_id)
+    print(f"all logs - {results}")
     if results:
         logs = []
         for row in results:

@@ -51,7 +51,8 @@ def favorites():
     ]
     """
 
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     user = storage.get('User', user_id)
 
     favsb_list = []

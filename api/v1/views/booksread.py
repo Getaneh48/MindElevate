@@ -59,7 +59,8 @@ def books_read():
         ...
     ]
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     user = storage.get('User', user_id)
     bread = []
     if user.booksreading is not None:
@@ -117,7 +118,8 @@ def book_read(br_id):
     }
     """
     if request.method == 'GET':
-        user_id = get_jwt_identity()
+        auth_user = get_jwt_identity()
+        user_id = auth_user['id']
         user = storage.get('User', user_id)
         bread = storage.get('BookReading', br_id) 
         if bread and bread.user_id == user_id:
@@ -162,7 +164,8 @@ def add_book_to_favourites(br_id):
         "message": "Book added to favourites"
     }
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     book_read = storage.get('BookReading', br_id)
     if book_read:
         try:
@@ -213,7 +216,8 @@ def search_books_read():
         ...
     ]
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     if request.method == 'POST':
         query = request.get_json()
         search_result = storage.search_books_read(user_id, query)
@@ -247,7 +251,8 @@ def books_by_genre():
         ...
     }
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     result = storage.get_books_count_by_genre(user_id)
     return jsonify(result), 200
 

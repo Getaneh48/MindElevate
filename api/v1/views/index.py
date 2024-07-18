@@ -62,7 +62,8 @@ def books_recommended():
         ...
     ]
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     result = storage.get_books_count_by_genre(user_id)
     sorted_data = dict(sorted(result.items(), key=lambda item: item[1], reverse=True))
     genres = list(sorted_data.keys())

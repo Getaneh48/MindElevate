@@ -30,7 +30,8 @@ def bookmarks():
     Returns:
     A JSON response with appropriate status code and message.
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     if request.method == 'GET':
         """
         Get the user's bookmarked books and return them as a list.
@@ -125,7 +126,8 @@ def add_new_book_to_bookmark_list():
     Returns:
     A JSON response with appropriate status code and message.
     """
-    user_id = get_jwt_identity()
+    auth_user = get_jwt_identity()
+    user_id = auth_user['id']
     if request.method == 'POST':
         if request.is_json:
             data = request.get_json()

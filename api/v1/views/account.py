@@ -30,11 +30,12 @@ def check_password_complexity(password):
     )
 
 def validate_login_data(data):
+    errors = {}
     if 'username' not in data:
-        return False
+        errors["username"] = 'username required'
     if 'password' not in data:
-        return False
-    return True
+        errors["password"] = 'password required'
+    return errors
 
 def validate_reg_data(data):
     errors = {}
@@ -60,7 +61,7 @@ def validate_reg_data(data):
 def login():
     if request.method == 'POST':
         data = request.get_json()
-        if validate_login_data(data):
+        if len(validate_login_data(data)) == 0:
             user = storage.get_user_by_name(data['username'])
             if user:
                 try:
@@ -78,10 +79,12 @@ def login():
                         return jsonify({'success': True, 'message': 'Login successfull',\
                                         'access_token': access_token}), 200
                     else:
-                        return jsonify({'success': False, 'message': 'Invalid username or password'}), 400
+                        return jsonify({'success': False, 'message': 'Invalid username or password'}), 401
                 except ValueError as ex:
                     print(ex)
             return jsonify({'success': False, 'message': 'Invalid username or password'}), 400
+        else:
+            return jsonify({'success': False, 'message': 'validation error', 'data': errors}), 400
         return jsonify({'success': False, 'message': 'Bad Request'}), 400
 
 @app_views.route('/register', methods=['POST'], strict_slashes=False)
