@@ -4,12 +4,14 @@ import loading_icon from '../../assets/images/loading.gif';
 import bookmarked_icon from '../../assets/images/bookmarked-books.png';
 import book_not_found_icon from '../../assets/images/book-not-found.png';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import BookmarkedBook from '../../components/home/bookmarked_books/BookmarkedBook';
 import { useNavigate } from 'react-router';
 import config from '../../config/config';
+import AccountContext from '../../context/AccountContext';
 
 export default function BookmarkedBooks() {
+    const {token} = useContext(AccountContext);
     const [inprogress, setInProgress] = useState(true);
     const [bookmarks, setBookmarks] = useState([]);
     const navigate = useNavigate();
@@ -24,6 +26,7 @@ export default function BookmarkedBooks() {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
                     },
                     body: JSON.stringify(pdata),
                 });
@@ -51,8 +54,13 @@ export default function BookmarkedBooks() {
             try {
                 setInProgress(true);
                 const url = `${config.api_url}/bookmarks`;
-    
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const data = await response.json();
                     setBookmarks(data);

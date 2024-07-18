@@ -4,8 +4,11 @@ import open_book_icon from '../../assets/images/open-book-4.png';
 
 import PropTypes from 'prop-types';
 import config from '../../config/config';
+import { useContext } from 'react';
+import AccountContext from '../../context/AccountContext';
 
 export default function FavoriteBook({fbook, favorites, setFavorites}) {
+    const {token} = useContext(AccountContext);
     const removeFromFavorite = async () => {
         const data = {
             id: fbook.id,
@@ -16,6 +19,7 @@ export default function FavoriteBook({fbook, favorites, setFavorites}) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(data),
             })

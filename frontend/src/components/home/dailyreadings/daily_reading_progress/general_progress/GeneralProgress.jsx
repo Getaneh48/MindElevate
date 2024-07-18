@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import './general_progress.scss';
 import PropTypes from 'prop-types';
 import {useState} from 'react';
 import config from '../../../../../config/config';
+import AccountContext from '../../../../../context/AccountContext';
 
 export default function GeneralProgress({selected_book}) {
+    const {token} = useContext(AccountContext);
     const [total_pages_read, setTotalPagesRead] = useState(0);
     
 
@@ -12,7 +14,13 @@ export default function GeneralProgress({selected_book}) {
         const getAllLogs = async () => {
             try {
                 const url = `${config.api_url}/books_reading/${selected_book.id}/logs`;
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);

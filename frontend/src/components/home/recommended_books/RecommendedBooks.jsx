@@ -1,11 +1,13 @@
 import './recommendedbooks.scss';
 import recommended_books_icon from '../../../assets/images/recommended_books.png'
 import RecommendedBook from './recommended_book/RecommendedBook';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import loading_icon from '../../../assets/images/loading.gif';
 import config from '../../../config/config';
+import AccountContext from '../../../context/AccountContext';
 
 export default function RecommendedBooks() {
+    const {token} = useContext(AccountContext);
     const [recommended_books, setRecommendedBooks] = useState([]);
     const [loading_recommendation, setLoadingRecommendation] = useState(false);
     const [bookmarkInfo, setBookmarkInfo] = useState(null);
@@ -17,8 +19,14 @@ export default function RecommendedBooks() {
         const getRecommendation = async () => {
             const url = `${config.api_url}/books_recommended`;
             try {
-                setLoadingRecommendation(true)
-                const response = await fetch(url);
+                setLoadingRecommendation(true);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);
@@ -68,6 +76,7 @@ export default function RecommendedBooks() {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
                         },
                         body: JSON.stringify(book_info),
                     });

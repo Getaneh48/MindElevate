@@ -1,16 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './mostpopularbook.scss';
 import PropTypes from 'prop-types';
 import config from '../../config/config';
+import AccountContext from '../../context/AccountContext';
 
 export default function MostPopularBook({book_title, setSelectedBook}) {
+    const {token} = useContext(AccountContext);
     const [book, setBook] = useState(null);
 
     useEffect(()=>{
         const fetchPopularBook = async () => {
             try {
                 const url = `${config.api_url}/books/title/${book_title}`;
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if(response.ok) {
                     const resp_data = await response.json();
                     console.log(resp_data);

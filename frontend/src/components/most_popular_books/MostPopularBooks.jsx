@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './mostpopularbooks.scss';
 import MostPopularBook from './MostPopularBook';
 import popular_book_icon from '../../assets/images/popular-books.png';
 import { useNavigate } from 'react-router';
 import config from '../../config/config';
+import AccountContext from '../../context/AccountContext';
 
 export default function MostPopularBooks() {
+    const {token} = useContext(AccountContext);
     const [popular_books, setPopularBooks] = useState([]);
     const [selected_book, setSelectedBook] = useState(null);
     const navigate = useNavigate();
@@ -15,7 +17,13 @@ export default function MostPopularBooks() {
             const fetchPopularBooks = async () => {
                 try {
                     const url = `${config.api_url}/booksread/most_pupular`;
-                    const response = await fetch(url);
+                    const options = {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    };
+                    const response = await fetch(url, options);
                     if(response.ok) {
                         const resp_data = await response.json();
                         const pbooks = [];
@@ -46,6 +54,7 @@ export default function MostPopularBooks() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
                     },
                     body: JSON.stringify(data),
                 });

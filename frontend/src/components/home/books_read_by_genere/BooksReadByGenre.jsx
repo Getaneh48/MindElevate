@@ -7,7 +7,7 @@ import fiction_icon from '../../../assets/images/genre/fiction-icon.png';
 import lifestyle_icon from '../../../assets/images/genre/Lifestyle.png';
 import poletics_icon from '../../../assets/images/genre/Poletics-and-Law.png';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import religion_icon from '../../../assets/images/genre/religion.png';
 import enviroment_icon from '../../../assets/images/genre/Enviroment.png';
@@ -16,6 +16,7 @@ import technology_icon from '../../../assets/images/genre/Technology.png';
 import biography_icon from '../../../assets/images/genre/Biography.png';
 import fiction_career_icon from '../../../assets/images/genre/Fiction-and-Literature.png';
 import config from '../../../config/config';
+import AccountContext from '../../../context/AccountContext';
 
 
 function CountBooksByGenre({genre, count}) {
@@ -48,13 +49,20 @@ function CountBooksByGenre({genre, count}) {
 }
 
 export default function BooksReadByGenre() {
+    const {token} = useContext(AccountContext);
     const [genres, setGenres] = useState(null);
 
     useEffect(() => {
         const fetchGenres = async () => {
             try {
                 const url = `${config.api_url}/booksread/by_genres`;
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);

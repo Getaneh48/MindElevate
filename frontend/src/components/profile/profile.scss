@@ -1,0 +1,21 @@
+@import '../../assets/styles/variables.scss';
+
+.profile-container {
+    padding-right:10px;
+    .proifle-menu{
+        .profile-name{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .name{
+                color:white;
+                font-weight: bold;
+            }
+
+            img {
+                width:30px;
+            }
+        }
+    }
+}

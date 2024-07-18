@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './recommendedbook.scss';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 import config from '../../../../config/config';
+import AccountContext from '../../../../context/AccountContext';
 
 export default function RecommendedBook({rbook, setBookmarkInfo}) {
+    const {token} = useContext(AccountContext);
     const [hidden, setHidden] = useState(true);
     const [genres, setGenres] = useState([]);
     const navigate = useNavigate();
@@ -17,7 +19,13 @@ export default function RecommendedBook({rbook, setBookmarkInfo}) {
         const fetchGenres = async () => {
             try {
                 const url = `${config.api_url}/books/genres`;
-                const response = await fetch(url)
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options)
                 if (response.ok) {
                     const data = await response.json();
                     setGenres(data)

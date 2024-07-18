@@ -39,13 +39,20 @@ $login_form_bg_color: #ffffff;
                 color:$text-color-1;
             }
 
+            .error-message{
+                color: $text-color-3;
+            }
+
             .login-form-group {
                 display: flex;
                 flex-direction: column;
                 gap:$gaps;
-                margin-top:$gaps;
+
                 .login-form-input-group {
                     @include input-group;
+                    input[type="password"] {
+                        color:$text-color-1;
+                    }
                 }
 
                 .login-btn{

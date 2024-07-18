@@ -1,11 +1,12 @@
 import './bookdetail.scss';
 import book_detail_icon from '../../../assets/images/book-detail.png';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import config from '../../../config/config';
+import AccountContext from '../../../context/AccountContext';
 
 export default function BookDetail({book_to_read, reading_info, setReadingInfo, validation_error, reset_form}) {
-
+    const {token} = useContext(AccountContext);
     const [genres, setGenres] = useState([]);
 
     const handleGenreSelection = (e) => {
@@ -17,8 +18,14 @@ export default function BookDetail({book_to_read, reading_info, setReadingInfo, 
     useEffect(() => {
         const fetchGenres = async () => {
             const url = `${config.api_url}/books/genres`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            };
             try {
-                const response = await fetch(url);
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const data = await response.json();
                     setGenres(data)

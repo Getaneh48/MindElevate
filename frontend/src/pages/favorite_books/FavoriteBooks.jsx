@@ -2,24 +2,31 @@ import './favorite_books.scss';
 import loading_icon from '../../assets/images/loading.gif';
 import favorite_icon from '../../assets/images/favorite-books.png';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import FavoriteBook from './FavoriteBook';
 import book_not_found_icon from '../../assets/images/book-not-found.png';
 import MostPopularBooks from '../../components/most_popular_books/MostPopularBooks';
 import RecommendedBooks from '../../components/home/recommended_books/RecommendedBooks';
 import config from '../../config/config';
+import AccountContext from '../../context/AccountContext';
 
 export default function FavoriteBooks() {
     const [loading, setLoading] = useState(false);
     const [favorites, setFavorites] = useState([]);
+    const {token} = useContext(AccountContext);
 
     useEffect(()=>{
         const url = `${config.api_url}/favorites`;
-        
         const fetchFavorites = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const data = await response.json();
                     setFavorites(data);

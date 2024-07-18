@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './daily_log_form.scss';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 import config from '../../../../../config/config';
+import AccountContext from '../../../../../context/AccountContext';
 
 export default function DailyLogForm({selected_book, setShowDailyLogForm}) {
+    const {token} = useContext(AccountContext);
     const [pages_read, setPagesRead] = useState('');
     const [hours_read, setHoursRead] = useState('');
     const navigate = useNavigate();
@@ -38,7 +40,8 @@ export default function DailyLogForm({selected_book, setShowDailyLogForm}) {
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: { 
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
                         },
                         body: JSON.stringify(reading_log),
                     });

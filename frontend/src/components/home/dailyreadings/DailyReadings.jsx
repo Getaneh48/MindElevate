@@ -3,10 +3,12 @@ import './dailyreadings.scss';
 import todays_reading_icon from '../../../assets/images/todays-reading.png';
 import warning_icon from '../../../assets/images/warning.png';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import config from '../../../config/config';
+import AccountContext from '../../../context/AccountContext';
 
 export default function DailyReadings() {
+    const {token} = useContext(AccountContext);
     const url = `${config.api_url}/books_reading/onprogress`;
     const [books_reading, setBooksReading] = useState([]);
     const [error, setError] = useState(false);
@@ -15,7 +17,13 @@ export default function DailyReadings() {
 
         const fetch_books_onreading = async ()=> {
             try {
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const responseData = await response.json();
                     console.log(responseData);

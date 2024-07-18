@@ -4,8 +4,9 @@ import next_icon from '../../../../../assets/images/next.png';
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import PropTypes from 'prop-types';
 import MonthSelector from '../../../../month_selector/MonthSelector';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import config from '../../../../../config/config';
+import AccountContext from '../../../../../context/AccountContext';
 //import moment from 'moment';
 
 
@@ -28,6 +29,7 @@ const MyBarChart = ({ data, max_page }) => {
   };
   
 export default function DailyProgressChart({selected_book}) {
+    const {token} = useContext(AccountContext);
     const [selected_month, setSelectedMonth] = useState(0);
     const [week, setWeek] = useState(1);
     const [datas, setData] = useState(null);
@@ -88,7 +90,13 @@ export default function DailyProgressChart({selected_book}) {
     useEffect(()=>{
         const fetchAllLogs = async () => {
             const url = `${config.api_url}/books_reading/${selected_book.id}/logs/all`;
-            const response = await fetch(url);
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            };
+            const response = await fetch(url, options);
             if (response.ok) {
                 const logs = await response.json();
                 console.log(logs);

@@ -1,11 +1,12 @@
 import './register.scss';
 import logo from '../../assets/images/MindElevate.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import config from '../../config/config';
 
 export default function Register(){
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
     const username = useRef();
     const email = useRef();
     const password =useRef();
@@ -81,10 +82,10 @@ export default function Register(){
                 if (response.ok) {
                     // Parse the response as JSON
                     const responseData = await response.json();
-                    console.log(responseData);
                     if (responseData.success) {
-                        alert("Registration successfull!")
-                        //navigate('/melv')
+                        // save the token to a local storage
+                        localStorage.setItem('access_token', responseData.access_token)
+                        navigate('/melv')
                     }
                 } else {
                     if (response.status == 400){

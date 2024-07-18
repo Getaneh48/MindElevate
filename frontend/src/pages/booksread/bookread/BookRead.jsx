@@ -7,10 +7,12 @@ import favorite_icon from '../../../assets/images/favorite.png';
 import favorite_marked from '../../../assets/images/favorite-marked.png';
 import open_book_icon from '..//../../assets/images/open-book-4.png';
 import getBadge from '../../../datas/badges';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import config from '../../../config/config';
+import AccountContext from '../../../context/AccountContext';
 
 export default function BookRead({bookr}) {
+    const {token} = useContext(AccountContext);
     const [is_favorite, setIsFavorite] = useState(bookr.is_favorite);
     const [is_liked, setIsLiked] = useState(bookr.is_liked);
     console.log(bookr);
@@ -37,6 +39,7 @@ export default function BookRead({bookr}) {
                 body: JSON.stringify(data),
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${token}`,
                 }
             });
             if (response.ok) {
@@ -65,6 +68,7 @@ export default function BookRead({bookr}) {
                 body: JSON.stringify(data),
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${token}`,
                 }
             });
             if (response.ok) {

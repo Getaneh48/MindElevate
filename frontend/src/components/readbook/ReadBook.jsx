@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import BookDetail from './bookdetail/BookDetail';
 import './readbook.scss';
 import ReadingGoal from './readinggoal/ReadingGoal';
@@ -6,8 +6,10 @@ import SearchBook from './searchbook/SearchBook';
 import { useNavigate, useParams } from 'react-router';
 import loading_icon from '../../assets/images/loading.gif';
 import config from '../../config/config';
+import AccountContext from '../../context/AccountContext';
 
 export default function ReadBook() {
+    const {token} = useContext(AccountContext);
     const navigate = useNavigate();
     const {id, ext} = useParams(null);
     const [book_to_read, setBookToRead] = useState(null);
@@ -29,7 +31,13 @@ export default function ReadBook() {
             console.log(api_url)
             try {
                 setShowProgress(true);
-                const response = await fetch(`${api_url}`);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(`${api_url}`, ext == 'false' ? options : null);
                 if (response.ok){
                     const data = await response.json();
                     const bt_read = {
@@ -122,6 +130,7 @@ export default function ReadBook() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
                     },
                     body: JSON.stringify(data),
                 };

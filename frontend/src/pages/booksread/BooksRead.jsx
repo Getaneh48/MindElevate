@@ -4,13 +4,15 @@ import books_read_icon from '../../assets/images/books-read.png';
 import loading_icon from '../../assets/images/loading.gif';
 import book_not_found from '../../assets/images/book-not-found.png';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import BookRead from './bookread/BookRead';
 import BooksReadByGenre from '../../components/home/books_read_by_genere/BooksReadByGenre';
 import MostPopularBooks from '../../components/most_popular_books/MostPopularBooks';
 import config from '../../config/config';
+import AccountContext from '../../context/AccountContext';
 
 export default function BooksRead() {
+    const {token} = useContext(AccountContext)
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [books_read, setBooksRead] = useState([]);
@@ -20,7 +22,13 @@ export default function BooksRead() {
         const fetchReadBooks = async () => {
             try {
                 setLoading(true)
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 console.log(response)
                 if (response.ok) {
                     const data = await response.json();

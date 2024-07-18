@@ -2,12 +2,14 @@ import './daily_reading_progress.scss';
 import reading_progress_icon from '../../../../assets/images/reading-progress.png';
 import BooksOnProgress from './books_on_progress/BooksOnProgress';
 import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import DetailReadingProgress from './detail_reading_progress/DetailReadingProgress';
 //import GeneralProgress from './general_progress/GeneralProgress';
 import config from '../../../../config/config';
+import AccountContext from '../../../../context/AccountContext';
 
 export default function DailyReadingProgress() {
+    const {token} = useContext(AccountContext);
     const {id} = useParams(null);
     const [books_reading, setBooksReading] = useState([]);
     const [selected_book, setSelectedBook] = useState(null);
@@ -16,7 +18,13 @@ export default function DailyReadingProgress() {
     useEffect(()=> {
         const fetch_books_onreading = async ()=> {
             try {
-                const response = await fetch(url);
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                };
+                const response = await fetch(url, options);
                 if (response.ok) {
                     const responseData = await response.json();
                     console.log(responseData);
