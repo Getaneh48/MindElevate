@@ -124,7 +124,6 @@ class DBStorage:
     def filter(self, cls, prop, val):
         if cls in self.all_class_models.keys():
             model = self.all_class_models[cls]
-            print(cls + '.' + prop)
             return self.__session.query(model).filter(Friend.user_id == val).all()
 
     def readingOnProgress(self, obj):
@@ -289,6 +288,7 @@ class DBStorage:
                                        filter(ReadingLog.br_id == br_id).\
                                        group_by(func.cast(ReadingLog.created_at, Date)).\
                                                all()
+        return result
     def get_genres_by_id_list(self, genres_list):
         result = self.__session.query(BookGenre).filter(BookGenre.id.in_(genres_list)).all()
 
