@@ -1,15 +1,12 @@
-
-`yaml
 version: 2
 updates:
-
-Keep GitHub Actions up to date
+  # Keep GitHub Actions up to date
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
 
-Flask backend (Python)
+  # Flask backend (Python)
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
@@ -29,7 +26,7 @@ Flask backend (Python)
           - "werkzeug"
           - "jinja2"
 
-React frontend (npm)
+  # React frontend (npm)
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
@@ -51,4 +48,3 @@ React frontend (npm)
           - "webpack*"
           - "babel*"
           - "eslint*"
-`
