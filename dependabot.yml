@@ -8,7 +8,7 @@ updates:
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
-    # security_updates: true   # Uncomment if supported
+    # security_updates: true
 
   # Flask backend (Python)
   - package-ecosystem: "pip"
@@ -20,7 +20,7 @@ updates:
       - dependency-type: "direct"
       - dependency-type: "indirect"
     versioning-strategy: "auto"
-    # security_updates: true   # Uncomment if supported
+    # security_updates: true
     groups:
       dev-deps:
         patterns:
@@ -37,13 +37,13 @@ updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "weekly"  # changed from daily
+      interval: "weekly"
     open-pull-requests-limit: 10
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
     versioning-strategy: "auto"
-    # security_updates: true   # Uncomment if supported
+    # security_updates: true
     groups:
       dev-deps:
         dependency-type: "development"
@@ -57,13 +57,3 @@ updates:
           - "webpack*"
           - "babel*"
           - "eslint*"
-
-  # Docker example (add only if you use Dockerfiles)
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    allow:
-      - dependency-type: "direct"
-    versioning-strategy: "auto"
-    # security_updates: true   # Uncomment if supported
