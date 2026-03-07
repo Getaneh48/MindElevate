@@ -5,6 +5,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    # security_updates: true   # Uncomment if supported
 
   # Flask backend (Python)
   - package-ecosystem: "pip"
@@ -12,14 +16,17 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    versioning-strategy: "auto"
+    # security_updates: true   # Uncomment if supported
     groups:
-      # Group all dev/test dependencies together
       dev-deps:
         patterns:
           - "pytest*"
           - "flake8"
           - "black"
-      # Group all Flask-related packages together
       flask-stack:
         patterns:
           - "flask*"
@@ -30,21 +37,33 @@ updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "daily"
+      interval: "weekly"  # changed from daily
     open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    versioning-strategy: "auto"
+    # security_updates: true   # Uncomment if supported
     groups:
-      # Group all devDependencies together
       dev-deps:
         dependency-type: "development"
-      # Group React ecosystem packages together
       react-stack:
         patterns:
           - "react*"
           - "react-dom"
           - "react-router*"
-      # Group tooling packages together
       tooling:
         patterns:
           - "webpack*"
           - "babel*"
           - "eslint*"
+
+  # Docker example (add only if you use Dockerfiles)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "direct"
+    versioning-strategy: "auto"
+    # security_updates: true   # Uncomment if supported
